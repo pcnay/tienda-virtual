@@ -1,0 +1,11 @@
+# NO permite ver el contenido de las carpetas
+Options All -Indexes
+RewriteEngine On 
+
+# Busca un directorio valido
+RewriteCond %{REQUEST_FILENAME] !-d
+# Para contener las URL
+RewriteCond %{REQUEST_FILENAME] !-f 
+#Agrega las rutas amigables.
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+# url = Almacena la ruta 
