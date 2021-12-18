@@ -5,6 +5,12 @@
 		return BASE_URL;		
 	}
 
+	// Retorna la url de Assets
+	function media()
+	{
+		return BASE_URL."/Assets";
+	}
+	
 	// Para formatear los datos de salida de los arreglos 
 	function dep($data)
 	{
