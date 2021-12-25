@@ -2,9 +2,9 @@
 	// Configurar toda la carga de los archivos
 	// Load
 	// $Para convertir la primera letra de los nombres de los controladores, la razon es por los servidores que son sensibles a las Minusculas y Mayusculas.
-	$controller = ucwords($controller);
+	//$controller = ucwords($controller);
 	$controllerFile = "Controllers/".$controller.".php";
-	echo $controllerFile;
+	//echo $controllerFile;
 	
 	if (file_exists($controllerFile))
 	{
@@ -20,13 +20,13 @@
 		else
 		{
 			//echo "No existe El método en el Controlador ";}
-			require_once ("Controllers/error.php");
+			require_once ("Controllers/Errors.php");
 		}
 
 	} // if (method_exists($controller,$method))
 	else
 	{
-		require_once ("Controllers/error.php");
+		require_once ("Controllers/Errors.php");
 	} // if (file_exists($controllerFile))
 
 ?>

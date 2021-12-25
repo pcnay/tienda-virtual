@@ -7,5 +7,6 @@ RewriteCond %{REQUEST_FILENAME] !-d
 # Para contener las URL
 RewriteCond %{REQUEST_FILENAME] !-f 
 #Agrega las rutas amigables.
+# [QSA,L] = Anexe cualquier cadena de consulta a solicitar
 RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
-# url = Almacena la ruta 
+# url = Almacena la ruta, depues del "index.php?"

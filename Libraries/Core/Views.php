@@ -2,16 +2,17 @@
 	class Views
 	{
 		//$data="" Para cuando no se envié el parámetro no muestre error.
+		// Obtener las vistas
 		function getView($controller,$view,$data="")
 		{
 			$controller = get_class($controller);
-			if ($controller == "home")
+			if ($controller == "Home")
 			{
-				$view = "Views/".$view.".php";
+				$view = VIEWS.$view.".php";
 			}
 			else
 			{
-				$view = "Views/".$controller."/".$view.".php";
+				$view = VIEWS.$controller."/".$view.".php";
 			}
 			require_once($view);
 			

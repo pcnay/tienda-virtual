@@ -1,11 +1,10 @@
 <?php
-	class errors extends Controllers
+	class Errors extends Controllers
 	{
 		public function __construct()
 		{
 			// Ejecuta el constructor padre (desde donde se hereda.)
 			parent::__construct();
-
 		}
 		
 		public function notFound()
@@ -15,7 +14,7 @@
 		
 	} // classs Home
 
-	$notFound = new errors();
+	$notFound = new Errors();
 	$notFound->notFound();
 
 ?>
