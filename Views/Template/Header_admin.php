@@ -16,13 +16,17 @@
     <link rel="stylesheet" type="text/css" href="Assets/css/main.css">
 		<link rel="stylesheet" type="text/css" href="Assets/css/style.css">
     <!-- Font-icon css-->
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<!-- Se borra porque se agrego la version 6, se incluye como archivo JavaScript en "Footer_admin.php" -->
+    <!-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
     <!-- <link rel="stylesheet" type="text/css" href="Assets/css/font_awesome.css">  -->
 	</head>
   <body class="app sidebar-mini">
     <!-- Navbar-->
     <header class="app-header"><a class="app-header__logo" href="<?php echo base_url(); ?>/Dashboard">Tienda Virtual</a>
-      <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+      <!-- Sidebar toggle button-->
+			<!-- NO se requiere agregar : <i class="fas fa-bars"></i> -->
+			<a class="app-sidebar__toggle" href="#" 
+			data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       <!-- Navbar Right Menu-->
       <ul class="app-nav">
 				<!-- Se eliminan varias lineas, solo se deja el icono de la persona -->
