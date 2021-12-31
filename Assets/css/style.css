@@ -1,0 +1,7 @@
+/* Aplicando estilos a la clase de la imagen para que sea más pequeña.*/
+.app-sidebar__user-avatar
+{
+	width: 48px;
+	background:gray;
+	padding:6px;
+}
