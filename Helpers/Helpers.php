@@ -11,6 +11,19 @@
 		return BASE_URL."/Assets";
 	}
 	
+	// Este arreglo "data" viene desde el "Controllers".
+	function headerAdmin($data="")
+	{
+		$view_header = "Views/Template/Header_admin.php";
+		require_once ($view_header);		
+	}
+	function footerAdmin($data="")
+	{
+		$view_footer = "Views/Template/Footer_admin.php";
+		require_once ($view_footer);		
+	}
+
+
 	// Para formatear los datos de salida de los arreglos 
 	function dep($data)
 	{

@@ -18,7 +18,9 @@
 			$data['page_id'] = 2;
 			$data['page_tag'] = "Dashboard - Tienda Virtual";
 			$data['page_title'] = "Dashboard - Tienda Virtual";
-			$data['page_name'] = "dashboard";			
+			$data['page_name'] = "dashboard";		
+			// "Dashboard" Se llama desde /Views/Dashboard/Dashboard.php"
+			// Esta clase "views" método "getView" proviede de "Controllers"(Libraries/Core/Controllers.php) donde se llaman las clases y objetos 
 			$this->views->getView($this,"Dashboard",$data);
 		}
 

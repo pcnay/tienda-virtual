@@ -3,10 +3,21 @@ Options All -Indexes
 RewriteEngine On 
 
 # Busca un directorio valido
-RewriteCond %{REQUEST_FILENAME] !-d
+#RewriteCond %{REQUEST_FILENAME] !-d
 # Para contener las URL
-RewriteCond %{REQUEST_FILENAME] !-f 
+#RewriteCond %{REQUEST_FILENAME] !-f 
 #Agrega las rutas amigables.
 # [QSA,L] = Anexe cualquier cadena de consulta a solicitar
-RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+## RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
 # url = Almacena la ruta, depues del "index.php?"
+#Permita letras y numeros
+# Cuando se este enviando a traves de la ruta "index.php" con variable GET "ruta" que se convierta en una 
+# URL amigable, expresion regular "^()$" a utilizar ^([-a-zA-Z0-9]+)$ 
+#$1 = Convierte cualquier valor que traiga "ruta y la convierta en una URL amigable, es decir $1 = index.php?ruta
+
+RewriteRule ^([-a-zA-Z0-9]+)$ index.php?url=$1
+
+
+
+
+
