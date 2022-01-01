@@ -32,7 +32,13 @@
 		$format = print_r ('</pre>');
 		return $format;
 	}
-
+	//  Se va a utilizar cada vez que se requiere Mostrar un Modal
+	function getModal(string $nameModal,$data)
+	{
+		$view_modal = "Views/Template/Modals/{$nameModal}.php";
+		require_once $view_modal;
+	}
+	
 	// Elimina exceso de espacios entre palabras.
 	function strClean($strCadena)
 	{

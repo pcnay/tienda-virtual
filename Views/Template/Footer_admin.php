@@ -6,9 +6,9 @@
 		<!-- Se agrega la nueva version del"fontawesome"-->
 		<script src="Assets/js/fontawesome.js"></script>
 		<script src="Assets/js/Functions_admin.js"></script>
-		
     <!-- The javascript plugin to display page loading on top-->
     <script src="Assets/js/plugins/pace.min.js"></script>
     <!-- Page specific javascripts-->
+		<script src="Assets/js/Functions_roles.js"></script>
   </body>
 </html>
