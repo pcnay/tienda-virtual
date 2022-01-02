@@ -1,4 +1,5 @@
     <script>
+			// Genera una variable en JavaScript desde PHP.
 			const base_url = "<?php echo base_url(); ?>";
 		</script>
 
