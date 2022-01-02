@@ -14,6 +14,9 @@
 			{
 				$view = VIEWS.$controller."/".$view.".php";
 			}
+			//dep($view);
+			//die;
+
 			require_once($view);
 			
 		}

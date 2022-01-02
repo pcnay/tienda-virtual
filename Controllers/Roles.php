@@ -27,9 +27,14 @@
 		// Obtener los Roles de Usuarios desde la Base de Datos
 		public function getRoles()
 		{
-			echo "Método *getRoles()*";
-			//$arrData = $this->model->selectRoles();
-			//dep($arrData);
+			//echo "Método *getRoles()*";
+			$arrData = $this->model->selectRoles();
+			// dep($arrData);
+			// Lo convierte a Objeto JSon (Desde Arreglo)
+			// JSON_UNESCAPED_UNICODE = Convierte a JSon y limpia de caracteres raros.
+			// En esta pagina desplegara todos los roles en formato Json.
+			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+			die(); // Finaliza el proceso.
 		}
 
 } // classs home extends Controllers

@@ -6,7 +6,7 @@
 		public function __construct()
 		{	
 			// Se esta comunicando del "Controlador" a la "Vista"
-			// No se requiere "requiere", ya que esta clase se agrega en el "Index.php" a través de la "autoload"
+			// No se requiere "require", ya que esta clase se agrega en el "Index.php" a través de la "autoload"
 			$this->views = new Views();	
 			$this->loadModel();				
 		}
