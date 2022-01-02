@@ -60,7 +60,7 @@ Para mostrar los campos de una tabla:
   */
 
 
-DROP DATABASE IF EXISTS bd_tienda_virtual;
+/* DROP DATABASE IF EXISTS bd_tienda_virtual; */
 
 CREATE DATABASE IF NOT EXISTS bd_tienda_virtual;
  /* SET time_zone = 'America/Tijuana';  */

@@ -19,7 +19,7 @@
 		}
 		else
 		{
-			//echo "No existe El método en el Controlador ";}
+			//echo "No existe El método en el Controlador ";
 			require_once ("Controllers/Errors.php");
 		}
 

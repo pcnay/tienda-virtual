@@ -28,14 +28,14 @@
 			$this->views->getView($this,"home",$data);
 
 		}
-/*
+
 		// Método utilizado solo para capturar el valor "Params"
 		// comunicandose con los "Controladores".
 		public function datos($params)
 		{
 			echo "Datos Recibidos ".$params;
 		}
-
+/*
 		// Método utilizado solo para capturar el valor "Params"
 		// comunicandose con los "Controladores".
 		public function carrito($params)

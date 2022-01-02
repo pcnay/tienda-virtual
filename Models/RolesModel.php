@@ -1,5 +1,5 @@
 <?php
-	class HomeModel extends Mysql
+	class RolesModel extends Mysql
 	{
 		public function __construct()
 		{
@@ -19,5 +19,13 @@
 		}
 		*/
 		
+		public function selectRoles()
+		{
+			// status = 0 ; Reg. Borrados
+			$sql = "SELECT * FROM t_Rol WHERE status != 0";
+			$request = $this->select_all($sql);
+			return $request;
+		}
+
 	} // class homeModel
 ?>

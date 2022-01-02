@@ -37,6 +37,10 @@
 		}
 	}
 
+	//dep($controller);
+	//dep($method);
+	//exit;
+
 	// Cargar las funciones automaticamente.
 	require_once(LIBS."Core/Autoload.php");
 	require_once(LIBS."Core/Load.php");
