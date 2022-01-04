@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded',function(){
 			{"data":"id_rol"},
 			{"data":"nombrerol"},
 			{"data":"descripcion"},
-			{"data":"status"}
+			{"data":"status"},
+			{"data":"options"}
 		],
 		"resonsieve":"true",
 		"bDestroy":true,

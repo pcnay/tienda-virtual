@@ -33,6 +33,30 @@
 			// Lo convierte a Objeto JSon (Desde Arreglo)
 			// JSON_UNESCAPED_UNICODE = Convierte a JSon y limpia de caracteres raros.
 			// En esta pagina desplegara todos los roles en formato Json.
+			// dep($arrData[0]['Status']); Para accesar al campo "Status" desde el arreglo.
+
+			// Para colocar en color Verde o Rojo el estatus del Usuario
+			for ($i= 0; $i<count($arrData);$i++)
+			{
+				if ($arrData[$i]['status'] == 1)
+				{
+					$arrData[$i]['status'] = '<span class="badge badge-success">Activo</span>';
+				}
+				else
+				{
+					$arrData[$i]['status'] = '<span class="badge badge-danger">Inactivo</span>';
+				}
+
+				$arrData[$i]['options'] = ' <div class="text-center">
+					<button class="btn btn-secondary btn-sm btnPermisosRol" rl="'.$arrData[$i]['id_rol'].'" title="Permisos"><i class="fas fa-key"></i></button>
+					<button class="btn btn-primary btn-sm btnEditRol" rl="'.$arrData[$i]['id_rol'].'" title="Editar"><i class="fas fa-pencil-alt"></i></button>
+					<button class="btn btn-danger btn-sm btnDelRol" rl="'.$arrData[$i]['id_rol'].'" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
+					</div>';
+
+			} // for ($i= 0; $i<count($arrData);$i++)
+			
+
+			// <span class="badge badge-success">Success</span>
 			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
 			die(); // Finaliza el proceso.
 		}

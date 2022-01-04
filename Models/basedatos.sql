@@ -79,7 +79,7 @@ CREATE TABLE t_Rol
   id_rol SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   nombrerol VARCHAR(50),
 	descripcion TEXT,
-	status TINYINT DEFAULT 1 	
+	status TEXT 	
 );
 
 CREATE TABLE t_Personas
