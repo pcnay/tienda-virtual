@@ -61,5 +61,11 @@
 			die(); // Finaliza el proceso.
 		}
 
+		// Método para asignar roles.
+		public function setRol()
+		{
+			dep($_POST);
+		}
+
 } // classs home extends Controllers
 ?>
