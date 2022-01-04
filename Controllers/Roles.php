@@ -64,7 +64,32 @@
 		// Método para asignar roles.
 		public function setRol()
 		{
-			dep($_POST);
+			// dep($_POST);
+			// Obtener los datos que se estan enviando por Ajax 
+			// "strClean" = Esta definida en "Helpers", para limpiar las cadenas.
+			$strRol = strClean($_POST['txtNombre']);
+			$strDescripcion = strClean($_POST['txtDescripcion']);
+			$intStatus = intval($_POST['listStatus']); // Conviertiendola a Entero.
+			// Enviando la información al modelo.
+			$request_rol = $this->model->insertRol($strRol,$strDescripcion,$intStatus);
+
+			if ($request_rol > 0)
+			{
+				$arrResponse = array('status'=>true,'msg'=>'Datos Guardado Correctamente');
+			}
+			else if($request_rol == 'Existe')
+			{
+				$arrResponse = array('status'=>false,'msg'=>'El Rol Ya Existe');
+			}
+			else
+			{
+				$arrResponse = array('status'=>false,'msg'=>'NO es posible almacenar los datos');
+			}
+			// Corrige los datos de caracteres raros.
+			// Esta información es enviada a "functions_roles.js"
+			echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+			die(); // Finaliza el proceso.
+
 		}
 
 } // classs home extends Controllers

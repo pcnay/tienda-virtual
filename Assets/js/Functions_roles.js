@@ -27,12 +27,12 @@ document.addEventListener('DOMContentLoaded',function(){
 	// Capturar los datos del formulario de "Nuevo Rol"
 	// Seleccionan el id del formulario de Rol
 
-	var formRol = document.querySelector("#formRol");
+	let formRol = document.querySelector("#formRol");
 	formRol.onsubmit = function(e){
 		e.preventDefault();
-		var strNombre = document.querySelector("#txtNombre").value;
-		var strDescripcion = document.querySelector("#txtDescripcion").value;
-		var intStatus = document.querySelector("#listStatus").value;
+		let strNombre = document.querySelector("#txtNombre").value;
+		let strDescripcion = document.querySelector("#txtDescripcion").value;
+		let intStatus = document.querySelector("#listStatus").value;
 		if (strNombre == '' || strDescripcion == '' || intStatus == '')
 		{
 			swal ("Atencion","Todos los campos son obligatorios","error");
@@ -40,17 +40,36 @@ document.addEventListener('DOMContentLoaded',function(){
 		}
 
 		// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
-		var request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
-		var ajaxUrl = base_url+'/Roles/setRol'; // Url a donde buscara el archivo
+		let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+		let ajaxUrl = base_url+'/Roles/setRol'; // Url a donde buscara el archivo
 		
-		var formData = new FormData(formRol);
+		let formData = new FormData(formRol);
 		// El método utilizado para enviar la informacion es "POST"
 		request.open("POST",ajaxUrl,true);
 		request.send(formData);
 		request.onreadystatechange = function(){
 			if (request.readyState == 4 && request.status == 200)
 			{
-				console.log(request.responseText);
+				// console.log(request.responseText);
+				// La información que viene desde el método "setRol" del Controllers "Roles"
+				let objData = JSON.parse(request.responseText);
+
+				// Accesando a los elementos del Arreglo asociativo
+				if (objData.status)
+				{
+					$('#modalFormaRol').modal("hide");
+					formRol.reset();
+					swal("Roles de Usuarios",objData.msg,"success");
+					tableRoles.api().ajax.reload(function(){
+						//fntEditRol();
+						//fntDelRol();
+						//fntPermisos();
+					});					
+				}
+				else
+				{
+					swal("Error",objData.msg,"error");
+				}
 			}
 			//console.log(request);
 		}

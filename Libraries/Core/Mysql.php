@@ -62,9 +62,9 @@
 			$result->execute();
 			// Obtener varios registro.
 			$data = $result->fetchall(PDO::FETCH_ASSOC);
-			return $data;
 			$result->closeCursor();
 			$result=null;
+			return $data;
 
 		}
 
