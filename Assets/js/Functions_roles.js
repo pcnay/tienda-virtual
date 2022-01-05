@@ -73,11 +73,6 @@ document.addEventListener('DOMContentLoaded',function(){
 			}
 			//console.log(request);
 		}
-
-
-
-
-
 	}
 
 });
@@ -88,5 +83,42 @@ $('#tableRoles').DataTable();
 function openModal()
 {
 	//alert("OpenModal");
+	// Se actualizan los datos de la ventana modal a Mostrar.
+	document.querySelector('#idRol').value = "";	
+	// Cambiando los colores de la franja de la ventana.
+	document.querySelector('.modal-header').classList.replace("headerUpdate","headerRegister");
+	// Cambiando la clase de los botones (Colores)
+	document.querySelector('#btnActionForm').classList.replace("btn-info","btn-primary");
+	document.querySelector('#btnText').innerHTML = "Guardar";
+	document.querySelector('#titleModal').innerHTML = "Nuevo Rol";
+	document.querySelector('#formRol').reset();
+
 	$('#modalFormaRol').modal('show');
+}
+
+// Editar Roles.
+// Llamando a la funcion cuando se termina de cargar la página.
+window.addEventListener('load',function(){
+	fntEditRol();
+},false);
+
+// Asignando el evento "Click". a los registros de los roles en lo referente al Boton.
+function fntEditRol()
+{
+	//console.log('Entre a Function fntEditRol');
+	var btnEditRol = document.querySelectorAll(".btnEditRol");
+	//console.log (btnEditRol);
+	btnEditRol.forEach(function(btnEditRol){
+		btnEditRol.addEventListener('click',function(){
+			//console.log('Click en el boton de edit');
+
+			// Se actualizan los datos de la ventana modal a Mostrar.
+			document.querySelector('#titleModal').innerHTML = "Actualizar Rol";
+			document.querySelector('.modal-header').classList.replace("headerRegister","headerUpdate");
+			document.querySelector('#btnActionForm').classList.replace("btn-primary","btn-info");
+			document.querySelector('#btnText').innerHTML = "Actualizar";
+
+			$('#modalFormaRol').modal('show');
+		});
+	});
 }

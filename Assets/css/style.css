@@ -20,3 +20,15 @@
 {
 	display:none;
 }
+
+.headerRegister
+{
+	background:#009688;
+	color:#FFF; /* Color de letra Blanco */
+}
+
+.headerUpdate
+{
+	background:#007bff;
+	color:#FFF; /* Color de letra Blanco */
+}
