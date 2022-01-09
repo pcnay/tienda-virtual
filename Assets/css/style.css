@@ -32,3 +32,8 @@
 	background:#007bff;
 	color:#FFF; /* Color de letra Blanco */
 }
+
+.notBlock
+{
+	display:none;
+}

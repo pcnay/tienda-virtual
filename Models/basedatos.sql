@@ -60,7 +60,7 @@ Para mostrar los campos de una tabla:
   */
 
 
-/* DROP DATABASE IF EXISTS bd_tienda_virtual; */
+ /* DROP DATABASE IF EXISTS bd_tienda_virtual; */
 
 CREATE DATABASE IF NOT EXISTS bd_tienda_virtual;
  /* SET time_zone = 'America/Tijuana';  */
@@ -79,7 +79,7 @@ CREATE TABLE t_Rol
   id_rol SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   nombrerol VARCHAR(50),
 	descripcion TEXT,
-	status TEXT 	
+	estatus TINYINT DEFAULT 1
 );
 
 CREATE TABLE t_Personas
@@ -179,7 +179,6 @@ CREATE TABLE t_Detalle_Pedidos
 CREATE TABLE t_Detalle_Temp
 (
   id_detalle_pedido SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	productoid SMALLINT UNSIGNED NOT NULL,	
 	productoid SMALLINT UNSIGNED NOT NULL,	
 	cantidad SMALLINT UNSIGNED,
 	precio decimal(10,2) DEFAULT NULL,

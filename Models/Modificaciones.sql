@@ -36,5 +36,8 @@ Para ejecutar el "script"
 
 
 USE bd_tienda_virtual;
+
+/*
 ALTER TABLE t_Rol DROP status;
 ALTER TABLE t_Rol ADD status TEXT DEFAULT 1;
+*/

@@ -38,13 +38,13 @@
 			// Para colocar en color Verde o Rojo el estatus del Usuario
 			for ($i= 0; $i<count($arrData);$i++)
 			{
-				if ($arrData[$i]['status'] == 1)
+				if ($arrData[$i]['estatus'] == 1)
 				{
-					$arrData[$i]['status'] = '<span class="badge badge-success">Activo</span>';
+					$arrData[$i]['estatus'] = '<span class="badge badge-success">Activo</span>';
 				}
 				else
 				{
-					$arrData[$i]['status'] = '<span class="badge badge-danger">Inactivo</span>';
+					$arrData[$i]['estatus'] = '<span class="badge badge-danger">Inactivo</span>';
 				}
 
 				$arrData[$i]['options'] = ' <div class="text-center">
@@ -61,21 +61,69 @@
 			die(); // Finaliza el proceso.
 		}
 
+		// Obtener un solo Rol
+		// Depende de la definicion del “.htaccess”, que se manden por valores por la URL
+		public function getRol(int $idrol)
+		{			
+			$intIdrol = intval(strClean($idrol));
+			//dep($intIdrol);
+			//die;
+
+			if ($intIdrol > 0)
+			{
+				$arrData = $this->model->selectRol($intIdrol); // Extraer un Rol
+				if (empty($arrData)) // No existe Rol
+				{
+					$arrResponse = array('status'=>false,'msg'=>'Datos no encontrados');
+				}
+				else
+				{
+					$arrResponse = array('status'=>true,'data'=>$arrData);
+				}
+				// Envia la variable , pero antes la convierte en forma JSon, las caracteres especiales los convierte a texto
+				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+			}
+			die();
+		}
+		
 		// Método para asignar roles.
 		public function setRol()
 		{
 			// dep($_POST);
 			// Obtener los datos que se estan enviando por Ajax 
 			// "strClean" = Esta definida en "Helpers", para limpiar las cadenas.
+			$intIdrol = intval($_POST['idRol']);
 			$strRol = strClean($_POST['txtNombre']);
 			$strDescripcion = strClean($_POST['txtDescripcion']);
 			$intStatus = intval($_POST['listStatus']); // Conviertiendola a Entero.
 			// Enviando la información al modelo.
-			$request_rol = $this->model->insertRol($strRol,$strDescripcion,$intStatus);
+			// $request_rol = $this->model->insertRol($strRol,$strDescripcion,$intStatus);
+
+			// Seccion para Crear o Actualizar los Roles.
+			if($intIdrol == 0)
+			{
+				// Crear Rol
+				$request_rol = $this->model->insertRol($strRol,$strDescripcion,$intStatus);
+				$option = 1;
+			}
+			else
+			{
+				// Actualizar Rol
+				$request_rol = $this->model->updateRol($intIdrol,$strRol,$strDescripcion,$intStatus);
+				$option = 2;
+			}
 
 			if ($request_rol > 0)
 			{
-				$arrResponse = array('status'=>true,'msg'=>'Datos Guardado Correctamente');
+				if ($option == 1)
+				{
+					$arrResponse = array('status' => true, 'msg' => 'Datos Guardados Correctamente');					
+				}
+				else
+				{
+					$arrResponse = array('status' => true, 'msg' => 'Datos Actualizados Correctamente');					
+				}				
+
 			}
 			else if($request_rol == 'Existe')
 			{

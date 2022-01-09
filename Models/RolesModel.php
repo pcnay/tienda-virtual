@@ -6,6 +6,7 @@
 		public $strRol;
 		public $strDescripcion;
 		public $intStatus;
+		
 
 		public function __construct()
 		{
@@ -28,8 +29,17 @@
 		public function selectRoles()
 		{
 			// status = 0 ; Reg. Borrados
-			$sql = "SELECT * FROM t_Rol WHERE status != 0";
+			$sql = "SELECT * FROM t_Rol WHERE estatus != 0";
 			$request = $this->select_all($sql);
+			return $request;
+		}
+
+		// Obtener un Rol.
+		public function selectRol(int $idrol)
+		{
+			$this->intIdrol = $idrol;
+			$sql = "SELECT * FROM t_Rol WHERE id_rol = $this->intIdrol";
+			$request = $this->select($sql);
 			return $request;
 		}
 
@@ -49,7 +59,7 @@
 			// Si no encontro el registro.
 			if (empty($request))
 			{
-				$query_insert = "INSERT INTO t_Rol(nombrerol,descripcion,status) VALUES (?,?,?)";
+				$query_insert = "INSERT INTO t_Rol(nombrerol,descripcion,estatus) VALUES (?,?,?)";
 				$arrData = array($this->strRol,$this->strDescripcion,$this->intStatus);
 				$request_insert = $this->insert($query_insert,$arrData);
 				$return = $request_insert;	// Retorno el ID que se inserto en la Tabla.			
@@ -59,6 +69,32 @@
 				$return = "Existe";
 			}
 			return $return;
+		}
+
+		// Actualizar el Rol.
+		//updateRol($intIdrol,$strRol,$strDescripcion,$intStatus);
+		public function updateRol (int $idrol, string $rol, string $descripcion, int $status)
+		{
+			$this->intIdrol = $idrol;
+			$this->strRol = $rol;
+			$this->strDescripcion = $descripcion;
+			$this->intStatus = $status;
+			// Detecta que no exista el "id_rol" y "descripcion" del Rol
+			$sql = "SELECT * FROM t_Rol WHERE nombrerol = '$this->strRol' AND id_rol != $this->intIdrol";
+			$request = $this->select_all($sql);
+
+			if (empty($request))
+			{
+				$sql = "UPDATE t_Rol SET nombrerol = ?, descripcion = ?, estatus = ? WHERE id_rol = $this->intIdrol";
+				$arrData = array($this->strRol, $this->strDescripcion,$this->intStatus);
+				$request = $this->update($sql,$arrData);
+			}
+			else
+			{
+				$request = "Existe";
+			}
+			
+			return $request;
 		}
 
 	} // class homeModel
