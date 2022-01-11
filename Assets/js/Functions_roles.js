@@ -247,7 +247,25 @@ function fntPermisos()
 	let btnPermisosRol = document.querySelectorAll(".btnPermisosRol");
 	btnPermisosRol.forEach(function(btnPermisosRol){
 		btnPermisosRol.addEventListener('click',function(){
-			$('.modalPermisos').modal('show');
+			// Obteniendo la información desde la tabla, usando AJAX.
+
+			// "rl" se define en "html" y con JavaScript se extrae el valor. 
+			var idrol = this.getAttribute("rl");
+			// Determina cual navegador esta usandose.
+			let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+			// Se pasan como parametro al método definido en "getPermisosRol.php -> Controllers" desde el Ajax
+			let ajaxUrl = base_url+'/Permisos/getPermisosRol/'+idrol;
+			request.open("GET",ajaxUrl,true);
+			request.send();
+			request.onreadystatechange = function(){
+				if (request.status == 200)
+				{
+					console.log (request.responseText);
+					$('.modalPermisos').modal('show');
+				}
+			}
+
+
 
 
 		});
