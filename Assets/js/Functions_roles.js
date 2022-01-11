@@ -104,6 +104,7 @@ function openModal()
 window.addEventListener('load',function(){
 	fntEditRol();
 	fntDelrol();
+	fntPermisos();
 },false);
 
 // Asignando el evento "Click". a los registros de los roles en lo referente al Boton.
@@ -237,6 +238,18 @@ function fntDelrol()
 						} 			
 					}
 			});
+		});
+	});
+}
+// Asignar el evento "click" al boton de llaves (donde cambian los permisos de los roles).
+function fntPermisos()
+{
+	let btnPermisosRol = document.querySelectorAll(".btnPermisosRol");
+	btnPermisosRol.forEach(function(btnPermisosRol){
+		btnPermisosRol.addEventListener('click',function(){
+			$('.modalPermisos').modal('show');
+
+
 		});
 	});
 }
