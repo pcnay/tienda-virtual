@@ -103,6 +103,7 @@ function openModal()
 // Llamando a la funcion cuando se termina de cargar la página.
 window.addEventListener('load',function(){
 	fntEditRol();
+	fntDelrol();
 },false);
 
 // Asignando el evento "Click". a los registros de los roles en lo referente al Boton.
@@ -183,6 +184,59 @@ function fntEditRol()
 					}
 				}			
 			}
+		});
+	});
+}
+
+// Borrar un rol.
+function fntDelrol()
+{
+	let btnDelRol = document.querySelectorAll(".btnDelRol");
+	btnDelRol.forEach(function(btnDelRol){
+		btnDelRol.addEventListener('click',function(){
+			let idrol = this.getAttribute("rl");
+			// alert(idrol);
+			swal({
+				title:"Eliminar Rol",
+				text:"Realmente quere eliminar el Rol ?",
+				type:"warning",
+				showCancelButton:true,
+				confirmButtonText:"Si, eliminar !",
+				cancelButtonText: "No, Cancelar !",
+				closeOnConfirm:false,
+				closeOnCancel:true
+				},function(isConfirm)
+				{
+					// Borrar el Rol, utiliza Ajax para accesar a la Base de datos.
+					if (isConfirm)
+					{
+						let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+						// Se pasan como parametro al método definido en "Roles.php -> Controllers" desde el Ajax
+						let ajaxDelRol = base_url+'/Roles/delRol/';
+						let strData = "idrol="+idrol;
+						request.open("POST",ajaxDelRol,true);
+						request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+						request.send(strData);
+						request.onreadystatechange = function(){
+							if (request.readyState == 4 && request.status == 200)
+							{
+								let objData = JSON.parse(request.responseText);
+								if (objData.status)
+								{
+									swal("Eliminar! ",objData.msg,"success");
+									tableRoles.api().ajax.reload(function(){
+										fntEditRol();
+										fntDelrol();
+									});
+								}
+								else
+								{
+									swal("Atención",objData.msg,"error");
+								}
+							}
+						} 			
+					}
+			});
 		});
 	});
 }

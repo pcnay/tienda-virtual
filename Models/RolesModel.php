@@ -97,5 +97,34 @@
 			return $request;
 		}
 
+		// Borrar un Rol
+		public function deleteRol(int $idrol)
+		{
+			// Previene la Integridad Referencial De Los Datos, se revisa que no existe el usuario en la tabla "t_Personas"
+			$this->intIdrol = $idrol;
+			$sql = "SELECT * FROM t_Personas WHERE rolid = $this->intIdrol";
+			$request = $this->select_all($sql);
+			if (empty($request))
+			{
+				$sql = "UPDATE t_Rol SET estatus = ? WHERE id_rol = $this->intIdrol";
+				$arrData = array(0); // Se asigna valor 0
+				$request = $this->update($sql,$arrData);
+				if ($request)
+				{
+					$request = 'ok';
+				}
+				else
+				{
+					$request = 'error';
+				}
+			}
+			else
+			{
+				$request = 'existe';
+			}
+
+			return $request;
+		}
+
 	} // class homeModel
 ?>

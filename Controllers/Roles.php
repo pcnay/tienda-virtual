@@ -137,8 +137,30 @@
 			// Esta información es enviada a "functions_roles.js"
 			echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 			die(); // Finaliza el proceso.
-
 		}
 
+		// Método para borrar el Rol.
+		public function delRol()
+		{
+			if ($_POST)
+			{
+				$intIdrol = intval($_POST['idrol']);
+				$requestDelete = $this->model->deleteRol($intIdrol);
+				if($requestDelete == "ok")
+				{
+					$arrResponse = array('status'=> true, 'msg' => 'Se ha Eliminado El Rol');
+				}
+				else if ($requestDelete == "existe")
+				{
+					$arrResponse = array('status'=> false, 'msg' => 'No es posible eliminar un Rol asociado a Usuario');			
+				}
+				else
+				{
+					$arrResponse = array('status'=> false, 'msg' => 'Error Al Eliminar el Rol');
+				}
+				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+			}
+			die();
+		}
 } // classs home extends Controllers
 ?>
