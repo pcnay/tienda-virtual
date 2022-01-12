@@ -258,9 +258,12 @@ function fntPermisos()
 			request.open("GET",ajaxUrl,true);
 			request.send();
 			request.onreadystatechange = function(){
-				if (request.status == 200)
+				// Para que no se abran varias ventanas del modal "ModalPermisos" se usa "request.readyState == 4"
+				if (request.readyState == 4 && request.status == 200)
 				{
 					console.log (request.responseText);
+					// #contentAjax = Elemento que se creara en la vista. "/Views/Roles/roles.php"
+					document.querySelector('#contentAjax').innerHTML = request.responseText;
 					$('.modalPermisos').modal('show');
 				}
 			}

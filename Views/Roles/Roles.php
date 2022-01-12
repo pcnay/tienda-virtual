@@ -5,6 +5,9 @@
 	//getRoles();
 ?>
 
+	<!-- Se crea el <DIV> donde se colocara el código HTML que se genero en "function_roles.js"  -->
+	<div id="contentAjax"> </div>
+	
 	<!-- Sidebar menu-->
 	<main class="app-content">
 		<div class="app-title">
