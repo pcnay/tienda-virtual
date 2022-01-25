@@ -26,7 +26,7 @@
       <!-- Sidebar toggle button-->
 			<!-- NO se requiere agregar : <i class="fas fa-bars"></i> -->
 			<a class="app-sidebar__toggle" href="#" 
-			data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+			data-toggle="sidebar" aria-label="Hide Sidebar"><i class="fas fa-bars"></i></a>
       <!-- Navbar Right Menu-->
       <ul class="app-nav">
 				<!-- Se eliminan varias lineas, solo se deja el icono de la persona -->

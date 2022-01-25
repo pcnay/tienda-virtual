@@ -17,10 +17,10 @@
       </div>
       <div class="modal-body">
 				<?php
-					dep($data);
+					//dep($data);
 				?>
 
-				<!-- Es el contenido de la ventana del Modal, "Formulario"-->
+				<!-- Es el contenido de la ventana del Modal, "Formulario", se copio desde el "Vali" -->
 				
 				<div class="tile">
             <div class="tile-body">
@@ -35,6 +35,7 @@
                   <label class="control-label">Descripcion</label>
                   <textarea class="form-control" rows="2" id = "txtDescripcion" name = "txtDescripcion" placeholder="Ingresar Descripcion" required =""></textarea>
                 </div>
+
 								<!-- Select - Combobox -->
 								<div class="form-group">
                     <label for="exampleSelect1">Estado</label>
@@ -43,9 +44,11 @@
 											<option value = "2">Inactivo</option>
                     </select>
                 </div>
+
 								<div class="tile-footer">
 									<button id = "btnActionForm" class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i><span id="btnText">Guardar</span></button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="#" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a>
 								</div>
+								
 							</form>
 						</div>	
           </div>

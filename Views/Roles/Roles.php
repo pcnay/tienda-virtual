@@ -1,7 +1,7 @@
 <!-- Para que despliegue la informacion en el "TAB" desde el arreglo "$data" -->
 <?php 
 	headerAdmin($data); 
-	getModal('ModalRoles',$data);	
+	getModal('ModalRoles',$data);	// Para mostrar el Modal.
 	//getRoles();
 ?>
 
@@ -12,10 +12,10 @@
 	<main class="app-content">
 		<div class="app-title">
 			<div>			
-				<!-- Espacio entre el Icono y el Texto "Roles Usuarios" -->
+				<!-- Para mostrar un icono en la Vista de roles "fas fa-user-tag" ; Espacio entre el Icono y el Texto "Roles Usuarios" -->
 				<h1><i class="fas fa-user-tag"> </i>  <?php   echo $data['page_title']; ?>
 
-					<!-- Agregando el boton de "Agregar" un Rol al Usuario. --> 
+					<!-- Agregando el boton de "Agregar" un Rol al Usuario. Se define "openModal()" en  Assets/js/Functions_roles.js--> 
 					<button class="btn btn-primary" type="button" onclick="openModal();"><i class="fas fa-plus-circle"></i>Nuevo</button>
 				
 				</h1>
@@ -24,6 +24,7 @@
 			</div>
 			<ul class="app-breadcrumb breadcrumb">
 				<li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+				<!-- /Roles = Es el Controlador que buscara -->
 				<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>/Roles"><?php echo $data['page_title']; ?></a></li>
 			</ul>
 		</div>

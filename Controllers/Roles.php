@@ -20,7 +20,7 @@
 			$data['page_name'] = "Rol usuario";		
 			$data['page_title'] = "Roles Usuarios <small>  Tienda Virtual</small>";
 			// "Dashboard" Se llama desde /Views/Dashboard/Dashboard.php"
-			// Esta clase "views" método "getView" proviede de "Controllers"(Libraries/Core/Controllers.php) donde se llaman las clases y objetos 
+			// Esta clase "views" método "getView" proviede de "Controllers"(Libraries/Core/Controllers.php) donde se llaman las clases y objetos de las Vistas.
 			$this->views->getView($this,"Roles",$data);
 		}
 

@@ -17,7 +17,9 @@
 				?>
 			<div class="col-md-12">
           <div class="tile">
-            <form action="" id="formPermisos" name="formPermisos"></form>
+            <form action="" id="formPermisos" name="formPermisos">
+							<!-- Guardar el id_rol para utilizarlo para grabar los accesos -->
+							<input type="hidden" id="idrol" name = "idrol" value = "<?= $data['idrol']; ?>" required="">
 							<div class="table-responsive">
 								<table class="table">
 									<thead>
@@ -34,6 +36,8 @@
 										<?php 
 											$no=1;
 											$modulos = $data['modulos'];
+											//var_dump ($modulos);
+
 											for($i=0;$i<count($modulos);$i++)
 											{
 												$permisos = $modulos[$i]['permisos'];

@@ -38,6 +38,14 @@ Para ejecutar el "script"
 USE bd_tienda_virtual;
 
 /*
+ALTER TABLE t_Permisos DROP W;
+ALTER TABLE t_Permisos ADD w TINYINT DEFAULT 0;
+ALTER TABLE t_Permisos DROP U;
+ALTER TABLE t_Permisos ADD u TINYINT DEFAULT 0;
+*/
+
+
+/*
 ALTER TABLE t_Rol DROP status;
 ALTER TABLE t_Rol ADD status TEXT DEFAULT 1;
 */

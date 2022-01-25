@@ -59,6 +59,50 @@
 
 		}
 
+		// Para Administrar los permisos.
+		public function setPermisos()
+		{
+			// dep($_POST);
+			// die();
+			// Desde el "Ajax" se genera este variable Super Global "$_POST".
+			if ($_POST)
+			{
+				$intIdrol = intval($_POST['idrol']);
+				$modulos = $_POST['modulos'];
+				
+				//var_dump ($modulos);
+
+				// Se crea el método en Modelo de Permisos para borrar el permiso.
+				$this->model->deletePermisos($intIdrol);
+				
+				foreach ($modulos as $modulos)
+				{
+					$idModulo = $modulos['id_modulo'];
+					$r = empty($modulos['r'])? 0:1;
+					$w = empty($modulos['w'])? 0:1;
+					$u = empty($modulos['u'])? 0:1;
+					$d = empty($modulos['d'])? 0:1;
+					//dep($idModulo);
+					//dep($r);
+					//exit;
+
+					$requestPermiso = $this->model->insertPermisos($intIdrol,$idModulo,$r,$w,$u,$d);					
+				}
+				// Si es mayor a 0, se inserto el registro.
+				if ($requestPermiso > 0)
+				{
+					$arrResponse = array('status' => true, 'msg' => 'Permisos asignados correctamente');					
+				}
+				else
+				{
+					$arrResponse = array('status' => false, 'msg' => 'No es posible asignar los Permisos');					
+				}
+				// Retorna en formato "JSon"
+				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);				
+			}
+			die();
+		}
+
 	} // class Permisos extends Controllers
 
 ?>

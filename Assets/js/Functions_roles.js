@@ -110,7 +110,7 @@ window.addEventListener('load',function(){
 // Asignando el evento "Click". a los registros de los roles en lo referente al Boton.
 function fntEditRol()
 {
-	console.log('Entre a Function fntEditRol');
+	//console.log('Entre a Function fntEditRol');
 	let btnEditRol_b = document.querySelectorAll(".btnEditRol");
 	//console.log (btnEditRol_b);
 	btnEditRol_b.forEach(function(btnEditRol_b){
@@ -261,16 +261,50 @@ function fntPermisos()
 				// Para que no se abran varias ventanas del modal "ModalPermisos" se usa "request.readyState == 4"
 				if (request.readyState == 4 && request.status == 200)
 				{
-					console.log (request.responseText);
+					// console.log (request.responseText);
 					// #contentAjax = Elemento que se creara en la vista. "/Views/Roles/roles.php"
 					document.querySelector('#contentAjax').innerHTML = request.responseText;
 					$('.modalPermisos').modal('show');
+					// Es el "formulario" donde se utilizn los módulos del sistema.
+					// <form action="" id="formPermisos" name="formPermisos"></form>
+					document.querySelector('#formPermisos').addEventListener('submit',fntSavePermisos,false);
+
 				}
 			}
 
-
-
-
 		});
 	});
+}
+
+// Para grabar los permisos, utilizando "Ajax".
+function fntSavePermisos(event)
+{
+	event.preventDefault();
+	// Generando el objeto Ajax
+	let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+	let ajaxUrl = base_url+'/Permisos/setPermisos';
+	// Obtiene el objeto "form"
+	let formElement = document.querySelector("#formPermisos");
+	// Obtiene todos los elementos del objeto "form".
+	let formData = new FormData(formElement);
+	request.open("POST",ajaxUrl,true);
+	request.send(formData);
+
+	request.onreadystatechange = function(){
+		// 4 = Se ejecuto correctamente el Ajax; 200 = Se retorna datos
+		if (request.readyState= 4 && request.status == 200)
+		{
+			var objData = JSON.parse(request.responseText);
+			if (objData.status)
+			{
+				swal("Permisos de Usuario",objData.msg,"success");
+			}
+			else
+			{
+				swal("Error",objData.msg,"error");
+			}
+
+		}
+	}
+
 }
