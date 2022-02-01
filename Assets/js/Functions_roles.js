@@ -2,6 +2,7 @@ $('#tableRoles').DataTable();
 
 var tableRoles;
 // Cuanddo se termine de cargar agregar un escucha para cargar la funcion.
+// "base_url" se definio en "/Views/Template/Footer_admin.php"
 document.addEventListener('DOMContentLoaded',function(){
 	tableRoles = $('#tableRoles').dataTable({
 		"aProcessing":true,
@@ -26,17 +27,20 @@ document.addEventListener('DOMContentLoaded',function(){
 		"order":[[0,"desc"]]
 	});
 
+	
+	// En esta parte se inici con el Ajax para grabar la información.
 	// Capturar los datos del formulario de "Nuevo Rol"
 	// Seleccionan el id del formulario de Rol
-
 	var formRol = document.querySelector("#formRol");
 	formRol.onsubmit = function(e){
 		e.preventDefault();
 		
+		// Obtener el contenido de las etiquetas del Modal "Agregar Rol"
 		var intIdRol = document.querySelector('#idRol').value;
 		let strNombre = document.querySelector("#txtNombre").value;
 		let strDescripcion = document.querySelector("#txtDescripcion").value;
 		let intStatus = document.querySelector("#listStatus").value;
+
 		if (strNombre == '' || strDescripcion == '' || intStatus == '')
 		{
 			swal ("Atencion","Todos los campos son obligatorios","error");
@@ -45,25 +49,26 @@ document.addEventListener('DOMContentLoaded',function(){
 
 		// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
 		let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
-		let ajaxUrl = base_url+'/Roles/setRol'; // Url a donde buscara el archivo
+		let ajaxUrl = base_url+'/Roles/setRol'; // Url a donde buscara el archivo, es en el Controlador/Roles.
 		
 		let formData = new FormData(formRol);
 		// El método utilizado para enviar la informacion es "POST"
 		request.open("POST",ajaxUrl,true);
 		request.send(formData);
 		request.onreadystatechange = function(){
-			if (request.readyState == 4 && request.status == 200)
+			if (request.readyState == 4 && request.status == 200) // Verifica que si llego la información.
 			{
-				// console.log(request.responseText);
+				// console.log(request.responseText); // Determinar el contenido de lo que reotorno(Roles/seRol)
 				// La información que viene desde el método "setRol" del Controllers "Roles"
 				let objData = JSON.parse(request.responseText);
 
-				// Accesando a los elementos del Arreglo asociativo
+				// Accesando a los elementos del Arreglo asociativo, del valor retornado de "setRol"
 				if (objData.status)
 				{
 					$('#modalFormaRol').modal("hide");
 					formRol.reset();
 					swal("Roles de Usuarios",objData.msg,"success");
+					// Recarga el DataTable
 					tableRoles.api().ajax.reload(function(){
 						fntEditRol(); // Para cuando se reacargue el DataTable asigne el evento "Click" de los botones.
 						//fntDelRol();
@@ -86,7 +91,10 @@ document.addEventListener('DOMContentLoaded',function(){
 function openModal()
 {
 	//alert("OpenModal");
-	// Se actualizan los datos de la ventana modal a Mostrar.
+	// Se actualizan los datos de la ventana modal a Mostrar, se agregan estos valores para que se pueda actualiar la ventana modal de "Agregar" y "Actualizar" Roles.
+
+	// Estes lineas de definieron en "fntEditRol()"
+	// Es el Input "hidden" que se encuentra : /Views/Templetes/Modals/ModalRoles.php
 	document.querySelector('#idRol').value = "";	
 	// Cambiando los colores de la franja de la ventana.
 	document.querySelector('.modal-header').classList.replace("headerUpdate","headerRegister");
@@ -94,6 +102,7 @@ function openModal()
 	document.querySelector('#btnActionForm').classList.replace("btn-info","btn-primary");
 	document.querySelector('#btnText').innerHTML = "Guardar";
 	document.querySelector('#titleModal').innerHTML = "Nuevo Rol";
+	// Resetear el Formulario, limpia todos los campos.
 	document.querySelector('#formRol').reset();
 
 	$('#modalFormaRol').modal('show');
@@ -119,9 +128,16 @@ function fntEditRol()
 			//console.log('Click en el boton de edit');
 
 			// Se actualizan los datos de la ventana modal a Mostrar.
+			// Se utiliza la misma ventana modal para " Agregar" y "Editar"
+			// Cambiando el titulo de la ventana Modal que se encuentra defina en /Views/Templetes/Modals/ModalRoles.php
 			document.querySelector('#titleModal').innerHTML = "Actualizar Rol";
+			// Reemplaza el nombre de la clase (ya que se utiliza clases de CSS para cambiar el color de la ventana) que contiene la ventana Modal que se encuentra defina en /Views/Templetes/Modals/ModalRoles.php
 			document.querySelector('.modal-header').classList.replace("headerRegister","headerUpdate");
+
+			// Reemplaza el nombre de la clase del boton (este nombre de clase se encuentra en "bootStrap") que contiene la ventana Modal que se encuentra defina en /Views/Templetes/Modals/ModalRoles.php
 			document.querySelector('#btnActionForm').classList.replace("btn-primary","btn-info");
+
+			// Reemplaza el texto del boton "<span>" que contiene la ventana Modal que se encuentra defina en /Views/Templetes/Modals/ModalRoles.php
 			document.querySelector('#btnText').innerHTML = "Actualizar";
 
 			// El código para ejecutar Ajax.
@@ -131,24 +147,27 @@ function fntEditRol()
 
 			// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
 			let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+
 			// Se pasan como parametro al método definido en "Roles.php -> Controllers" desde el Ajax
 			var ajaxUrl = base_url+'/Roles/getRol/'+idrol; 
 			request.open("GET",ajaxUrl,true);
 			request.send(); // Se envia la petición (ejecutar el archivo "getRol/XXX")
 			// Lo que retorne (echo Json.... el Controllers/Roles/getRol)
 
+			// Verifica el resultado de la ejecución Ajax
 			request.onreadystatechange = function()
 			{			
-				if (request.readyState == 4 && request.status == 200)
+				if (request.readyState == 4 && request.status == 200) // Vaiida si llego correctamente la respuesta.
 				{
 					// console.log(request.responseText);
-					// Convertir la informacion de Objeto a Formato JSon
-					var objData = JSON.parse(request.responseText);
+					
+					// Convertir la informacion de Objeto a Formato JSon					
+					var objData = JSON.parse(request.responseText); // Es el resultado de la ejecución del Ajax-
 					//console.log("ResponseText ",objData);
 
 					if (objData.status)
 					{				
-						console.log("objData.data.id_rol",objData.data.id_rol);
+						//console.log("objData.data.id_rol",objData.data.id_rol);
 						document.querySelector("#idRol").value = objData.data.id_rol;
 
 						// Para obtener el contenido de una etiqueta HTML desde JavaScript

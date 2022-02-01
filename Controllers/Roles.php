@@ -47,6 +47,7 @@
 					$arrData[$i]['estatus'] = '<span class="badge badge-danger">Inactivo</span>';
 				}
 
+				//Son los botones, en la columna de "options".
 				$arrData[$i]['options'] = ' <div class="text-center">
 					<button class="btn btn-secondary btn-sm btnPermisosRol" rl="'.$arrData[$i]['id_rol'].'" title="Permisos"><i class="fas fa-key"></i></button>
 					<button class="btn btn-primary btn-sm btnEditRol" rl="'.$arrData[$i]['id_rol'].'" title="Editar"><i class="fas fa-pencil-alt"></i></button>
@@ -65,10 +66,12 @@
 		// Depende de la definicion del “.htaccess”, que se manden por valores por la URL
 		public function getRol(int $idrol)
 		{			
-			$intIdrol = intval(strClean($idrol));
+			$intIdrol = intval(strClean($idrol)); // Convertilo a Entero, pero antes limpiar la variable.
+
 			//dep($intIdrol);
 			//die;
 
+			// Si existe el idRol
 			if ($intIdrol > 0)
 			{
 				$arrData = $this->model->selectRol($intIdrol); // Extraer un Rol
@@ -87,16 +90,19 @@
 		}
 		
 		// Método para asignar roles.
+		// Se llama en "Functions_roles.js", request.open("POST",ajaxUrl,true);
 		public function setRol()
 		{
-			// dep($_POST);
+			// dep($_POST); // Obtener el valor de la variable "Global". 
+
 			// Obtener los datos que se estan enviando por Ajax 
 			// "strClean" = Esta definida en "Helpers", para limpiar las cadenas.
 			$intIdrol = intval($_POST['idRol']);
 			$strRol = strClean($_POST['txtNombre']);
 			$strDescripcion = strClean($_POST['txtDescripcion']);
 			$intStatus = intval($_POST['listStatus']); // Conviertiendola a Entero.
-			// Enviando la información al modelo.
+			
+			// Enviando la información al modelo. Este es el enlace de Controller -> Modelo.
 			// $request_rol = $this->model->insertRol($strRol,$strDescripcion,$intStatus);
 
 			// Seccion para Crear o Actualizar los Roles.

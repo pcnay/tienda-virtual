@@ -39,7 +39,7 @@
 		{
 			$this->intIdrol = $idrol;
 			$sql = "SELECT * FROM t_Rol WHERE id_rol = $this->intIdrol";
-			$request = $this->select($sql);
+			$request = $this->select($sql); // Este método se definio en MySQL
 			return $request;
 		}
 
@@ -59,9 +59,13 @@
 			// Si no encontro el registro.
 			if (empty($request))
 			{
+				// "id_rol" no se contempla, porque se definio en la base datos como autoincrementable. 
 				$query_insert = "INSERT INTO t_Rol(nombrerol,descripcion,estatus) VALUES (?,?,?)";
 				$arrData = array($this->strRol,$this->strDescripcion,$this->intStatus);
+
+				// Este método ya se definio en el Framework anteriormente Mysql.
 				$request_insert = $this->insert($query_insert,$arrData);
+				
 				$return = $request_insert;	// Retorno el ID que se inserto en la Tabla.			
 			}
 			else

@@ -28,6 +28,7 @@
 				<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>/Roles"><?php echo $data['page_title']; ?></a></li>
 			</ul>
 		</div>
+
 		<!-- Sección para incrustar el DataTable -->
 		<div class="row">
         <div class="col-md-12">

@@ -45,6 +45,7 @@
                     </select>
                 </div>
 
+								<!-- data-dismiss = Para que se cierre el Modal al oprimir el boton "Cancelar" -->
 								<div class="tile-footer">
 									<button id = "btnActionForm" class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i><span id="btnText">Guardar</span></button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="#" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a>
 								</div>
