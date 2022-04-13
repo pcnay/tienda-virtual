@@ -73,15 +73,6 @@ CREATE USER 'usuario_tienda'@'localhost' IDENTIFIED BY 'Tienda_2022';
 GRANT ALL on bd_tienda_virtual.* to 'usuario_tienda'  IDENTIFIED BY 'Tienda_2022';
 */
 
-
-CREATE TABLE t_Rol
-(
-  id_rol SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-  nombrerol VARCHAR(50),
-	descripcion TEXT,
-	estatus TINYINT DEFAULT 1
-);
-
 CREATE TABLE t_Personas
 (
   id_persona SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -100,6 +91,14 @@ CREATE TABLE t_Personas
 	estatus TINYINT DEFAULT 1,
 	FOREIGN KEY(rolid) REFERENCES t_Rol(id_rol)
 	ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE TABLE t_Rol
+(
+  id_rol SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  nombrerol VARCHAR(50),
+	descripcion TEXT,
+	estatus TINYINT DEFAULT 1
 );
 
 CREATE TABLE t_Modulos

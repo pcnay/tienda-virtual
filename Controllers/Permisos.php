@@ -12,11 +12,18 @@
 		// Mandando información a las Vistas.
 		public function getPermisosRol(int $idrol)
 		{
-			$rolid = intval($idrol);
+			$rolid = intval($idrol); // Convierte a un Entero.
 			if ($rolid > 0)
 			{
+				// Obtiene los "Modulos" de la tabla
 				$arrModulos = $this->model->selectModulos();
+				// Obtiene los permisos del "Rol"
 				$arrPermisosRol = $this->model->selectPermisosRol($rolid);
+				/* Para ver este resultado : 
+					1.- Se activo el modo desarrollador, se selecciona el boton "Permisos" 				
+					2.- Se selecciona "Network", se realiza doble click en la ejecucion resultante.
+					3.- Se selecciona el boton "Reponse" y se veran el contenido de los "dep"
+				*/
 				//dep($arrModulos);
 				//dep($arrPermisosRol);
 				$arrPermisos = array('r'=>0,'w'=>0,'u'=>0,'d'=>0);
@@ -38,20 +45,18 @@
 																'w'=>$arrPermisosRol[$i]['w'],
 																'u'=>$arrPermisosRol[$i]['u'],
 																'd'=>$arrPermisosRol[$i]['d']);
-						if ($arrModulos[$i]['idmodulo'] == $arrPermisosRol[$i]['moduloid'])
+						if ($arrModulos[$i]['id_modulo'] == $arrPermisosRol[$i]['moduloid'])
 						{
 							$arrModulos[$i]['permisos'] = $arrPermisos;
-
 						}
 					}
 				} // 	if (empty($arrPermisosRol))
 
 				// Se anexa la posicion "modulos" y se le asigna el contenido del arreglo "arrModulos"
 				$arrPermisoRol['modulos'] = $arrModulos;
-
-				$html = getModal("ModalPermisos",$arrPermisoRol);
-
 				//dep($arrPermisoRol);
+
+				$html = getModal("ModalPermisos",$arrPermisoRol);			
 			
 			}
 			
@@ -59,11 +64,14 @@
 
 		}
 
-		// Para Administrar los permisos.
+		// Para Administrar los permisos, grabarlo.
 		public function setPermisos()
 		{
-			// dep($_POST);
-			// die();
+			// Para mostrar lo que tiene la variable super global "$_POST"
+			dep($_POST);
+			die();
+
+			
 			// Desde el "Ajax" se genera este variable Super Global "$_POST".
 			if ($_POST)
 			{

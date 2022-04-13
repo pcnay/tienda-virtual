@@ -48,10 +48,11 @@
 				}
 
 				//Son los botones, en la columna de "options".
+				// Se agrega el evento "onclick" en la etiqueta "button" para evitar el error de en google de que no carga los eventos.
 				$arrData[$i]['options'] = ' <div class="text-center">
-					<button class="btn btn-secondary btn-sm btnPermisosRol" rl="'.$arrData[$i]['id_rol'].'" title="Permisos"><i class="fas fa-key"></i></button>
-					<button class="btn btn-primary btn-sm btnEditRol" rl="'.$arrData[$i]['id_rol'].'" title="Editar"><i class="fas fa-pencil-alt"></i></button>
-					<button class="btn btn-danger btn-sm btnDelRol" rl="'.$arrData[$i]['id_rol'].'" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
+					<button class="btn btn-secondary btn-sm btnPermisosRol" onClick="fntPermisos('.$arrData[$i]['id_rol'].')" title="Permisos"><i class="fas fa-key"></i></button>
+					<button class="btn btn-primary btn-sm btnEditRol" onClick="fntEditRol('.$arrData[$i]['id_rol'].')" title="Editar"><i class="fas fa-pencil-alt"></i></button>
+					<button class="btn btn-danger btn-sm btnDelRol" onClick="fntDelRol('.$arrData[$i]['id_rol'].')" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
 					</div>';
 
 			} // for ($i= 0; $i<count($arrData);$i++)
@@ -97,7 +98,7 @@
 
 			// Obtener los datos que se estan enviando por Ajax 
 			// "strClean" = Esta definida en "Helpers", para limpiar las cadenas.
-			$intIdrol = intval($_POST['idRol']);
+			$intIdrol = intval($_POST['idRol']); // Convertir a Entero.
 			$strRol = strClean($_POST['txtNombre']);
 			$strDescripcion = strClean($_POST['txtDescripcion']);
 			$intStatus = intval($_POST['listStatus']); // Conviertiendola a Entero.
@@ -148,10 +149,14 @@
 		// Método para borrar el Rol.
 		public function delRol()
 		{
+			// Esta variable superglobal se genero en "Functions_roles.js", seccion "fntDelRol"
 			if ($_POST)
 			{
 				$intIdrol = intval($_POST['idrol']);
+
+				// Este objeto se define en el Modleo "Rol".
 				$requestDelete = $this->model->deleteRol($intIdrol);
+
 				if($requestDelete == "ok")
 				{
 					$arrResponse = array('status'=> true, 'msg' => 'Se ha Eliminado El Rol');

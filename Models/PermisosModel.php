@@ -26,7 +26,7 @@
 			return $request;
 		}
 
-		// Seleccionar Rol
+		// Seleccionar un Rol
 		public function selectPermisosRol(int $idrol)
 		{
 			$this->intRolid = $idrol;

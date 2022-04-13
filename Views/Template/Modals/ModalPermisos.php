@@ -2,7 +2,6 @@
 <!-- Extra large modal -
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl">Extra large modal</button> -->
 
-
 <div class="modal fade modalPermisos" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
@@ -18,7 +17,8 @@
 			<div class="col-md-12">
           <div class="tile">
             <form action="" id="formPermisos" name="formPermisos">
-							<!-- Guardar el id_rol para utilizarlo para grabar los accesos -->
+							<!-- Guardar el id_rol (nombre del rol), para utilizarlo para grabar los accesos -->
+							<!-- $arrPermisoRol = array('idrol'=> $rolid); //Controller/Permisos.php -->
 							<input type="hidden" id="idrol" name = "idrol" value = "<?= $data['idrol']; ?>" required="">
 							<div class="table-responsive">
 								<table class="table">
@@ -41,6 +41,7 @@
 											for($i=0;$i<count($modulos);$i++)
 											{
 												$permisos = $modulos[$i]['permisos'];
+												// Resetear los botones de los permisos
 												$rCheck = $permisos['r'] == 1 ? "checked":"";
 												$wCheck = $permisos['w'] == 1 ? "checked":"";
 												$uCheck = $permisos['u'] == 1 ? "checked":"";
