@@ -68,8 +68,8 @@
 		public function setPermisos()
 		{
 			// Para mostrar lo que tiene la variable super global "$_POST"
-			dep($_POST);
-			die();
+			//dep($_POST);
+			//die();
 
 			
 			// Desde el "Ajax" se genera este variable Super Global "$_POST".
@@ -83,6 +83,7 @@
 				// Se crea el método en Modelo de Permisos para borrar el permiso.
 				$this->model->deletePermisos($intIdrol);
 				
+				// Se asigna a : as $modulos el contenido de "$modulos"
 				foreach ($modulos as $modulos)
 				{
 					$idModulo = $modulos['id_modulo'];
@@ -105,7 +106,7 @@
 				{
 					$arrResponse = array('status' => false, 'msg' => 'No es posible asignar los Permisos');					
 				}
-				// Retorna en formato "JSon"
+				// Retorna en formato "JSon", para "Functions_roles.js" -> function fntSavePermisos(event)
 				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);				
 			}
 			die();

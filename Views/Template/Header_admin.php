@@ -14,6 +14,7 @@
     <!-- Main CSS-->
 		<!-- Es importante la ubicación del archivo ya que primero se aplican los estilos de "main.css" y después "style.css"-->
     <link rel="stylesheet" type="text/css" href="Assets/css/main.css">
+		<link rel="stylesheet" type="text/css" href="Assets/css/bootstrap-select.min.css">
 		<link rel="stylesheet" type="text/css" href="Assets/css/style.css">
     <!-- Font-icon css-->
 		<!-- Se borra porque se agrego la version 6, se incluye como archivo JavaScript en "Footer_admin.php" -->

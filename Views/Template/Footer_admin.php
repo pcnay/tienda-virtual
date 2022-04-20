@@ -18,8 +18,19 @@
     <!-- Data table plugin-->
     <script type="text/javascript" src="Assets/js/plugins/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="Assets/js/plugins/dataTables.bootstrap.min.js"></script>
+		<script type="text/javascript" src="Assets/js/plugins/bootstrap-select.min.js"></script>
     
-
+		<!-- Estos archivos tienen una función "openModal"  -->
+		<?php if ($data['page_name'] == "Roles"){ ?>
 		<script src="Assets/js/Functions_roles.js"></script>
+		<?php
+			}
+		?>
+		<?php if ($data['page_name'] == "Usuarios"){ ?>
+			<script src="Assets/js/Functions_usuarios.js"></script>
+			<?php
+			}
+		?>
+
   </body>
 </html>

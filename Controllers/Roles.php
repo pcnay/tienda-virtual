@@ -17,7 +17,7 @@
 			// "roles" = la vista a mostrar.
 			$data['page_id'] = 3;
 			$data['page_tag'] = "Roles Usuarios";
-			$data['page_name'] = "Rol usuario";		
+			$data['page_name'] = "Roles";		
 			$data['page_title'] = "Roles Usuarios <small>  Tienda Virtual</small>";
 			// "Dashboard" Se llama desde /Views/Dashboard/Dashboard.php"
 			// Esta clase "views" método "getView" proviede de "Controllers"(Libraries/Core/Controllers.php) donde se llaman las clases y objetos de las Vistas.
@@ -173,5 +173,21 @@
 			}
 			die();
 		}
+
+		public function getSelectRoles()
+		{
+			$htmlOptions = "";
+			$arrData = $this->model->selectRoles();
+			if (count($arrData) > 0)
+			{
+				for ($i=0; $i<count($arrData); $i++)
+				{
+					$htmlOptions .= '<option value="'.$arrData[$i]['id_rol'].'">'.$arrData[$i]['nombrerol'].'</option>';
+				}
+			}
+			echo $htmlOptions;
+			die();
+		}
+
 } // classs home extends Controllers
 ?>

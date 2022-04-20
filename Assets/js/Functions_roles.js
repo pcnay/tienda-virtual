@@ -186,7 +186,9 @@ function fntEditRol(id_rol)
 				// Asigna los valores a Select (Combobox)
 				// Es importante que se utiliza "var" en "optionSelect" de lo contrario no funciona.
 				// "notBlock" = Es una clase para borrar el renglon duplicado 
-				if (objData.data.status == 1)
+				console.log(typeof(objData.data.estatus));
+
+				if (parseInt(objData.data.estatus) == 1)
 				{
 					var optionSelect = '<option value="1" selected class="notBlock">Activo</option>';
 				}
@@ -265,6 +267,7 @@ function fntDelRol(id_rol)
 			}
 	});		
 }
+
 // Asignar el evento "click" al boton de llaves (donde cambian los permisos de los roles).
 function fntPermisos(id_rol)
 {
@@ -321,6 +324,7 @@ function fntSavePermisos(event)
 		// 4 = Se ejecuto correctamente el Ajax; 200 = Se retorna datos
 		if (request.readyState= 4 && request.status == 200)
 		{
+			// Convertiendolo a un Objeto.
 			var objData = JSON.parse(request.responseText);
 			if (objData.status)
 			{
