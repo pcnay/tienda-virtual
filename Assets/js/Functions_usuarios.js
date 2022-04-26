@@ -1,3 +1,59 @@
+var tableUsuarios;
+// Al terminar de cargar la vista de la captura de Usuario se ejecutara la funcion
+document.addEventListener('DOMContentLoaded',function(){
+	let formUsuario = document.querySelector("#formUsuario");
+	// Acivando el evento "onsubmit" a la variable "formUsuario" es donde esta el formulario.
+	formUsuario.onsubmit = function(e){
+		e.preventDefault();
+		// Obtiene el contenido de las etiquetas de las capturas de Usuarios.
+		let strIdentificacion = document.querySelector('#txtIdentificacion').value;		
+		let strNombre = document.querySelector('#txtNombre').value;		
+		let strApellido = document.querySelector('#txtApellido').value;		
+		let strEmail = document.querySelector('#txtEmail').value;		
+		let strTelefono = document.querySelector('#txtTelefono').value;		
+		let strTipousuario = document.querySelector('#listRolid').value;		
+		let strPassword = document.querySelector('#txtPassword').value;		
+	
+		if ((strIdentificacion == '')|| strApellido == '' || strNombre == '' || strEmail == '' || strTelefono == '' || strTipousuario == '' || strPassword == '')
+		{
+			swal ("Atencion", "Todos los campos son obligatorio","error");
+			return false;
+		}
+
+		// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+		let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+
+		let ajaxUrl = base_url+'/Usuarios/setUsuario';
+		let formData = new FormData(formUsuario); // Se obtiene el formulario
+		request.open("POST",ajaxUrl,true); // Se abre la conexion, y se pasa por "GET"
+		request.send(formData); // Se envia la petición (ejecutar el archivo "getRol/XXX")
+		// Lo que retorne (echo Json.... el Controllers/Roles/getRol)
+
+		request.onreadystatechange = function(){
+			if (request.readyState == 4 && request.status == 200)
+			{
+				let objData = JSON.parse(request.responseText);
+				if (objData.status)
+				{
+					$('#modalFormUsuario').modal("hide");
+					formUsuario.reset();
+					swal("Usuarios",objData.msg,"success");
+					// Mostrar los datos en el "dataTable"
+					tableUsuarios.api().ajax.reload(function(){
+
+					});
+				}
+				else
+				{
+					swal("Error",objData.msg,"error");
+				}
+			}
+		}
+	
+	} // formUsuario.onsubmit = function(e){
+
+},false);
+
 // Cuando se cargue la ventana obtendra los "Roles"
 window.addEventListener('load',function(){
 	fntRolesUsuarios();
@@ -7,7 +63,7 @@ window.addEventListener('load',function(){
 function fntRolesUsuarios()
 {
 	// Se pasan como parametro al método definido en "Roles.php -> Controllers" desde el Ajax
-	var ajaxUrl = base_url+'/Roles/getSelectRoles';
+	let ajaxUrl = base_url+'/Roles/getSelectRoles';
 
 	// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
 	let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');

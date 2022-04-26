@@ -35,6 +35,56 @@
 		{
 			echo "Datos Recibidos ".$params;
 		}
+
+		public function setUsuario()
+		{
+			//dep($_POST); // Revisando el contenido de $_POST
+			//die(); // Finaliza el proceso
+
+			// Esta validando si los datos esta vacios.
+			if ($_POST)
+			{
+				if (empty($_POST['txtIdentificacion']) || empty($_POST['txtNombre']) || empty($_POST['txtApellido']) || empty($_POST['txtTelefono']) || empty($_POST['txtEmail']) || empty($_POST['listRolid']) || empty($_POST['listStatus']))
+				{
+					$arrResponse = array("status" => false, "msg" => 'Datos Incorrectos');
+				}
+				else
+				{
+					$strIdentificacion = strClean($_POST['txtIdentificacion']);
+					// Convierte la letras inicial de cada palabra.
+					$strNombre = ucwords(strClean($_POST['txtNombre']));
+					$strApellido = ucwords(strClean($_POST['txtApellido']));
+					$intTelefono = intval(strClean($_POST['txtTelefono']));
+					$strEmail = strtolower(strClean($_POST['txtEmail']));
+					$intTipoId = intval(strClean($_POST['listRolid']));
+					$intStatus = intval(strClean($_POST['listStatus']));
+
+					// hash("SHA256",passGenerator())); Encripta la contraseña.
+					$strPassword = empty($_POST['txtPassword'])?hash("SHA256",passGenerator()):hash("SHA256",$_POST['txtPassword']);
+					
+					$request_user = $this->model->insertUsuario($strIdentificacion,$strNombre,$strApellido,$intTelefono,$strEmail,$strPassword,$intTipoId,$intStatus);
+
+					// Si se inserto el registro en la tabla.
+					if ($request_user > 0)
+					{
+						$arrResponse = array ('status' => true, 'msg' => 'Datos Guardados Correctamente');
+					}
+					elseif ($request_user == 'exist')
+					{
+						$arrResponse = array ('status' => false, 'msg' => 'Registro Existente ');
+					}
+					else
+					{
+						$arrResponse = array ('status' => false, 'msg' => 'NO es posible Almacenar Los Registros ');
+					}
+					
+				} // else
+				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+
+			}
+			die(); // Detiene el proceso.
+
+		}
 /*
 		// Método utilizado solo para capturar el valor "Params"
 		// comunicandose con los "Controladores".

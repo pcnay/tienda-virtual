@@ -81,7 +81,7 @@ CREATE TABLE t_Personas
 	apellidos VARCHAR(100),
 	telefono SMALLINT,
 	email_user VARCHAR(100),
-	passwords VARCHAR(25),
+	passwords VARCHAR(75),
 	nit VARCHAR(20),
 	nombrefiscal VARCHAR(80),
 	direccionfiscal VARCHAR(100),

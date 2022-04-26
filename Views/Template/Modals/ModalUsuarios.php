@@ -35,7 +35,7 @@
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label for = "txtNombre">Nombres</label>
-							<input class="form-control" type="text" id ="txtNombre" name = "txtINombre" placeholder="Ingresa Nombre" required="">
+							<input class="form-control" type="text" id ="txtNombre" name = "txtNombre" placeholder="Ingresa Nombre" required="">
 						</div>
 						<div class="form-group col-md-6">
 							<label for = "txtApellido">Apellidos</label>
@@ -73,7 +73,7 @@
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label for = "txtPassword">Password</label>
-							<input class="form-control" type="password" id ="txtPassword" name = "txtPassword" required="">
+							<input class="form-control" type="password" id ="txtPassword" name = "txtPassword" >
 						</div>
 					</div> <!-- <div class="form-row" -->
 
