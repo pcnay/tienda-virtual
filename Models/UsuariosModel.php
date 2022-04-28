@@ -66,6 +66,20 @@
 
 			return $return;
 		}
+
+		// Obtener los "Usuarios" con su respectivo "Rol"
+		public function selectUsuarios()
+		{
+			$sql = "SELECT p.id_persona,p.identificacion,p.nombres,p.apellidos,p.telefono,p.estatus,p.email_user,r.nombrerol
+				FROM t_Personas p
+				INNER JOIN t_Rol r
+				ON p.rolid = r.id_rol
+				WHERE p.estatus != 0";
+			
+			$request = $this->select_all($sql);
+			return $request;
+
+		}
 		/*
 		// Se esta obteniendo informacion desde el "Modelo" que solicita el "Controlador"
 		public function getCarrito($params)

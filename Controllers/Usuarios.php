@@ -80,28 +80,44 @@
 					
 				} // else
 				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-
 			}
 			die(); // Detiene el proceso.
-
-		}
-/*
-		// Método utilizado solo para capturar el valor "Params"
-		// comunicandose con los "Controladores".
-		public function carrito($params)
-		{
-			// Se esta accesando a un método del Módelo, desde el "Controlador".
-			$carrito = $this->model->getCarrito($params);
-			echo "<br>";
-			echo $carrito;
 		}
 
-		public function insertar()
+		// Obteniene los "Usuarios" con el "Rol"
+		public function getUsuarios()
 		{
-			$data = $this->modelo->setUser();
-			print_r($data);
+			$arrData = $this->model->selectUsuarios();
+			// dep($arrData);
+
+			// Para colocar en color Verde o Rojo el estatus del Usuario
+			for ($i= 0; $i<count($arrData);$i++)
+			{
+				if ($arrData[$i]['estatus'] == 1)
+				{
+					$arrData[$i]['estatus'] = '<span class="badge badge-success">Activo</span>';
+				}
+				else
+				{
+					$arrData[$i]['estatus'] = '<span class="badge badge-danger">Inactivo</span>';
+				}
+
+				//Son los botones, en la columna de "options".
+				// Se agrega el evento "onclick" en la etiqueta "button" para evitar el error de en google de que no carga los eventos.
+				$arrData[$i]['options'] = ' <div class="text-center">
+					<button class="btn btn-info btn-sm btnViewUsuario" onClick="fntVerUsuario('.$arrData[$i]['id_persona'].')" title="Ver Usuario"><i class="far fa-eye"></i></button>
+					<button class="btn btn-primary btn-sm btnEditUsuario" onClick="fntEditUsuarios('.$arrData[$i]['id_persona'].')" title="Editar Usuario"><i class="fas fa-pencil-alt"></i></button>
+					<button class="btn btn-danger btn-sm btnDelUsuario" onClick="fntDelUsuario('.$arrData[$i]['id_persona'].')" title="Eliminar Usuario"><i class="fas fa-trash-alt"></i></button>
+					</div>';
+
+			} // for ($i= 0; $i<count($arrData);$i++)
+			
+
+			// <span class="badge badge-success">Success</span>
+			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+			die(); // Finaliza el proceso.
+
 		}
-*/
 
 } // classs home extends Controllers
 

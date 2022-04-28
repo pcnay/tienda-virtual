@@ -1,6 +1,34 @@
 var tableUsuarios;
 // Al terminar de cargar la vista de la captura de Usuario se ejecutara la funcion
 document.addEventListener('DOMContentLoaded',function(){
+	
+	// Es el dataTable para desplegar los "Usuarios".
+	tableUsuarios = $('#tableUsuarios').dataTable({
+		"aProcessing":true,
+		"aServerside":true,
+		"language": {
+			"url":"//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+		},
+		"ajax":{
+			"url":" "+base_url+"/Usuarios/getUsuarios",
+			"dataSrc":""
+		},
+		"columns":[
+			{"data":"id_persona"},
+			{"data":"nombres"},
+			{"data":"apellidos"},
+			{"data":"email_user"},
+			{"data":"telefono"},	
+			{"data":"nombrerol"},		
+			{"data":"estatus"},
+			{"data":"options"}
+		],
+		"resonsieve":"true",
+		"bDestroy":true,
+		"iDisplayLength":10,
+		"order":[[0,"desc"]]
+	});
+
 	let formUsuario = document.querySelector("#formUsuario");
 	// Acivando el evento "onsubmit" a la variable "formUsuario" es donde esta el formulario.
 	formUsuario.onsubmit = function(e){
