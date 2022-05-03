@@ -85,9 +85,10 @@ document.addEventListener('DOMContentLoaded',function(){
 // Cuando se cargue la ventana obtendra los "Roles"
 window.addEventListener('load',function(){
 	fntRolesUsuarios();
+	//fntViewUsuario();
 },false);
 
-// Para extraer los "Roles" y vaciarla al "Select"
+// Para extraer los "Usuarios" y vaciarla al "Select"
 function fntRolesUsuarios()
 {
 	// Se pasan como parametro al método definido en "Roles.php -> Controllers" desde el Ajax
@@ -113,6 +114,73 @@ function fntRolesUsuarios()
 
 }
 
+// Para mostrar el modal "View User"
+function fntViewUsuario(idpersona)
+{
+	//console.log('Entre a Function fntEditRol');
+	/*
+	var btnEditRol_b = document.querySelectorAll(".btnEditRol");
+	console.log (btnEditRol_b);
+	btnEditRol_b.forEach(function(btnEditRol_b){
+	
+
+		btnEditRol_b.addEventListener('click',function(){
+			//console.log('Click en el boton de edit');
+	*/
+	
+	// El código para ejecutar Ajax.
+	// "us" se agrego junto con los botones de "Editar","Borrar" cunado se muestran los Roles. Es el "id" del Rol en la tabla.
+	//var idpersona = this.getAttribute("us");
+	let id_persona = idpersona;
+	//console.log(idrol);
+
+	// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+	let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+
+	// Se pasan como parametro al método definido en "Usuarios.php -> Controllers" desde el Ajax
+	// Va obtener los datos del usuarios usando "Ajax"
+	let ajaxUrl = base_url+'/Usuarios/getUsuario/'+id_persona; 
+	request.open("GET",ajaxUrl,true);
+	request.send(); // Se envia la petición (ejecutar el archivo "getRol/XXX")
+	// Lo que retorne (echo Json.... el Controllers/Usuarios/getUsuario
+	request.onreadystatechange = function()
+	{
+		if (request.status == 200 && request.readyState == 4)
+		{
+			// Retorna a un objeto lo que se retorna en "getUsuario"
+
+			//$('#modalViewUser').modal('show');
+			console.log(request.responseText);
+
+			let objData = JSON.parse(request.responseText);
+			if (objData.estatus)
+			{	
+				let estadoUsuario = objData.data.estatus == 1?
+				'<span class="badge badge-success">Activo</span>':
+				'<span class="badge badge-danger">Inactivo</span>';
+				document.querySelector("#celIdentificacion").innerHTML = objData.data.identificacion;
+				document.querySelector("#celNombre").innerHTML = objData.data.nombres;
+				document.querySelector("#celApellidos").innerHTML = objData.data.apellidos;
+				document.querySelector("#celTelefono").innerHTML = objData.data.telefono;
+				document.querySelector("#celEmail").innerHTML = objData.data.email_user;
+				document.querySelector("#celTipoUsuario").innerHTML = objData.data.nombrerol;
+				document.querySelector("#celEstado").innerHTML = estadoUsuario;
+				document.querySelector("#celFechaRegistro").innerHTML = objData.data.fechaRegistro;
+				$('#modalViewUser').modal('show');
+
+			} // if (objData.estatus)
+			else
+			{
+				swal ("Error",objData.msg, "error");
+			}
+
+		} // if (request.status == 200)
+
+	} // 	request.onreadystatechange = function()
+
+	
+
+}
 
 // Para mostrar la ventana Modal de Roles.
 function openModal()

@@ -22,12 +22,12 @@
 			//echo "Mensaje desde el *Capa Modelo* Home ";
 		}
 
-		public function insertUsuario(string $identificacion, string $nombre, string $apellido, int $telefono, string $email, string $passwords, int $tipoid, int $status)
+		public function insertUsuario(string $identificacion, string $nombre, string $apellido, string $telefono, string $email, string $passwords, int $tipoid, int $status)
 		{
 			$this->strIdentificacion = $identificacion;
 			$this->strNombre = $nombre;
 			$this->strApellido = $apellido;
-			$this->intTelefono = $telefono;
+			$this->strTelefono = $telefono;
 			$this->strEmail = $email;
 			$this->strPassword = $passwords;
 			$this->intTipoId = $tipoid;
@@ -45,7 +45,7 @@
 				$arrData = array ($this->strIdentificacion,
 					$this->strNombre,
 					$this->strApellido,
-					$this->intTelefono,
+					$this->strTelefono,
 					$this->strEmail,
 					$this->strPassword,
 					$this->intTipoId,
@@ -80,6 +80,25 @@
 			return $request;
 
 		}
+
+		// Obtiene la informacion de un solo usuario.
+		public function selectUsuario(int $idpersona)
+		{
+			$this->intIdUsuario = $idpersona;
+			$sql = "SELECT p.id_persona,p.identificacion,p.nombres,p.apellidos,p.telefono,p.email_user,p.nit,p.nombrefiscal,p.direccionfiscal,r.id_rol,r.nombrerol,p.estatus,DATE_FORMAT(p.datecreated,'%d-%m-%Y') as fechaRegistro
+				FROM t_Personas p
+				INNER JOIN t_Rol r
+				ON p.rolid = r.id_rol
+				WHERE p.id_persona = $this->intIdUsuario";
+
+			// echo $sql;exit;, se utiliza "Network" para seleccionar "Request" y se muetra el Echo.
+			
+			$request = $this->select($sql);
+			return $request;
+
+
+		}
+
 		/*
 		// Se esta obteniendo informacion desde el "Modelo" que solicita el "Controlador"
 		public function getCarrito($params)

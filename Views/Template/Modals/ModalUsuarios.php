@@ -92,6 +92,76 @@
 </div>
 
 
+<!-- Button trigger modal 
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+  Launch demo modal
+</button>
+-->
+
+<!-- Modal -->
+<div class="modal fade" id="modalViewUser" name = "modalViewUser" tabindex="-1" role="dialog"  aria-hidden="true">
+  <div class="modal-dialog" >
+    <div class="modal-content">
+      <div class="modal-header header-primary">
+        <h5 class="modal-title" id="titleModal">Datos Del Usuario</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+				<div class ="modal-body">
+					<table class = "table table-bordered">
+						<tbody>
+							<tr>
+								<td>Identificacion:</td>
+								<td id= "celIdentificacion">645353535353:</td>
+							</tr>
+							<tr>
+								<td>Nombres:</td>
+								<td id= "celNombre">Pedro</td>
+							</tr>
+							<tr>
+								<td>Apellidos:</td>
+								<td id= "celApellidos">Fernandez</td>
+							</tr>
+							<tr>
+								<td>Telefonos:</td>
+								<td id= "celTelefono">999-99-99</td>
+							</tr>
+							<tr>
+								<td>Email - Usuario:</td>
+								<td id= "celEmail">correo@usuario1.com</td>
+							</tr>
+							<tr>
+								<td>Tipo Usuario:</td>
+								<td id= "celTipoUsuario">Vendedor</td>
+							</tr>
+							<tr>
+								<td>Estado:</td>
+								<td id= "celEstado">Activo</td>
+							</tr>
+							<tr>
+								<td>Fecha Registro:</td>
+								<td id= "celFechaRegistro">Fecha Registro></td>
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+					<div class="modal-footer">
+						<!-- data-dismiss="modal" = Para cerrar el modal -->
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+					</div>
+      </div> <!-- <div class="modal-body"> -->
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
 
 
 

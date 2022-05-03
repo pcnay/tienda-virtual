@@ -21,7 +21,7 @@
 	display:none;
 }
 
-.headerRegister
+.headerRegister, .header-primary
 {
 	background:#009688;
 	color:#FFF; /* Color de letra Blanco */

@@ -54,7 +54,7 @@
 					// Convierte la letras inicial de cada palabra.
 					$strNombre = ucwords(strClean($_POST['txtNombre']));
 					$strApellido = ucwords(strClean($_POST['txtApellido']));
-					$intTelefono = intval(strClean($_POST['txtTelefono']));
+					$strTelefono = strClean($_POST['txtTelefono']);
 					$strEmail = strtolower(strClean($_POST['txtEmail']));
 					$intTipoId = intval(strClean($_POST['listRolid']));
 					$intStatus = intval(strClean($_POST['listStatus']));
@@ -62,7 +62,7 @@
 					// hash("SHA256",passGenerator())); Encripta la contraseña.
 					$strPassword = empty($_POST['txtPassword'])?hash("SHA256",passGenerator()):hash("SHA256",$_POST['txtPassword']);
 					
-					$request_user = $this->model->insertUsuario($strIdentificacion,$strNombre,$strApellido,$intTelefono,$strEmail,$strPassword,$intTipoId,$intStatus);
+					$request_user = $this->model->insertUsuario($strIdentificacion,$strNombre,$strApellido,$strTelefono,$strEmail,$strPassword,$intTipoId,$intStatus);
 
 					// Si se inserto el registro en la tabla.
 					if ($request_user > 0)
@@ -105,7 +105,7 @@
 				//Son los botones, en la columna de "options".
 				// Se agrega el evento "onclick" en la etiqueta "button" para evitar el error de en google de que no carga los eventos.
 				$arrData[$i]['options'] = ' <div class="text-center">
-					<button class="btn btn-info btn-sm btnViewUsuario" onClick="fntVerUsuario('.$arrData[$i]['id_persona'].')" title="Ver Usuario"><i class="far fa-eye"></i></button>
+					<button class="btn btn-info btn-sm btnViewUsuario" onClick="fntViewUsuario('.$arrData[$i]['id_persona'].')" title="Ver Usuario"><i class="far fa-eye"></i></button>
 					<button class="btn btn-primary btn-sm btnEditUsuario" onClick="fntEditUsuarios('.$arrData[$i]['id_persona'].')" title="Editar Usuario"><i class="fas fa-pencil-alt"></i></button>
 					<button class="btn btn-danger btn-sm btnDelUsuario" onClick="fntDelUsuario('.$arrData[$i]['id_persona'].')" title="Eliminar Usuario"><i class="fas fa-trash-alt"></i></button>
 					</div>';
@@ -118,6 +118,31 @@
 			die(); // Finaliza el proceso.
 
 		}
+
+		public function getUsuario(int $idpersona)
+		{
+			//echo $idpersona;
+			$idusuario = intval($idpersona);
+			if ($idusuario > 0)
+			{
+				$arrData = $this->model->selectUsuario($idusuario);
+				//dep($arrData);
+				if (empty($arrData))
+				{
+					$arrResponse = array('estatus' =>false,'msg'=> 'Datos No Encontrado');
+				}
+				else
+				{
+					$arrResponse = array('estatus' =>true,'data'=> $arrData);
+				}
+				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+				
+				
+			}
+			die();
+
+		}
+
 
 } // classs home extends Controllers
 
