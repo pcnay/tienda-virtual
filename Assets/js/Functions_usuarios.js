@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded',function(){
 			if (request.readyState == 4 && request.status == 200)
 			{
 				let objData = JSON.parse(request.responseText);
-				if (objData.status)
+				if (objData.estatus)
 				{
 					$('#modalFormUsuario').modal("hide");
 					formUsuario.reset();
@@ -150,7 +150,7 @@ function fntViewUsuario(idpersona)
 			// Retorna a un objeto lo que se retorna en "getUsuario"
 
 			//$('#modalViewUser').modal('show');
-			console.log(request.responseText);
+			//console.log(request.responseText);
 
 			let objData = JSON.parse(request.responseText);
 			if (objData.estatus)
@@ -178,9 +178,153 @@ function fntViewUsuario(idpersona)
 
 	} // 	request.onreadystatechange = function()
 
+}
+
+// Editar un Usuario
+// Para mostrar el modal "View User"
+function fntEditUsuario(idpersona)
+{
+	//console.log('Entre a Function fntEditRol');
+	/*
+	var btnEditRol_b = document.querySelectorAll(".btnEditRol");
+	console.log (btnEditRol_b);
+	btnEditRol_b.forEach(function(btnEditRol_b){
 	
 
+		btnEditRol_b.addEventListener('click',function(){
+			//console.log('Click en el boton de edit');
+	*/
+	
+	// El código para ejecutar Ajax.
+	// "us" se agrego junto con los botones de "Editar","Borrar" cunado se muestran los Usuarios. Es el "id" del Usuarios en la tabla.
+	//var idpersona = this.getAttribute("us");
+
+	// Se agrega este código para reutilizar la ventana de Capturar Usuarios, se cambiaran valores para las vistas y leyenda de botones.
+	// Estes lineas de definieron en "fntEditUsario()"
+	// Es el Input "hidden" que se encuentra : /Views/Templetes/Modals/ModalUsuarios.php
+	document.querySelector('#idUsuario').value = "";	
+	// Cambiando los colores de la franja de la ventana.
+	// Estas definidos en "ModalUsuarios.php"
+	document.querySelector('.modal-header').classList.replace("headerRegister","headerUpdate");
+	// Cambiando la clase de los botones (Colores)
+	document.querySelector('#btnActionForm').classList.replace("btn-primary","btn-info");
+	document.querySelector('#btnText').innerHTML = "Actualizar";
+	document.querySelector('#titleModal').innerHTML = "Actualizar Usuario";
+
+	let id_persona = idpersona;
+	//console.log(idrol);
+
+	// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+	let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+
+	// Se pasan como parametro al método definido en "Usuarios.php -> Controllers" desde el Ajax
+	// Va obtener los datos del usuarios usando "Ajax"
+	let ajaxUrl = base_url+'/Usuarios/getUsuario/'+id_persona; 
+	request.open("GET",ajaxUrl,true);
+	request.send(); // Se envia la petición (ejecutar el archivo "getRol/XXX")
+	// Lo que retorne (echo Json.... el Controllers/Usuarios/getUsuario
+	request.onreadystatechange = function()
+	{
+		if (request.status == 200 && request.readyState == 4)
+		{
+			// Retorna a un objeto lo que se retorna en "getUsuario"
+
+			//$('#modalViewUser').modal('show');
+			//console.log(request.responseText);
+
+			let objData = JSON.parse(request.responseText);
+			if (objData.estatus)
+			{	
+				document.querySelector("#idUsuario").value = objData.data.id_persona;
+				document.querySelector("#txtIdentificacion").value = objData.data.identificacion;
+				document.querySelector("#txtNombre").value = objData.data.nombres;
+				document.querySelector("#txtApellido").value = objData.data.apellidos;
+				document.querySelector("#txtTelefono").value = objData.data.telefono;
+				document.querySelector("#txtEmail").value = objData.data.email_user;
+				document.querySelector("#txtPassword").value = objData.data.passwords;
+				document.querySelector("#listRolid").value = objData.data.id_rol;
+				// Renderiza y asigna el valor que esta guardado en la tabla.
+				$('#listRolid').selectpicker('render');
+
+				if (objData.data.estatus == 1)
+				{
+					document.querySelector("#listStatus").value = 1;
+				}
+				else
+				{
+					document.querySelector("#listStatus").value = 2;
+				}
+
+				$('#listStatus').selectpicker('render');
+
+			}
+		}
+
+		$('#modalFormUsuario').modal('show');
+
+	} // 	request.onreadystatechange = function()
+
+} //function fntEditUsuario(idpersona)
+
+
+// Borrar un rol.
+function fntDelUsuario(id_Persona)
+{
+	/*
+	let btnDelRol = document.querySelectorAll(".btnDelRol");
+	btnDelRol.forEach(function(btnDelRol){
+		btnDelRol.addEventListener('click',function(){
+	*/
+	let idUsuario = id_Persona;
+	// alert(idrol);
+	swal({
+		title:"Eliminar Usuario",
+		text:"Realmente quere eliminar el Usuario?",
+		type:"warning",
+		showCancelButton:true,
+		confirmButtonText:"Si, eliminar !",
+		cancelButtonText: "No, Cancelar !",
+		closeOnConfirm:false,
+		closeOnCancel:true
+		},function(isConfirm)
+		{
+			// Borrar el Rol, utiliza Ajax para accesar a la Base de datos.
+			if (isConfirm)
+			{
+				let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+				// Se pasan como parametro al método definido en "Roles.php -> Controllers" desde el Ajax
+				let ajaxDelUsuario = base_url+'/Usuarios/delUsuario/';
+				let strData = "idUsuario="+idUsuario;
+				request.open("POST",ajaxDelUsuario,true);
+				request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+				request.send(strData);
+				request.onreadystatechange = function(){
+					// Se hizo la petición y fue exitoso, llego la información al servidor.
+					if (request.readyState == 4 && request.status == 200)
+					{
+						let objData = JSON.parse(request.responseText);
+						if (objData.estatus)
+						{
+							swal("Eliminar! ",objData.msg,"success");
+							tableUsuarios.api().ajax.reload(function(){
+								//fntEditRol();
+								//fntDelrol();
+								//fntPermisos();
+							});
+						}
+						else
+						{
+							swal("Error",objData.msg,"error");
+						}
+					}
+				} 			
+			}
+	});		
 }
+
+
+
+
 
 // Para mostrar la ventana Modal de Roles.
 function openModal()

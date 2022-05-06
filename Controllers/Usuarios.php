@@ -44,38 +44,64 @@
 			// Esta validando si los datos esta vacios.
 			if ($_POST)
 			{
+				//dep($_POST);
+				//die();
+
 				if (empty($_POST['txtIdentificacion']) || empty($_POST['txtNombre']) || empty($_POST['txtApellido']) || empty($_POST['txtTelefono']) || empty($_POST['txtEmail']) || empty($_POST['listRolid']) || empty($_POST['listStatus']))
 				{
 					$arrResponse = array("status" => false, "msg" => 'Datos Incorrectos');
 				}
 				else
 				{
+					$idUsuario = intval($_POST['idUsuario']);
 					$strIdentificacion = strClean($_POST['txtIdentificacion']);
 					// Convierte la letras inicial de cada palabra.
 					$strNombre = ucwords(strClean($_POST['txtNombre']));
 					$strApellido = ucwords(strClean($_POST['txtApellido']));
 					$strTelefono = strClean($_POST['txtTelefono']);
 					$strEmail = strtolower(strClean($_POST['txtEmail']));
-					$intTipoId = intval(strClean($_POST['listRolid']));
-					$intStatus = intval(strClean($_POST['listStatus']));
+					$intTipoId = intval($_POST['listRolid']);
+					$intStatus = intval($_POST['listStatus']);
 
-					// hash("SHA256",passGenerator())); Encripta la contraseña.
-					$strPassword = empty($_POST['txtPassword'])?hash("SHA256",passGenerator()):hash("SHA256",$_POST['txtPassword']);
-					
-					$request_user = $this->model->insertUsuario($strIdentificacion,$strNombre,$strApellido,$strTelefono,$strEmail,$strPassword,$intTipoId,$intStatus);
+					// Si no se envia un "id_persona" significa que s eesta crean el Usuario
+					if ($idUsuario == 0)
+					{
+						$option = 1;
+						// hash("SHA256",passGenerator())); Encripta la contraseña.
+						$strPassword = empty($_POST['txtPassword'])?hash("SHA256",passGenerator()):hash("SHA256",$_POST['txtPassword']);
+						
+						$request_user = $this->model->insertUsuario($strIdentificacion,$strNombre,$strApellido,$strTelefono,$strEmail,$strPassword,$intTipoId,$intStatus);
+					}
+					else
+					{
+						$option = 2;
+						// hash("SHA256",passGenerator())); Encripta la contraseña.
+						$strPassword = empty($_POST['txtPassword'])?"":hash("SHA256",$_POST['txtPassword']);
+						
+						$request_user = $this->model->updateUsuario($idUsuario,$strIdentificacion,$strNombre,$strApellido,$strTelefono,$strEmail,$strPassword,$intTipoId,$intStatus);
+
+					}
 
 					// Si se inserto el registro en la tabla.
 					if ($request_user > 0)
 					{
-						$arrResponse = array ('status' => true, 'msg' => 'Datos Guardados Correctamente');
+						if ($option == 1)
+						{
+							$arrResponse = array ('estatus' => true, 'msg' => 'Datos Guardados Correctamente');
+						}
+						else
+						{
+							$arrResponse = array ('estatus' => true, 'msg' => 'Datos Actualizados Correctamente');
+						}
+
 					}
-					elseif ($request_user == 'exist')
-					{
-						$arrResponse = array ('status' => false, 'msg' => 'Registro Existente ');
-					}
+						elseif ($request_user == 'exist')
+						{
+							$arrResponse = array ('estatus' => false, 'msg' => 'Registro Existente ');
+						}
 					else
 					{
-						$arrResponse = array ('status' => false, 'msg' => 'NO es posible Almacenar Los Registros ');
+						$arrResponse = array ('estatus' => false, 'msg' => 'NO es posible Almacenar Los Registros ');
 					}
 					
 				} // else
@@ -106,7 +132,7 @@
 				// Se agrega el evento "onclick" en la etiqueta "button" para evitar el error de en google de que no carga los eventos.
 				$arrData[$i]['options'] = ' <div class="text-center">
 					<button class="btn btn-info btn-sm btnViewUsuario" onClick="fntViewUsuario('.$arrData[$i]['id_persona'].')" title="Ver Usuario"><i class="far fa-eye"></i></button>
-					<button class="btn btn-primary btn-sm btnEditUsuario" onClick="fntEditUsuarios('.$arrData[$i]['id_persona'].')" title="Editar Usuario"><i class="fas fa-pencil-alt"></i></button>
+					<button class="btn btn-primary btn-sm btnEditUsuario" onClick="fntEditUsuario('.$arrData[$i]['id_persona'].')" title="Editar Usuario"><i class="fas fa-pencil-alt"></i></button>
 					<button class="btn btn-danger btn-sm btnDelUsuario" onClick="fntDelUsuario('.$arrData[$i]['id_persona'].')" title="Eliminar Usuario"><i class="fas fa-trash-alt"></i></button>
 					</div>';
 
@@ -137,11 +163,34 @@
 				}
 				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 				
-				
 			}
 			die();
-
 		}
+
+		// Método para borrar un Usuario.
+		public function delUsuario()
+		{
+			// Esta variable superglobal se genero en "Functions_roles.js", seccion "fntDelRol"
+			if ($_POST)
+			{
+				$intIdpersona = intval($_POST['idUsuario']);
+
+				// Este objeto se define en el Modleo "Rol".
+				$requestDelete = $this->model->deleteUsuario($intIdpersona);
+
+				if($requestDelete)
+				{
+					$arrResponse = array('estatus'=> true, 'msg' => 'Se Ha Eliminado El Usuario');
+				}
+				else
+				{
+					$arrResponse = array('estatus'=> false, 'msg' => 'Error Al Eliminar el Usuario');
+				}
+				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+			}
+			die();
+		}
+		
 
 
 } // classs home extends Controllers
