@@ -7,6 +7,12 @@ class Login extends Controllers
 	{
 		// Para iniciar sesion, crear variables de sesion.
 		session_start();
+		// Verifica si la variable de SESSION["login"] esta en Verdadero, sigfica que esta una sesion iniciada.
+		session_start();
+		if (isset($_SESSION['login']))
+		{
+			header('Location: '.base_url().'/Dashboard');
+		}
 
 		// Ejecuta el constructor padre (desde donde se hereda.)
 		// Para que la clase de instancie y ejecute la clase de "Modelo

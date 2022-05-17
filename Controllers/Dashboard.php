@@ -5,6 +5,13 @@
 		{
 			// Ejecuta el constructor padre (desde donde se hereda.)
 			parent::__construct();
+			
+			// Verifica si la variable de SESSION["login"] esta en Verdadero, sigfica que esta una sesion iniciada.
+			session_start();
+			if (empty($_SESSION['login']))
+			{
+				header('Location: '.base_url().'/Login');
+			}
 
 		}
 		

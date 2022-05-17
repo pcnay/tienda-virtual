@@ -33,7 +33,37 @@ document.addEventListener('DOMContentLoaded',function(){
 				// Se envian los campos del formulario.
 				request.send(formData);
 				
-				//console.log(request);
+				// console.log(request);
+
+				request.onreadystatechange = function()
+				{
+					if (request.readyState != 4 ) return; // Si no se cumple no realiza nada
+					if (request.status == 200) // Fue exitoso el enlace con el servidor
+					{
+						// Convierte a un objeto JSon lo que retorno el Ajax.
+						let objData = JSON.parse(request.responseText); 
+						// Viene desde el Ajax "responseText": "\n\n{\"estatus\":true,\"msg\":\"ok\"}"
+
+						// Si hizo "Login" de forma correcta.
+						if (objData.estatus)
+						{
+							window.location = base_url+'/Dashboard';
+						}
+						else
+						{
+							swal("Atencion",objData.msg,"error");
+							// Se limpia ese campo.
+							document.querySelector("#txtPassword").value = "";
+						}					
+					}
+					else
+					{
+						swal("Atencion","Error En El Proceso","error");
+					}
+					return false;
+
+				} // request.onreadystatechange = function()
+
 			}
 
 		}
