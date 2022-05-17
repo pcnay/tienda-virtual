@@ -23,6 +23,7 @@
 			$data['page_tag'] = "Usuarios";
 			$data['page_title'] = "USUARIOS <small>Tienda Virtual</small>";
 			$data['page_name'] = "Usuarios";
+			$data['page_functions_js'] = "Functions_usuarios.js";
 
 			// $this = Es equivalente "Usuarios"
 			// Se llama la vista "Usuarios"

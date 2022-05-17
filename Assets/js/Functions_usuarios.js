@@ -23,6 +23,33 @@ document.addEventListener('DOMContentLoaded',function(){
 			{"data":"estatus"},
 			{"data":"options"}
 		],
+		'dom': 'lBfrtip',
+    'buttons': [
+			{
+				"extend": "copyHtml5",
+				"text":"<i class = 'far fa-copy'></i>Copiar",
+				"titleAttr":"Copiar",
+				"className":"btn btn-secondary"
+			},
+			{
+				"extend": "excelHtml5",
+				"text":"<i class = 'far fa-file-excel'></i>Excel",
+				"titleAttr":"Exportar a Excel",
+				"className":"btn btn-success"
+			},
+			{
+				"extend": "pdfHtml5",
+				"text":"<i class = 'far fa-file-pdf'></i>PDF",
+				"titleAttr":"Exportar a PDF",
+				"className":"btn btn-danger"
+			},
+			{
+				"extend": "csvHtml5",
+				"text":"<i class = 'fas fa-file-csv'></i>CSV",
+				"titleAttr":"Exportar a CSV",
+				"className":"btn btn-info"
+			}
+    ],
 		"resonsieve":"true",
 		"bDestroy":true,
 		"iDisplayLength":10,
@@ -46,6 +73,17 @@ document.addEventListener('DOMContentLoaded',function(){
 		{
 			swal ("Atencion", "Todos los campos son obligatorio","error");
 			return false;
+		}
+
+		// Obtiene todos las etiquetas que tienen la clase "valid" del formulario de captura.
+		let elementsValid = document.getElementsByClassName("valid");
+		for (let b=0; b<elementsValid.length;b++)
+		{
+			if (elementsValid[b].classList.contains('is-invalid'))
+			{
+				swal ("Atencion", "Por Favor verifique los campos en Rojo","error");
+				return false;
+			}
 		}
 
 		// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 

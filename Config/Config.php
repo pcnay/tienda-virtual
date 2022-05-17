@@ -8,7 +8,7 @@
 	const DB_NAME = "bd_tienda_virtual";
 	const DB_USER = "usuario_tienda";
 	const DB_PASSWORD = "Tienda_2022";
-	const DB_CHARSET = "charset=utf8";
+	const DB_CHARSET = "utf8";
 	//Deliminadores decimal y millar, Ejemplo: 24,198.30
 	const SPD = ".";
 	const SPM = ",";

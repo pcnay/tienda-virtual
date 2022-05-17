@@ -19,6 +19,7 @@
 			$data['page_tag'] = "Roles Usuarios";
 			$data['page_name'] = "Roles";		
 			$data['page_title'] = "Roles Usuarios <small>  Tienda Virtual</small>";
+			$data['page_functions_js'] = "Functions_roles.js";
 			// "Dashboard" Se llama desde /Views/Dashboard/Dashboard.php"
 			// Esta clase "views" método "getView" proviede de "Controllers"(Libraries/Core/Controllers.php) donde se llaman las clases y objetos de las Vistas.
 			$this->views->getView($this,"Roles",$data);
@@ -182,7 +183,10 @@
 			{
 				for ($i=0; $i<count($arrData); $i++)
 				{
-					$htmlOptions .= '<option value="'.$arrData[$i]['id_rol'].'">'.$arrData[$i]['nombrerol'].'</option>';
+					if ($arrData[$i]['estatus']==1)
+					{
+						$htmlOptions .= '<option value="'.$arrData[$i]['id_rol'].'">'.$arrData[$i]['nombrerol'].'</option>';
+					}
 				}
 			}
 			echo $htmlOptions;

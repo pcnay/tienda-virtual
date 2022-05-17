@@ -35,22 +35,23 @@
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label for = "txtNombre">Nombres</label>
-							<input class="form-control" type="text" id ="txtNombre" name = "txtNombre" placeholder="Ingresa Nombre" required="">
+							<input class="form-control valid validText" type="text" id ="txtNombre" name = "txtNombre" placeholder="Ingresa Nombre" required="">
 						</div>
 						<div class="form-group col-md-6">
 							<label for = "txtApellido">Apellidos</label>
-							<input class="form-control" type="text" id ="txtApellido" name = "txtApellido" placeholder="Ingresa Apellido" required="">
+							<input class="form-control valid validText" type="text" id ="txtApellido" name = "txtApellido" placeholder="Ingresa Apellido" required="">
 						</div>
 					</div> <!-- <div class="form-row" -->
 
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label for = "txtTelefono">Telefonos</label>
-							<input class="form-control" type="text" id ="txtTelefono" name = "txtTelefono" placeholder="Ingresa Telefono" required="">
+							<input class="form-control valid validNumber" type="text" id ="txtTelefono" name = "txtTelefono" placeholder="Ingresa Telefono" required="" onkeypress="return controlTag(event);">
+							<!-- Solo escribe numeros. -->
 						</div>
 						<div class="form-group col-md-6">
 							<label for = "txtEmail">Email</label>
-							<input class="form-control" type="email" id ="txtEmail" name = "txtEmail" placeholder="Ingresa Email" required="">
+							<input class="form-control valid validEmail" type="email" id ="txtEmail" name = "txtEmail" placeholder="Ingresa Email" required="">
 						</div>
 					</div> <!-- <div class="form-row" -->
 
