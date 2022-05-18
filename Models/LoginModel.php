@@ -29,5 +29,28 @@
 			return $request;
 		}
 		
+		// Obtiene los datos de un usuario.
+		public function sessionLogin(int $iduser)
+		{
+			$this->intIdUsuario = $iduser;
+			$sql = "SELECT p.id_persona,
+											p.identificacion,
+											p.nombres,
+											p.apellidos,
+											p.telefono,
+											p.email_user,
+											p.nit,
+											p.nombrefiscal,
+											p.direccionfiscal,
+											r.id_rol,r.nombrerol,
+											p.estatus
+							FROM t_Personas p
+							INNER JOIN t_Rol r
+							ON p.rolid = r.id_rol
+							WHERE p.id_persona = $this->intIdUsuario";
+				$request = $this->select($sql);
+				return $request;
+		}
+		
 	} // class homeModel
 ?>

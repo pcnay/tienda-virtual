@@ -61,6 +61,9 @@ class Login extends Controllers
 						// Iniciar sesion del usuario.
 						$_SESSION['idUser'] = $arrData['id_persona'];
 						$_SESSION['login'] = true;
+						// Obtener todos los datos del usuario.
+						$arrData = $this->model->sessionLogin($_SESSION['idUser']);
+						$_SESSION['userData'] = $arrData;
 						$arrResponse = array('estatus' => true, 'msg' =>'ok');
 					}
 					else
