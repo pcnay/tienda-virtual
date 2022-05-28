@@ -37,6 +37,13 @@ Para ejecutar el "script"
 
 USE bd_tienda_virtual;
 
+/* 
+Cambiar el nombre de un campo. 
+
+ALTER TABLE `t_Personas` CHANGE `toke` `token` VARCHAR(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
+
+*/
+
 /*
 ALTER TABLE t_Permisos DROP W;
 ALTER TABLE t_Permisos ADD w TINYINT DEFAULT 0;

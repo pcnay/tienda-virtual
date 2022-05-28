@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded',function(){
 	{
 		let formLogin = (document.querySelector("#formLogin"));
 		formLogin.onsubmit = function(e){
-			e.preventDefault();
+			e.preventDefault(); // Previene que se recargue la pagina
 			let strEmail = document.querySelector("#txtEmail").value;
 			let strPassword = document.querySelector("#txtPassword").value;
 
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded',function(){
 				// Se envian los campos del formulario.
 				request.send(formData);
 				
-				// console.log(request);
+				//console.log(request);
 
 				request.onreadystatechange = function()
 				{
@@ -68,4 +68,65 @@ document.addEventListener('DOMContentLoaded',function(){
 
 		}
 	}
+	
+	// Asigna el Evento Submit a la ventana para recuperar la contraseña
+	if (document.querySelector("#formRecetPass"))
+	{
+		var formRecetPass = document.querySelector("#formRecetPass");
+		formRecetPass.onsubmit = function(e){
+			e.preventDefault();
+			let strEmail = document.querySelector('#txtEmailReset').value;
+			if (strEmail == "")
+			{
+				swal("Por favor","Escribe tu correo electronico ","error");
+				return false;				
+			}	
+			else
+			{
+				// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+				let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+				let ajaxUrl = base_url+'/Login/resetPass';
+				// Se envía el formulario.
+				let formData = new FormData(formRecetPass);
+				request.open("POST",ajaxUrl,true);
+				request.send(formData);
+				request.onreadystatechange = function(){
+					// console.log(request);
+					if (request.readyState != 4) return;
+
+					// Si se ejecuta correctamente en el servidor.
+					if (request.status == 200)
+					{
+						let objData = JSON.parse(request.responseText);
+						if (objData.estatus)
+						{
+							swal({
+								title:"",
+								text:objData.msg,
+								type:"success",
+								confirmButtonText:"Aceptar",
+								closeOnConfirm:false,
+							},function (isConfirm){
+								if (isConfirm){
+									window.location = base_url;
+								}
+							});
+						}
+						else
+						{
+							swal ("Atencion",objData.msg,"error");
+						}
+					}
+					else
+					{
+						swal ("Atencion","Error en el Proceso","error");
+					}
+					return false
+				}
+				
+			}
+		}
+
+	} // if (document.querySelector("#formRecetPass"))
+
 },false)

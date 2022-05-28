@@ -51,6 +51,32 @@
 				$request = $this->select($sql);
 				return $request;
 		}
-		
-	} // class homeModel
+
+		public function getUserEmail(string $strEmail)
+		{
+			// Extrae el correo del usuarios.
+			$this->strUsuario = $strEmail;
+			$sql = "SELECT id_persona,nombres,apellidos,estatus FROM t_Personas WHERE email_user = '$this->strUsuario' and estatus = 1 ";
+			$request = $this->select($sql);
+			return $request;
+		}
+
+		// 
+		public function setTokenUser(int $idpersona, string $token)
+		{
+			$this->intIdUsuario = $idpersona;
+			$this->strToken = $token;
+			$sql = "UPDATE t_Personas SET token = ? WHERE id_persona = $this->intIdUsuario ";
+
+			// Para mostrar el contenido del $sql
+			//echo $sql = "UPDATE t_Personas SET token = ? WHERE id_persona = $this->intIdUsuario ";
+			//exit;
+			$arrData = array($this->strToken);
+			$request = $this->update($sql,$arrData);
+			return $request;
+			
+		}
+
+
+	} // class LoginModel
 ?>
