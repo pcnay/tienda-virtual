@@ -72,8 +72,9 @@ document.addEventListener('DOMContentLoaded',function(){
 	// Asigna el Evento Submit a la ventana para recuperar la contraseña
 	if (document.querySelector("#formRecetPass"))
 	{
-		var formRecetPass = document.querySelector("#formRecetPass");
+		let formRecetPass = document.querySelector("#formRecetPass");
 		formRecetPass.onsubmit = function(e){
+			// Previene que se recargue la pagina.
 			e.preventDefault();
 			let strEmail = document.querySelector('#txtEmailReset').value;
 			if (strEmail == "")
@@ -83,15 +84,17 @@ document.addEventListener('DOMContentLoaded',function(){
 			}	
 			else
 			{
+				// Va accesar a la base de datos para extraer la informacion del usuario.
 				// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
 				let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+				// Accesa al Controlador para accesar al método
 				let ajaxUrl = base_url+'/Login/resetPass';
 				// Se envía el formulario.
 				let formData = new FormData(formRecetPass);
 				request.open("POST",ajaxUrl,true);
-				request.send(formData);
+				request.send(formData); // Envía todo la información.
 				request.onreadystatechange = function(){
-					// console.log(request);
+					console.log(request);
 					if (request.readyState != 4) return;
 
 					// Si se ejecuta correctamente en el servidor.
