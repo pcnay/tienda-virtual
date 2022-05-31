@@ -85,8 +85,7 @@ class Login extends Controllers
 		//dep($_POST);
 		//die();
 		if ($_POST)
-		{
-			
+		{			
 			if (empty($_POST['txtEmailReset']))
 			{
 				$arrResponse = array('estatus' => false, 'msg' => 'Error de datos');
@@ -98,7 +97,12 @@ class Login extends Controllers
 
 				$token = token(); // Esta función se encuentra en el Helper.php
 				$strEmail = strtolower(strClean($_POST['txtEmailReset']));
+
+				// Realiza la consulta a la Tabla de "t_Personas"
+				// Este método se define en el modelo.
 				$arrData = $this->model->getUserEmail($strEmail);
+
+				// Si no encontro al usuario
 				if (empty($arrData))
 				{
 					$arrResponse = array('estatus' => false, 'msg' => 'Usuario NO Encontrado');
@@ -108,6 +112,7 @@ class Login extends Controllers
 					$idpersona = $arrData['id_persona'];
 					$nombreUsuario = $arrData['nombres'].' '.$arrData['apellidos'];
 
+					// La ruta para restablecer la contraseña.
 					$url_recovery = base_url().'/Login/confirmUser/'.$strEmail.'/'.$token;
 
 					// Actualiza el Token que se ha generado.
