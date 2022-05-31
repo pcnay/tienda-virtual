@@ -141,8 +141,8 @@ class Login extends Controllers
 		$data['page_title'] = "Cambiar Contraseña";
 		$data['page_name'] = "Cambiar Constraseña";
 		$data['id_persona'] = 1;
-		$data['page_functions_js'] = "Functions_login.js";
-		$this->views->getView($this,"Cambiar_Password",$data);		
+		//$data['page_functions_js'] = "Functions_login.js";
+		$this->views->getView($this,"Cambiar_Passwords",$data);		
 	}
 
 } // classs home extends Controllers

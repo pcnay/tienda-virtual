@@ -94,12 +94,14 @@ document.addEventListener('DOMContentLoaded',function(){
 				request.open("POST",ajaxUrl,true);
 				request.send(formData); // Envía todo la información.
 				request.onreadystatechange = function(){
-					console.log(request);
-					if (request.readyState != 4) return;
+					//console.log(request);
+
+					if (request.readyState != 4) return; // No regresa valor 
 
 					// Si se ejecuta correctamente en el servidor.
 					if (request.status == 200)
 					{
+						// Convertir a un Objeto lo que regresa el Ajax
 						let objData = JSON.parse(request.responseText);
 						if (objData.estatus)
 						{

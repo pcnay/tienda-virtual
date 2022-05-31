@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,7 +9,7 @@
 		<link rel="shortcut icon" href="<?= media();?>/images/favicon.ico">
     <!-- Main CSS-->
 		<link rel="stylesheet" type="text/css" href="Assets/css/main.css">
-		<link rel="stylesheet" type="text/css" href="Assets/css/styles.css">
+		<link rel="stylesheet" type="text/css" href="Assets/css/style.css">
 
     <title><?php echo $data['page_tag']; ?></title>
   </head>

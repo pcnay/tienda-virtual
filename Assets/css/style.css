@@ -5,6 +5,7 @@
 	background:gray;
 	padding:6px;
 }
+
 .app_sidebar__toggle
 {
 	display:-webkit-flex;
@@ -16,6 +17,7 @@
 	align-items:center;
 	font-size:15pt; /* Tamaño del icono de libros. */
 }
+
 .app-sidebar__toggle::before
 {
 	display:none;
