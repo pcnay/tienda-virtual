@@ -26,7 +26,7 @@
 				<!-- Formulario para resetear la contraseña-->
 				<!-- action = "" debido a que se agregara un evento en el boton Submit, utilizando JavaScript -->
         <form id="formCambiarPass" name = "formCambiarPass" class="forget-form" action="">
-					<input type="hidden" id="idUsuario" name="idUsuario" value="<?= $data['idpersona']; ?>" required>
+					<input type="hidden" id="idUsuario" name="idUsuario" value="<?php echo $data['id_persona']; ?>" required>
 
           <h3 class="login-head"><i class="fas fa-key"></i>Cambiar Contraseña </h3>
           <div class="form-group">            

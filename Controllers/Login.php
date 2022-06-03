@@ -135,15 +135,45 @@ class Login extends Controllers
 		die();	// Termina el proceso y no retorna nada.
 
 	}
+
 	public function confirmUser(string $params)
 	{
-		$data['page_tag'] = "Cambiar Constraseña";
-		$data['page_title'] = "Cambiar Contraseña";
-		$data['page_name'] = "Cambiar Constraseña";
-		$data['id_persona'] = 1;
-		//$data['page_functions_js'] = "Functions_login.js";
-		$this->views->getView($this,"Cambiar_Passwords",$data);		
-	}
+		// Valida que exista la url completa para cuando se envia
+		if (empty($params))
+		{
+			header ('Location: '.base_url());
+		}
+		else
+		{
+			// Para mostrar todos los parametros que se envian en la URL.
+			// echo $params;
+			$arrParams = explode(',',$params);			
+			//dep($arrParams);
+			$strEmail = strClean($arrParams[0]);
+			$strToken = strClean($arrParams[1]);
+
+			// Va a realizar una consulta a la base de datos.
+			$arrResponse = $this->model->getUsuario($strEmail, $strToken);
+			if (empty($arrResponse))
+			{
+				// Direcciona al directorio raíz
+				header ("Location:".base_url());
+			}
+			else
+			{
+				$data['page_tag'] = "Cambiar Constraseña";
+				$data['page_title'] = "Cambiar Contraseña";
+				$data['page_name'] = "Cambiar Constraseña";
+				$data['id_persona'] = $arrResponse['id_persona'];
+				//$data['page_functions_js'] = "Functions_login.js";
+				$this->views->getView($this,"Cambiar_Passwords",$data);				
+			}
+
+		} // 		if (empty($params))
+
+		die();
+
+	} // public function confirmUser(string $params)
 
 } // classs home extends Controllers
 

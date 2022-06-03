@@ -73,9 +73,18 @@
 			//exit;
 			$arrData = array($this->strToken);
 			$request = $this->update($sql,$arrData);
-			return $request;
-			
+			return $request;			
 		}
+
+		public function getUsuario(string $email, string $token)
+		{
+			$this->strUsuario = $email;
+			$this->strToken = $token;
+			$sql = "SELECT id_persona FROM t_Personas WHERE email_user = '$this->strUsuario' AND token = '$this->strToken' AND estatus = 1";
+			$request = $this->select($sql);			
+			return $request;
+		}
+
 
 
 	} // class LoginModel
