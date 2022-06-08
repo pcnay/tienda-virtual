@@ -165,7 +165,7 @@ class Login extends Controllers
 				$data['page_title'] = "Cambiar Contraseña";
 				$data['page_name'] = "Cambiar Constraseña";
 				$data['id_persona'] = $arrResponse['id_persona'];
-				//$data['page_functions_js'] = "Functions_login.js";
+				$data['page_functions_js'] = "Functions_login.js";				
 				$this->views->getView($this,"Cambiar_Passwords",$data);				
 			}
 
@@ -174,6 +174,15 @@ class Login extends Controllers
 		die();
 
 	} // public function confirmUser(string $params)
+
+	// Guardar el nuevo password
+	public function setPassword()
+	{
+		// Verificando que se obtiene con la Variable Global POST
+		dep($_POST);
+		die(); // Finaliza el proceso.
+
+	}
 
 } // classs home extends Controllers
 

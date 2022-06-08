@@ -75,6 +75,6 @@
 		<script src="Assets/js/main.js"></script>
     <script src="Assets/js/plugins/pace.min.js"></script>
 		<script type="text/javascript" src="<?= media(); ?>/js/plugins/sweetalert.min.js"></script>
-		<script src="Assets/js/<?= $data['page_functions_js']; ?>"></script>		    
+		<script type="text/javascript" src="<?= media(); ?>/js/<?= $data['page_functions_js']; ?>"></script>		
   </body>
 </html>

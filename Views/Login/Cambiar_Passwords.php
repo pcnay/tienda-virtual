@@ -25,7 +25,8 @@
       <div class="login-box flipped">
 				<!-- Formulario para resetear la contraseña-->
 				<!-- action = "" debido a que se agregara un evento en el boton Submit, utilizando JavaScript -->
-        <form id="formCambiarPass" name = "formCambiarPass" class="forget-form" action="">
+				
+        <form class="forget-form" id="formCambiarPass" name="formCambiarPass"  action="">
 					<input type="hidden" id="idUsuario" name="idUsuario" value="<?php echo $data['id_persona']; ?>" required>
 
           <h3 class="login-head"><i class="fas fa-key"></i>Cambiar Contraseña </h3>
@@ -58,6 +59,7 @@
 		<script src="<?= media(); ?>/js/main.js"></script>
     <script src="<?= media(); ?>/js/plugins/pace.min.js"></script>
 		<script type="text/javascript" src="<?= media(); ?>/js/plugins/sweetalert.min.js"></script>
-		<script src="Assets/js/<?= $data['page_functions_js']; ?>"></script>
+		<!-- Se tiene que agregar de esta manera para que funcione agregar el archivo .-->
+		<script type="text/javascript" src="<?= media(); ?>/js/<?php echo $data['page_functions_js']; ?>"></script>
   </body>
 </html>

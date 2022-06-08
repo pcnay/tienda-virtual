@@ -8,6 +8,7 @@ $('.login-content [data-toggle="flip"]').click(function() {
 document.addEventListener('DOMContentLoaded',function(){
 	if (document.querySelector("#formLogin"))
 	{
+		//console.log("Formulario Login ");
 		let formLogin = (document.querySelector("#formLogin"));
 		formLogin.onsubmit = function(e){
 			e.preventDefault(); // Previene que se recargue la pagina
@@ -72,6 +73,7 @@ document.addEventListener('DOMContentLoaded',function(){
 	// Asigna el Evento Submit a la ventana para recuperar la contraseña
 	if (document.querySelector("#formRecetPass"))
 	{
+		//console.log ("Accede a Formulario de Resetear Password ");
 		let formRecetPass = document.querySelector("#formRecetPass");
 		formRecetPass.onsubmit = function(e){
 			// Previene que se recargue la pagina.
@@ -134,4 +136,76 @@ document.addEventListener('DOMContentLoaded',function(){
 
 	} // if (document.querySelector("#formRecetPass"))
 
-},false)
+	// Determina si existe el formulario con el nombre "formCambiarPass" que se encuentra en la vista "CambiarContraseña"
+	//if (document.querySelector("#formRecetPass"))
+	if (document.querySelector("#formCambiarPass"))
+	{
+		//console.log ("Accede a Formulario de Cambiar Password ");
+		let formCambiarPass = document.querySelector("#formCambiarPass");
+		//console.log (formCambiarPass);
+		
+		// Se le asigna al formulario que se encuentra en vista Login Cambiar_Password
+		formCambiarPass.onsubmit = function(e){
+			e.preventDefault();// Previene que se recargue cuando se oprime el boton "Reinciiar"
+			
+			// Obtener los valores del formulario "forCambiarPass", vista "Cambiar_Password"
+			let strPassword = document.querySelector('#txtPassword').value;
+			let strPasswordConfirm = document.querySelector('#txtPasswordConfirm').value;
+			let idUsuario = document.querySelector('#idUsuario').value;
+
+			console.log ("Contenido strPasswpord ",strPassword);
+			console.log ("Contenido strPasswordConfirm ",strPasswordConfirm);
+			// return false;			
+
+			if ((strPassword === "") || (strPasswordConfirm === ""))
+			{
+				swal("Por Favor","Escribe la nueva contraseña","error");
+				return false;
+			}
+			else
+			{
+				if (strPassword.length < 5)
+				{
+					swal("Atencion","La Contraseña debe tener un mínimo de 5 caracteres","info");
+					return false;
+				}
+				
+				// Verificando que las contraseñas coincidan
+				if (strPassword != strPasswordConfirm)
+				{
+					swal("Atencion","La contraseña NO son iguales","error");
+					return false;
+				}
+
+				// Va accesar a la base de datos para extraer la informacion del usuario.
+				// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+				let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+				// Accesa al Controlador para accesar al método
+				let ajaxUrl = base_url+'/Login/setPassword';
+				// Se envía el formulario.
+				let formData = new FormData(formCambiarPass); // Encapsula todos los datos para ser enviado por Ajax
+				request.open("POST",ajaxUrl,true);
+				request.send(formData); // Envía todo la información.
+				request.onreadystatechange = function(){
+					if (request.readyState != 4) return; // No regresa valor 
+					
+					if (request.status == 200)
+					{
+						console.log(request.responseText);
+					}
+				} //request.onreadystatechange = function(){
+				
+
+
+			} //if (strPassword == "" || strPasswordConfirm == "")
+
+		} // formCambiarPass.onsubmit = function(e)
+
+	} // if (document.querySelector("#formCambiarPass"))
+	else
+	{
+		console.log ("No existe Cambiar Password");
+	}
+
+
+},false) // document.addEventListener('DOMContentLoaded',function(){
