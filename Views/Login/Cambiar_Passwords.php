@@ -28,6 +28,10 @@
 				
         <form class="forget-form" id="formCambiarPass" name="formCambiarPass"  action="">
 					<input type="hidden" id="idUsuario" name="idUsuario" value="<?php echo $data['id_persona']; ?>" required>
+					
+					<!-- Estos dos elementos del arreglo se tienen que definir en el Controllers-->
+					<input type="hidden" id="txtEmail" name="txtEmail" value="<?php echo $data['email']; ?>" required>
+					<input type="hidden" id="txtToken" name="txtToken" value="<?php echo $data['token']; ?>" required>
 
           <h3 class="login-head"><i class="fas fa-key"></i>Cambiar Contraseña </h3>
           <div class="form-group">            

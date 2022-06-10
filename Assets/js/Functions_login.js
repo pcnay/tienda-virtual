@@ -153,8 +153,8 @@ document.addEventListener('DOMContentLoaded',function(){
 			let strPasswordConfirm = document.querySelector('#txtPasswordConfirm').value;
 			let idUsuario = document.querySelector('#idUsuario').value;
 
-			console.log ("Contenido strPasswpord ",strPassword);
-			console.log ("Contenido strPasswordConfirm ",strPasswordConfirm);
+			//console.log ("Contenido strPasswpord ",strPassword);
+			//console.log ("Contenido strPasswordConfirm ",strPasswordConfirm);
 			// return false;			
 
 			if ((strPassword === "") || (strPasswordConfirm === ""))
@@ -186,21 +186,44 @@ document.addEventListener('DOMContentLoaded',function(){
 				let formData = new FormData(formCambiarPass); // Encapsula todos los datos para ser enviado por Ajax
 				request.open("POST",ajaxUrl,true);
 				request.send(formData); // Envía todo la información.
-				request.onreadystatechange = function(){
+				request.onreadystatechange = function()
+				{
 					if (request.readyState != 4) return; // No regresa valor 
 					
-					if (request.status == 200)
+					if (request.status == 200) // El servidor se conecto correctamente
 					{
 						console.log(request.responseText);
+						// Convirtiendo a un objeto "arreglo" para JaveScritp
+						let objData = JSON.parse(request.responseText);
+						if (objData.estatus)
+						{							
+							swal({
+								title:"",
+								text:objData.msg,
+								type:"success",
+								confirmButtonText:"Iniciar session",
+								closeOnConfirm:false,
+							}, function(isConfirm)
+							{
+								if (isConfirm)
+								{
+									window.location = base_url+'/Login';
+								}
+							
+							});
+						}
+						else
+						{
+							swal("Atencion",objData.msg,"error");
+						}
+					} // if (request.status == 200)
+					else
+					{
+						swal("Atencion","Error En el Proceso","error");
 					}
 				} //request.onreadystatechange = function(){
-				
-
-
 			} //if (strPassword == "" || strPasswordConfirm == "")
-
 		} // formCambiarPass.onsubmit = function(e)
-
 	} // if (document.querySelector("#formCambiarPass"))
 	else
 	{

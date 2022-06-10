@@ -164,6 +164,9 @@ class Login extends Controllers
 				$data['page_tag'] = "Cambiar Constraseña";
 				$data['page_title'] = "Cambiar Contraseña";
 				$data['page_name'] = "Cambiar Constraseña";
+				// Estos dos campos se enviaron a la vista "Cambiar_Password"
+				$data['email'] = $strEmail;
+				$data['token'] = $strToken;
 				$data['id_persona'] = $arrResponse['id_persona'];
 				$data['page_functions_js'] = "Functions_login.js";				
 				$this->views->getView($this,"Cambiar_Passwords",$data);				
@@ -179,10 +182,52 @@ class Login extends Controllers
 	public function setPassword()
 	{
 		// Verificando que se obtiene con la Variable Global POST
-		dep($_POST);
+		 //dep($_POST);		
+		 //exit; die(); // Finaliza el proceso.
+		if (empty($_POST['idUsuario']) || empty($_POST['txtToken']) || empty($_POST['txtEmail']) || empty($_POST['txtPassword']) || empty($_POST['txtPasswordConfirm']))
+		{
+			$arrResponse = array('estatus' => false,'msg' => 'Error Campos en Blanco');
+		}
+		else
+		{
+			$intIdpersona = intval($_POST['idUsuario']);
+			$strPassword = $_POST['txtPassword'];
+			$strPasswordConfirm = $_POST['txtPasswordConfirm'];
+			$strEmail = strClean($_POST['txtEmail']);
+			$strToken = strClean($_POST['txtToken']);
+
+			if ($strPassword != $strPasswordConfirm)
+			{
+				$arrResponse = array('estatus' => false, 'msg' => 'Las contraseña no son iguales');				
+			}
+			else
+			{
+				// Va a realizar una consulta a la base de datos.
+				$arrResponseUser = $this->model->getUsuario($strEmail, $strToken);
+				if (empty($arrResponseUser))
+				{
+					$arrResponse = array('estatus' => false, 'msg' => 'Error De Datos');				
+				}
+				else
+				{
+					$strPassword = hash("SHA256",$strPassword); // Encriptando la contraseña
+					// Guardar la contraseña encriptada.
+					$requestPass = $this->model->insertPassword($intIdpersona,$strPassword);
+					if ($requestPass)
+					{
+						$arrResponse = array('estatus' => true, 'msg' => 'Contraseña actualizada con éxito');
+					}
+					else
+					{
+						$arrResponse = array('estatus' => false, 'msg' => 'No es posible realizar el proceso');
+					}
+				}
+			}
+		} // if (empty($_POST['idUsuario']) || empty($_POST['txtToken'])
+		echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 		die(); // Finaliza el proceso.
 
-	}
+	} // public function setPassword()
 
 } // classs home extends Controllers
 
