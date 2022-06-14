@@ -13,5 +13,10 @@
 	const SPD = ".";
 	const SPM = ",";
 	const MONEY = "$ ";
+	// Datos para envío de correo.
+	const NOMBRE_REMITENTE = "Tienda Virtual";
+	const EMAIL_REMITENTE = "no-reply@empresa.com";
+	const NOMBRE_EMPRESA = "TIENDA VIRTUAL";
+	const WEB_EMPRESA = "www.miempresa.com";
 
 ?>

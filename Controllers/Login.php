@@ -118,11 +118,25 @@ class Login extends Controllers
 					// Actualiza el Token que se ha generado.
 					$requestUpdate = $this->model->setTokenUser($idpersona,$token);
 					//dep($requestUpdate);
-					
-
+					$dataUsuario = array('nombreUsuario' => $nombreUsuario,
+						'email' => $strEmail,
+						'asunto' => 'Recuperar cuenta - '.NOMBRE_REMITENTE,
+						'url_recovery' => $url_recovery);
+						
 					if($requestUpdate)
 					{
-						$arrResponse = array('estatus' => true, 'msg' =>'Se ha enviado un email a tu cuenta de correo para cambiar tu contraseña');						
+						// La función "sendEmai" se crea en el Helper.php
+						$sendEmail = sendEmail($dataUsuario,'email_cambioPassword');	
+						
+						// Validando cuando se envia el correo electronico.			
+						if ($sendEmail)
+						{
+							$arrResponse = array('estatus' => true, 'msg' =>'Se ha enviado un email a tu cuenta de correo para cambiar tu contraseña');
+						}
+						else
+						{
+							$arrResponse = array('estatus' => false, 'msg' =>'No es posible realizar el proceso, intenta mas tarde');						
+						}
 					}
 					else
 					{
