@@ -48,11 +48,11 @@
 		$remitente = EMAIL_REMITENTE;
 
 		// Envio De Correo
-		$de = "MIME-Version : 1.0 \r\n";
-		$de .= "Content-type: text/html; charset=UTF-8\r\n";
-		$de .= "From: {$empresa} <{$remitente}>\r\n";
+		$de = 'MIME-Version: 1.0'."\r\n";
+		$de .= 'Content-type: text/html; charset=UTF-8'."\r\n";
+		$de .= 'From: {$empresa} <{$remitente}>'."\r\n";
 		ob_start(); // Recarga en memoria lo siguiente.
-		require_once("Views/Template/Email".$template.".php");
+		require_once("Views/Template/Email/".$template.".php");
 		$mensaje = ob_get_clean(); // Obtiene el archivo "email_cambioPassword.php"  para poder ser uso de todas las variables.
 
 		// "mail" = Es la funcion que envie los correos.

@@ -39,7 +39,7 @@
           </div>
 					<div id="alertLogin" class="text-center"></div>
           <div class="form-group btn-container">
-            <button type="submit"class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i>INICIAR SESION</button>
+            <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i>INICIAR SESION</button>
           </div>
         </form>
 

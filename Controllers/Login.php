@@ -85,7 +85,8 @@ class Login extends Controllers
 		//dep($_POST);
 		//die();
 		if ($_POST)
-		{			
+		{	
+			//error_reporting(0);		
 			if (empty($_POST['txtEmailReset']))
 			{
 				$arrResponse = array('estatus' => false, 'msg' => 'Error de datos');
@@ -118,16 +119,23 @@ class Login extends Controllers
 					// Actualiza el Token que se ha generado.
 					$requestUpdate = $this->model->setTokenUser($idpersona,$token);
 					//dep($requestUpdate);
+					//die();
+
 					$dataUsuario = array('nombreUsuario' => $nombreUsuario,
 						'email' => $strEmail,
 						'asunto' => 'Recuperar cuenta - '.NOMBRE_REMITENTE,
 						'url_recovery' => $url_recovery);
-						
+						//var_dump($dataUsuario);
+						//die();
+
 					if($requestUpdate)
 					{
 						// La función "sendEmai" se crea en el Helper.php
 						$sendEmail = sendEmail($dataUsuario,'email_cambioPassword');	
-						
+						//var_dump($sendEmail); // Determinar que valor esta devolviendo esta variable 
+						//exit;
+
+
 						// Validando cuando se envia el correo electronico.			
 						if ($sendEmail)
 						{

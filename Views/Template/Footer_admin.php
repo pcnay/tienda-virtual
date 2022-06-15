@@ -29,7 +29,7 @@
 
 		<script src="Assets/js/Functions_admin.js"></script>
 
-		<script src="Assets/js/<?= $data['page_functions_js']; ?>"></script>
+		<script src="Assets/js/<?php echo $data['page_functions_js']; ?>"></script>
 
 		
 		<!-- Estos archivos tienen una función "openModal"  -->
