@@ -23,7 +23,13 @@
       </div>
 			<!-- Para que se muestre los campos en el fomrulario "Resetear Constraseña" flipped -->
       <div class="login-box flipped">
-				<!-- Formulario para resetear la contraseña-->
+				<div id="divLoading"> 
+					<div>
+						<img src="<?= media(); ?>/images/loading.svg" alt="Loading">
+					</div>
+				</div>		
+			
+			<!-- Formulario para resetear la contraseña-->
 				<!-- action = "" debido a que se agregara un evento en el boton Submit, utilizando JavaScript -->
 				
         <form class="forget-form" id="formCambiarPass" name="formCambiarPass"  action="">

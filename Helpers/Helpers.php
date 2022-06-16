@@ -40,6 +40,7 @@
 	}
 	
 	// Envio de correos.
+	// NO funciona en el servidor de Linux. Retorno "False"
 	function sendEmail($data,$template)
 	{
 		$asunto = $data['asunto'];

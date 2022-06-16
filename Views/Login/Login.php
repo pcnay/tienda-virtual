@@ -20,27 +20,33 @@
     <section class="login-content">
       <div class="logo">
         <h1><?php echo $data['page_title']; ?></h1>
-      </div>
+      </div>			
       <div class="login-box">
-        <form class="login-form" name="formLogin" id="formLogin" action="">
-          <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>INICIAR SESION</h3>
-          <div class="form-group">
-            <label class="control-label">USUARIO</label>
-            <input id="txtEmail" name = "txtEmail" class="form-control" type="email" placeholder="Email" autofocus>
-          </div>
-          <div class="form-group">
-            <label class="control-label">CONTRASEÑA</label>
-            <input id="txtPassword" name = "txtPassword" class="form-control" type="password" placeholder="Contraseña">
-          </div>
-          <div class="form-group">
-            <div class="utility">
-              <p class="semibold-text mb-2"><a href="#" data-toggle="flip">Olvidastes tu Contraseña ?</a></p>
-            </div>
-          </div>
-					<div id="alertLogin" class="text-center"></div>
-          <div class="form-group btn-container">
-            <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i>INICIAR SESION</button>
-          </div>
+				<div id="divLoading"> 
+					<div>
+						<img src="<?= media(); ?>/images/loading.svg" alt="Loading">
+					</div>
+				</div>
+
+	      <form class="login-form" name="formLogin" id="formLogin" action="">
+						<h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>INICIAR SESION</h3>
+						<div class="form-group">
+							<label class="control-label">USUARIO</label>
+							<input id="txtEmail" name = "txtEmail" class="form-control" type="email" placeholder="Email" autofocus>
+						</div>
+						<div class="form-group">
+							<label class="control-label">CONTRASEÑA</label>
+							<input id="txtPassword" name = "txtPassword" class="form-control" type="password" placeholder="Contraseña">
+						</div>
+						<div class="form-group">
+							<div class="utility">
+								<p class="semibold-text mb-2"><a href="#" data-toggle="flip">Olvidastes tu Contraseña ?</a></p>
+							</div>
+						</div>
+						<div id="alertLogin" class="text-center"></div>
+						<div class="form-group btn-container">
+							<button type="submit" class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i>INICIAR SESION</button>
+						</div>
         </form>
 
 				<!-- Formulario para resetear la contraseña-->

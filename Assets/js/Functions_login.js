@@ -5,6 +5,10 @@ $('.login-content [data-toggle="flip"]').click(function() {
 
 // En este archivo se capturan los campos para Grabar con el Ajax.
 // Cargara todo los eventos que iran dentro de esta funcion.
+
+// Para obtener el "div" donde se muestra la carga del icono.
+var divLoading = document.querySelector("#divLoading");
+
 document.addEventListener('DOMContentLoaded',function(){
 	if (document.querySelector("#formLogin"))
 	{
@@ -22,6 +26,7 @@ document.addEventListener('DOMContentLoaded',function(){
 			}
 			else
 			{
+				divLoading.style.display = "flex";
 				// Envia los datos al controlador.
 				// Determina cual navegador esta usandose.
 				let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
@@ -61,6 +66,7 @@ document.addEventListener('DOMContentLoaded',function(){
 					{
 						swal("Atencion","Error En El Proceso","error");
 					}
+					divLoading.style.display = "none";
 					return false;
 
 				} // request.onreadystatechange = function()
@@ -86,6 +92,7 @@ document.addEventListener('DOMContentLoaded',function(){
 			}	
 			else
 			{
+				divLoading.style.display = "flex";
 				// Va accesar a la base de datos para extraer la informacion del usuario.
 				// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
 				let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
@@ -128,6 +135,7 @@ document.addEventListener('DOMContentLoaded',function(){
 					{
 						swal ("Atencion","Error en el Proceso","error");
 					}
+					divLoading.style.display = "none";
 					return false
 				}
 				
@@ -176,6 +184,7 @@ document.addEventListener('DOMContentLoaded',function(){
 					swal("Atencion","La contraseña NO son iguales","error");
 					return false;
 				}
+				divLoading.style.display = "flex";
 
 				// Va accesar a la base de datos para extraer la informacion del usuario.
 				// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
@@ -221,6 +230,7 @@ document.addEventListener('DOMContentLoaded',function(){
 					{
 						swal("Atencion","Error En el Proceso","error");
 					}
+					divLoading.style.display = "none";
 				} //request.onreadystatechange = function(){
 			} //if (strPassword == "" || strPasswordConfirm == "")
 		} // formCambiarPass.onsubmit = function(e)
