@@ -60,6 +60,33 @@
 		$send = mail($emailDestino,$asunto,$mensaje,$de);
 		return $send;
 	}
+
+	// Obtiene los permsisos.
+	function getPermisos(int $idmodulo)	
+	{
+		require_once("Models/PermisosModel.php");
+		$objPermisos = new PermisosModel();
+		$idrol = intval($_SESSION['userData']['id_rol']);
+
+		// Obtiene los permisos que tiene guardado en la tabla
+		$arrPermisos = $objPermisos->permisosModulo($idrol);	
+		//$_SESSION['permisos'] = $arrPermisos;
+
+		
+		$permisos = 'NO CUMPLIO LA CONDICION';
+		$permisosMod = 'NO CUMPLIO LA CONDICION';	
+
+		if (count($arrPermisos) > 0)
+		{
+			$permisos = $arrPermisos;
+			$permisosMod = isset($arrPermisos[$idmodulo])?$arrPermisos[$idmodulo]:"No Cumple";			
+			//$permisosMod = 'Cumple la condicion';
+		}
+
+		$_SESSION['permisos'] = $permisos;
+		$_SESSION['permisosMod'] = $permisosMod;
+	}
+
 	// Elimina exceso de espacios entre palabras.
 	function strClean($strCadena)
 	{

@@ -9,6 +9,10 @@
 		
 	<!-- Sidebar menu-->
 	<main class="app-content">
+		<?php
+			dep($_SESSION['permisos']);
+			dep($_SESSION['permisosMod']);
+		?>
 		<div class="app-title">
 			<div>			
 				<!-- Para mostrar un icono en la Vista de roles "fas fa-user-tag" ; Espacio entre el Icono y el Texto "Roles Usuarios" -->

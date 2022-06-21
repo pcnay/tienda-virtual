@@ -57,6 +57,33 @@
 			$arrData = array($this->intRolid, $this->intModuloid, $this->r,$this->w,$this->u,$this->d);
 			$request_insert = $this->insert($query_insert,$arrData);
 			return $request_insert;
+		}
+
+		public function permisosModulo (int $idrol)
+		{
+			$this->intRolid = $idrol;
+			$sql = "SELECT p.rolid,
+									p.moduloid,
+									m.titulo as modulo,
+									p.r,
+									p.w,
+									p.u,
+									p.d
+							FROM t_Permisos p
+							INNER JOIN t_Modulos m
+							ON p.moduloid = m.id_modulo
+							WHERE p.rolid = $this->intRolid";
+			$request = $this->select_all($sql);
+			// dep($request);		// Para mostrarlo en la pantalla principal 
+			// Se utiliza para obtener los permisos.
+			$arrPermisos = array();
+			for ($i=0; $i<count($request);$i++)
+			{
+				$arrPermisos[$request[$i]['moduloid']] = $request[$i];
+			}
+			//dep($arrPermisos);
+			return $arrPermisos;
+
 
 		}
 

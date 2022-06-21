@@ -12,7 +12,8 @@
 			{
 				header('Location: '.base_url().'/Login');
 			}
-
+			//getPermisos(1);
+			
 		}
 		
 		// Mandando información a las Vistas.
