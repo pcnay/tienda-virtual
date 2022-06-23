@@ -12,14 +12,13 @@
 			{
 				header('Location: '.base_url().'/Login');
 			}
-			//getPermisos(1);
+			getPermisos(1);
 			
 		}
 		
 		// Mandando información a las Vistas.
 		public function dashboard ()
 		{
-
 			//echo "Mensaje desde el controlador Home ";
 			// $this = Es la clase "home"
 			// "home" = la vista a mostrar.

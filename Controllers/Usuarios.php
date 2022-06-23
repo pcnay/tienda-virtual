@@ -22,11 +22,15 @@
 		{
 			//echo "<br>";
 			//echo "Mensaje desde el controlador Home ";
+			// Si no tiene el rol de "Lectura" no se podra mostrar la vista de "Usuarios".
+			if (empty($_SESSION['permisosMod']['r']))
+			{
+				header('Location: '.base_url().'/Dashboard');	
+			}
 
 			// $this = Es la clase "Home", donde se define.
 			// "home" = la vista a mostrar.
-			// Esta información se puede obtener desde una base de datos, ya que el Controlador se comunica con el Modelo.
-			
+			// Esta información se puede obtener desde una base de datos, ya que el Controlador se comunica con el Modelo.			
 			$data['page_tag'] = "Usuarios";
 			$data['page_title'] = "USUARIOS <small>Tienda Virtual</small>";
 			$data['page_name'] = "Usuarios";
@@ -127,6 +131,10 @@
 			// Para colocar en color Verde o Rojo el estatus del Usuario
 			for ($i= 0; $i<count($arrData);$i++)
 			{
+				$btnView = '';
+				$btnEdit = '';
+				$btnDelete = '';
+
 				if ($arrData[$i]['estatus'] == 1)
 				{
 					$arrData[$i]['estatus'] = '<span class="badge badge-success">Activo</span>';
@@ -136,13 +144,24 @@
 					$arrData[$i]['estatus'] = '<span class="badge badge-danger">Inactivo</span>';
 				}
 
+				if ($_SESSION['permisosMod']['r'])
+				{
+					$btnView = '<button class="btn btn-info btn-sm btnViewUsuario" onClick="fntViewUsuario('.$arrData[$i]['id_persona'].')" title="Ver Usuario"><i class="far fa-eye"></i></button>';
+				}
+
+				if ($_SESSION['permisosMod']['u'])
+				{
+					$btnEdit = '<button class="btn btn-primary btn-sm btnEditUsuario" onClick="fntEditUsuario('.$arrData[$i]['id_persona'].')" title="Editar Usuario"><i class="fas fa-pencil-alt"></i></button>';
+				}
+
+				if ($_SESSION['permisosMod']['d'])
+				{
+					$btnDelete = '<button class="btn btn-danger btn-sm btnDelUsuario" onClick="fntDelUsuario('.$arrData[$i]['id_persona'].')" title="Eliminar Usuario"><i class="fas fa-trash-alt"></i></button>';
+				}
+
 				//Son los botones, en la columna de "options".
 				// Se agrega el evento "onclick" en la etiqueta "button" para evitar el error de en google de que no carga los eventos.
-				$arrData[$i]['options'] = ' <div class="text-center">
-					<button class="btn btn-info btn-sm btnViewUsuario" onClick="fntViewUsuario('.$arrData[$i]['id_persona'].')" title="Ver Usuario"><i class="far fa-eye"></i></button>
-					<button class="btn btn-primary btn-sm btnEditUsuario" onClick="fntEditUsuario('.$arrData[$i]['id_persona'].')" title="Editar Usuario"><i class="fas fa-pencil-alt"></i></button>
-					<button class="btn btn-danger btn-sm btnDelUsuario" onClick="fntDelUsuario('.$arrData[$i]['id_persona'].')" title="Eliminar Usuario"><i class="fas fa-trash-alt"></i></button>
-					</div>';
+				$arrData[$i]['options'] = ' <div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
 			} // for ($i= 0; $i<count($arrData);$i++)
 			

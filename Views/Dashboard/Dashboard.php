@@ -19,7 +19,7 @@
 					<div class="tile-body">Create a beautiful dashboard</div>
 					<!-- Se puede usar, porque en el constructor de Dashboard se ejecuta "session_start()" -->
 					<?php dep($_SESSION['userData']);
-								getPermisos(1);
+								//getPermisos(1);
 								//dep(getPermisos(11));								
 								dep($_SESSION['permisos']);
 								dep($_SESSION['permisosMod']);

@@ -16,7 +16,9 @@
 				<h1><i class="fas fa-user-tag"> </i>  <?php   echo $data['page_title']; ?>
 
 					<!-- Agregando el boton de "Agregar" un Rol al Usuario. Se define "openModal()" en  Assets/js/Functions_roles.js--> 
-					<button class="btn btn-primary" type="button" onclick="openModal();"><i class="fas fa-plus-circle"></i>Nuevo</button>
+					<?php if ($_SESSION['permisosMod']['w']) { ?>
+						<button class="btn btn-primary" type="button" onclick="openModal();"><i class="fas fa-plus-circle"></i>Nuevo</button>
+					<?php } ?>
 				
 				</h1>
 

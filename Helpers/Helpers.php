@@ -79,7 +79,7 @@
 		if (count($arrPermisos) > 0)
 		{
 			$permisos = $arrPermisos;
-			$permisosMod = isset($arrPermisos[$idmodulo])?$arrPermisos[$idmodulo]:"No Cumple";			
+			$permisosMod = isset($arrPermisos[$idmodulo])?$arrPermisos[$idmodulo]:"";			
 			//$permisosMod = 'Cumple la condicion';
 		}
 

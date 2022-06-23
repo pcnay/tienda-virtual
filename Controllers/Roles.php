@@ -3,21 +3,25 @@
 	{
 		public function __construct()
 		{
+			// Ejecuta el constructor padre (desde donde se hereda.)
+			parent::__construct();
 			// Verifica si la variable de SESSION["login"] esta en Verdadero, sigfica que esta una sesion iniciada.
 			session_start();
 			if (empty($_SESSION['login']))
 			{
 				header('Location: '.base_url().'/Login');
 			}
-			
-			// Ejecuta el constructor padre (desde donde se hereda.)
-			parent::__construct();
+			getPermisos(2);
 
 		}
 		
 		// Mandando información a las Vistas.
 		public function Roles()
 		{
+			if (empty($_SESSION['permisosMod']['r']))
+			{
+				header('Location: '.base_url().'/Dashboard');	
+			}
 
 			//echo "Mensaje desde el controlador Home ";
 			// $this = Es la clase "Roles"
@@ -46,6 +50,10 @@
 			// Para colocar en color Verde o Rojo el estatus del Usuario
 			for ($i= 0; $i<count($arrData);$i++)
 			{
+				$btnView = '';
+				$btnEdit = '';
+				$btnDelete = '';
+
 				if ($arrData[$i]['estatus'] == 1)
 				{
 					$arrData[$i]['estatus'] = '<span class="badge badge-success">Activo</span>';
@@ -57,11 +65,21 @@
 
 				//Son los botones, en la columna de "options".
 				// Se agrega el evento "onclick" en la etiqueta "button" para evitar el error de en google de que no carga los eventos.
-				$arrData[$i]['options'] = ' <div class="text-center">
-					<button class="btn btn-secondary btn-sm btnPermisosRol" onClick="fntPermisos('.$arrData[$i]['id_rol'].')" title="Permisos"><i class="fas fa-key"></i></button>
-					<button class="btn btn-primary btn-sm btnEditRol" onClick="fntEditRol('.$arrData[$i]['id_rol'].')" title="Editar"><i class="fas fa-pencil-alt"></i></button>
-					<button class="btn btn-danger btn-sm btnDelRol" onClick="fntDelRol('.$arrData[$i]['id_rol'].')" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
-					</div>';
+				
+				if ($_SESSION['permisosMod']['u'])
+				{
+					$btnView = '<button class="btn btn-secondary btn-sm btnPermisosRol" onClick="fntPermisos('.$arrData[$i]['id_rol'].')" title="Permisos"><i class="fas fa-key"></i></button>';
+					$btnEdit = '<button class="btn btn-primary btn-sm btnEditRol" onClick="fntEditRol('.$arrData[$i]['id_rol'].')" title="Editar"><i class="fas fa-pencil-alt"></i></button>';
+				}
+
+				if ($_SESSION['permisosMod']['d'])
+				{
+					$btnDelete = '<button class="btn btn-danger btn-sm btnDelRol" onClick="fntDelRol('.$arrData[$i]['id_rol'].')" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
+					';
+				}
+
+
+				$arrData[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
 			} // for ($i= 0; $i<count($arrData);$i++)
 			

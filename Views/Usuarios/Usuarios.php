@@ -1,25 +1,20 @@
 <!-- Para que despliegue la informacion en el "TAB" desde el arreglo "$data" -->
-<?php 
-	headerAdmin($data); 
-	getModal('ModalUsuarios',$data);	// Para mostrar el Modal.
-	//getRoles();
-?>
+<?php headerAdmin($data);
+			getModal('ModalUsuarios',$data);	// Para mostrar el Modal. ?>
+<main class="app-content">
 
 	<!-- Se crea el <DIV> donde se colocara el código HTML que se genero en "function_roles.js"  -->
-		
 	<!-- Sidebar menu-->
-	<main class="app-content">
-		<?php
-			dep($_SESSION['permisos']);
-			dep($_SESSION['permisosMod']);
-		?>
 		<div class="app-title">
 			<div>			
 				<!-- Para mostrar un icono en la Vista de roles "fas fa-user-tag" ; Espacio entre el Icono y el Texto "Roles Usuarios" -->
-				<h1><i class="fas fa-user-tag"> </i>  <?php   echo $data['page_title']; ?>
-
+				<h1><i class="fas fa-user-tag"> </i><?php   echo $data['page_title']; ?>
+				
+					<?php if ($_SESSION['permisosMod']['w']) { ?>
 					<!-- Agregando el boton de "Agregar" un Rol al Usuario. Se define "openModal()" en  Assets/js/Functions_roles.js--> 
 					<button class="btn btn-primary" type="button" onclick="openModal();"><i class="fas fa-plus-circle"></i>Nuevo</button>				
+					<?php } ?>
+
 				</h1>				
 			</div>
 
@@ -57,7 +52,6 @@
           </div>
         </div>
       </div>
-
 
 	</main>
 <?php footerAdmin($data); ?>
