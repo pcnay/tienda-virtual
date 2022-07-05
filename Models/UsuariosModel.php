@@ -70,12 +70,18 @@
 		// Obtener los "Usuarios" con su respectivo "Rol"
 		public function selectUsuarios()
 		{
-			$sql = "SELECT p.id_persona,p.identificacion,p.nombres,p.apellidos,p.telefono,p.passwords,p.estatus,p.email_user,r.nombrerol
+			$whereAdmin = "";			
+			if ($_SESSION['idUser'] != 1)
+			{
+				// Para no mostrar al Super Usuario.
+				$whereAdmin = " AND p.id_persona != 1 ";
+			}
+		
+			$sql = "SELECT p.id_persona,p.identificacion,p.nombres,p.apellidos,p.telefono,p.passwords,p.estatus,p.email_user,r.id_rol,r.nombrerol
 				FROM t_Personas p
 				INNER JOIN t_Rol r
 				ON p.rolid = r.id_rol
-				WHERE p.estatus != 0";
-			
+				WHERE p.estatus != 0 ".$whereAdmin;			
 			$request = $this->select_all($sql);
 			return $request;
 
@@ -85,7 +91,7 @@
 		public function selectUsuario(int $idpersona)
 		{
 			$this->intIdUsuario = $idpersona;
-			$sql = "SELECT p.id_persona,p.identificacion,p.nombres,p.apellidos,p.telefono,p.email_user,p.nit,p.nombrefiscal,p.direccionfiscal,r.id_rol,r.nombrerol,p.estatus,DATE_FORMAT(p.datecreated,'%d-%m-%Y') as fechaRegistro
+			$sql = "SELECT p.id_persona,p.identificacion,p.nombres,p.apellidos,p.telefono,p.email_user,p.nit,p.nombrefiscal,p.direccionfiscal,p.passwords,r.id_rol,r.nombrerol,p.estatus,DATE_FORMAT(p.datecreated,'%d-%m-%Y') as fechaRegistro
 				FROM t_Personas p
 				INNER JOIN t_Rol r
 				ON p.rolid = r.id_rol
@@ -111,11 +117,15 @@
 			$this->intStatus = $status;
 
 			// Verificando atraves de la "identificacion" o "Email" que no exista el Usuario.
+			// para que no se grabe un mismo correo dos personas diferentes
+			// Igual se aplica para la "Identificacion"
 			$sql = "SELECT * FROM t_Personas WHERE (email_user = '{$this->strEmail}' AND id_persona != '{$this->intIdUsuario}') OR (identificacion = '{$this->strIdentificacion}' AND id_persona != '{$this->intIdUsuario}')";
 			
 			$request = $this->select_all($sql);
+			// Si esta vacia, por lo tanto no esta duplicado el correo electronico y la "Identificacion"
 			if (empty($request))
 			{
+				// Si es diferente de Vacio se va "Actualizar" el Correo electrónico.
 				if ($this->strPassword != "")
 				{
 					$sql = "UPDATE t_Personas SET identificacion=?,nombres=?,apellidos=?,telefono=?,email_user=?,passwords=?,rolid=?,estatus=? WHERE id_persona = $this->intIdUsuario";
@@ -128,7 +138,7 @@
 					$this->intTipoId,
 					$this->intStatus);
 				}
-				else
+				else // Existe el Correo Electronico o la Identificación.
 				{
 					$sql = "UPDATE t_Personas SET identificacion=?,nombres=?,apellidos=?,telefono=?,email_user=?,rolid=?,estatus=? WHERE id_persona = $this->intIdUsuario";
 					$arrData = array($this->strIdentificacion,

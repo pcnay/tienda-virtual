@@ -27,7 +27,7 @@
 						<img src="<?= media(); ?>/images/loading.svg" alt="Loading">
 					</div>
 				</div>
-
+				<!-- se deja vacio "action" porque se utilizar Ajax para enviar los datos (Submit) -->
 	      <form class="login-form" name="formLogin" id="formLogin" action="">
 						<h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>INICIAR SESION</h3>
 						<div class="form-group">

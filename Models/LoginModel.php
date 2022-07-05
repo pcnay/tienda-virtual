@@ -26,6 +26,7 @@
 			*/
 			$sql = "SELECT id_persona,estatus FROM t_Personas WHERE email_user = '$this->strUsuario' AND passwords = '$this->strPassword' AND estatus != 0";
 			$request = $this->select($sql);
+						
 			return $request;
 		}
 		

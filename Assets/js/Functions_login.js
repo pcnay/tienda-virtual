@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded',function(){
 		let formLogin = (document.querySelector("#formLogin"));
 		formLogin.onsubmit = function(e){
 			e.preventDefault(); // Previene que se recargue la pagina
+			// Obtiniendo los valores de las etiquetas
 			let strEmail = document.querySelector("#txtEmail").value;
 			let strPassword = document.querySelector("#txtPassword").value;
 
@@ -24,7 +25,7 @@ document.addEventListener('DOMContentLoaded',function(){
 				swal("Ingresa ", "Escribe usuario y contraseña","error");
 				return false; // Para que no continue
 			}
-			else
+			else // Envia los datos al controlador.
 			{
 				divLoading.style.display = "flex";
 				// Envia los datos al controlador.

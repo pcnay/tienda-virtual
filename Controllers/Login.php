@@ -44,10 +44,13 @@ class Login extends Controllers
 			else
 			{
 				$strUsuario = strtolower(strClean($_POST['txtEmail']));
+
 				$strPassword = hash("SHA256",$_POST['txtPassword']);
+				//$strPassword = strClean($_POST['txtPassword']);
 				// Se crea esta funcion en Models, para buscar el correo electronico
 				$requestUser = $this->model->loginUser($strUsuario,$strPassword);
 				//dep($requestUser);
+
 				if (empty($requestUser))
 				{
 					$arrResponse = array ('estatus' =>false, 'msg' => 'El Usuario o Contraseña Es Incorrecto ');

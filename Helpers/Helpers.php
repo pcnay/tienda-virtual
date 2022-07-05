@@ -56,6 +56,19 @@
 		require_once("Views/Template/Email/".$template.".php");
 		$mensaje = ob_get_clean(); // Obtiene el archivo "email_cambioPassword.php"  para poder ser uso de todas las variables.
 
+		/*
+		ini_set( 'display_errors', 1 );
+    error_reporting( E_ALL );
+    $from = "test@hostinger-tutorials.com";
+    $to = "test@hostinger.com";
+    $subject = "Checking PHP mail";
+    $message = "PHP mail works just fine";
+    $headers = "From:" . $from;
+    mail($to,$subject,$message, $headers);
+    echo "The email message was sent.";		
+		*/
+
+
 		// "mail" = Es la funcion que envie los correos.
 		$send = mail($emailDestino,$asunto,$mensaje,$de);
 		return $send;

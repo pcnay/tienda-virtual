@@ -75,7 +75,7 @@
 					$intTipoId = intval($_POST['listRolid']);
 					$intStatus = intval($_POST['listStatus']);
 
-					// Si no se envia un "id_persona" significa que s eesta crean el Usuario
+					// Si no se envia un "id_persona" significa que se esta crean el Usuario
 					if ($idUsuario == 0)
 					{
 						$option = 1;
@@ -84,11 +84,22 @@
 						
 						$request_user = $this->model->insertUsuario($strIdentificacion,$strNombre,$strApellido,$strTelefono,$strEmail,$strPassword,$intTipoId,$intStatus);
 					}
-					else
+					else  // Actualizar Usuario
 					{
 						$option = 2;
-						// hash("SHA256",passGenerator())); Encripta la contraseña.
-						$strPassword = empty($_POST['txtPassword'])?"":hash("SHA256",$_POST['txtPassword']);
+						// hash("SHA256",$_POST['txtPassword']; Encripta la contraseña.
+						// Esta condicion se utiliza para evitar que se vuelva a encriptar la contraseña que ya estaba encriptada, por esta razon se determina si la contraña tiene mas de 40 caracteres (estan encriptada), ya que para teclar una clave de 40!!!
+						if (strlen($_POST['txtPassword']) > 40)
+						{
+							$strPassword = empty($_POST['txtPassword'])?"":$_POST['txtPassword'];
+						}
+						else
+						{
+							$strPassword = empty($_POST['txtPassword'])?"":hash("SHA256",$_POST['txtPassword']);
+						}
+						//var_dump($_POST['txtPassword']);// no funciona el boton de grabar en Actualizar 
+						//return false;
+						//exit;
 						
 						$request_user = $this->model->updateUsuario($idUsuario,$strIdentificacion,$strNombre,$strApellido,$strTelefono,$strEmail,$strPassword,$intTipoId,$intStatus);
 
@@ -151,7 +162,15 @@
 
 				if ($_SESSION['permisosMod']['u'])
 				{
-					$btnEdit = '<button class="btn btn-primary btn-sm btnEditUsuario" onClick="fntEditUsuario('.$arrData[$i]['id_persona'].')" title="Editar Usuario"><i class="fas fa-pencil-alt"></i></button>';
+					// Se agrega la condicion para que solo el Super Usuario y que sea Administrador
+					//if ((($_SESSION['idUser'] == 1) and ($_SESSION['userData']['id_rol'] == 1)) || (($_SESSION['userData']['id_rol'] == 1) and ($arrData[$i]['id_rol'] != 1)))
+					//{
+						$btnEdit = '<button class="btn btn-primary btn-sm btnEditUsuario" onClick="fntEditUsuario('.$arrData[$i]['id_persona'].')" title="Editar Usuario"><i class="fas fa-pencil-alt"></i></button>';
+					//}
+					//else
+					//{
+						//$btnEdit = '<button class="btn btn-secondary btn-sm" disabled><i class="fas fa-pencil-alt"></i></button>';
+					//}
 				}
 
 				if ($_SESSION['permisosMod']['d'])

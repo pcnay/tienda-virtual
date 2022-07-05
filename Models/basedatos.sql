@@ -60,7 +60,7 @@ Para mostrar los campos de una tabla:
   */
 
 
- /* DROP DATABASE IF EXISTS bd_tienda_virtual; */
+ DROP DATABASE IF EXISTS bd_tienda_virtual;
 
 CREATE DATABASE IF NOT EXISTS bd_tienda_virtual;
  /* SET time_zone = 'America/Tijuana';  */
@@ -73,13 +73,21 @@ CREATE USER 'usuario_tienda'@'localhost' IDENTIFIED BY 'Tienda_2022';
 GRANT ALL on bd_tienda_virtual.* to 'usuario_tienda'  IDENTIFIED BY 'Tienda_2022';
 */
 
+CREATE TABLE t_Rol
+(
+  id_rol SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  nombrerol VARCHAR(50),
+	descripcion TEXT,
+	estatus TINYINT DEFAULT 1
+);
+
 CREATE TABLE t_Personas
 (
-  id_persona SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  id_persona INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   identificacion VARCHAR(30),
 	nombres VARCHAR(80),
 	apellidos VARCHAR(100),
-	telefono SMALLINT,
+	telefono  VARCHAR(20),
 	email_user VARCHAR(100),
 	passwords VARCHAR(75),
 	nit VARCHAR(20),
@@ -93,13 +101,6 @@ CREATE TABLE t_Personas
 	ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE t_Rol
-(
-  id_rol SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-  nombrerol VARCHAR(50),
-	descripcion TEXT,
-	estatus TINYINT DEFAULT 1
-);
 
 CREATE TABLE t_Modulos
 (
@@ -135,7 +136,7 @@ CREATE TABLE t_Categorias
 
 CREATE TABLE t_Productos
 (
-  id_producto SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  id_producto INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	categoriaid SMALLINT UNSIGNED NOT NULL,	
   codigo VARCHAR (30),
 	nombre VARCHAR (100),
@@ -152,8 +153,8 @@ CREATE TABLE t_Productos
 
 CREATE TABLE t_Pedidos
 (
-  id_pedido SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	personaid SMALLINT UNSIGNED NOT NULL,	
+  id_pedido INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	personaid INT UNSIGNED NOT NULL,	
 	fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	monto decimal(10,2) DEFAULT NULL,
 	tipopagoid SMALLINT UNSIGNED,
@@ -165,8 +166,8 @@ CREATE TABLE t_Pedidos
 CREATE TABLE t_Detalle_Pedidos
 (
   id_detalle_pedido INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	pedidoid SMALLINT UNSIGNED NOT NULL,	
-	productoid SMALLINT UNSIGNED NOT NULL,	
+	pedidoid INT UNSIGNED NOT NULL,	
+	productoid INT UNSIGNED NOT NULL,	
 	cantidad SMALLINT UNSIGNED,
 	precio decimal(10,2) DEFAULT NULL,		
 	FOREIGN KEY(pedidoid) REFERENCES t_Pedidos(id_pedido)
@@ -177,8 +178,8 @@ CREATE TABLE t_Detalle_Pedidos
 
 CREATE TABLE t_Detalle_Temp
 (
-  id_detalle_pedido SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	productoid SMALLINT UNSIGNED NOT NULL,	
+  id_detalle_pedido INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	productoid INT UNSIGNED NOT NULL,	
 	cantidad SMALLINT UNSIGNED,
 	precio decimal(10,2) DEFAULT NULL,
 	token VARCHAR(100),

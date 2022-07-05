@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded',function(){
 		"order":[[0,"desc"]]
 	});
 
-	let formUsuario = document.querySelector("#formUsuario");
+	var formUsuario = document.querySelector("#formUsuario");
 	// Acivando el evento "onsubmit" a la variable "formUsuario" es donde esta el formulario.
 	formUsuario.onsubmit = function(e){
 		e.preventDefault();
@@ -263,6 +263,8 @@ function fntEditUsuario(idpersona)
 	// Lo que retorne (echo Json.... el Controllers/Usuarios/getUsuario
 	request.onreadystatechange = function()
 	{
+		// request.status == 200 ; se realizo la peticion
+
 		if (request.status == 200 && request.readyState == 4)
 		{
 			// Retorna a un objeto lo que se retorna en "getUsuario"
@@ -271,8 +273,9 @@ function fntEditUsuario(idpersona)
 			//console.log(request.responseText);
 
 			let objData = JSON.parse(request.responseText);
-			if (objData.estatus)
+			if (objData.estatus)			
 			{	
+				console.log("password ",objData.data.passwords);
 				document.querySelector("#idUsuario").value = objData.data.id_persona;
 				document.querySelector("#txtIdentificacion").value = objData.data.identificacion;
 				document.querySelector("#txtNombre").value = objData.data.nombres;
@@ -286,13 +289,16 @@ function fntEditUsuario(idpersona)
 
 				if (objData.data.estatus == 1)
 				{
+					// Usuario Activo
 					document.querySelector("#listStatus").value = 1;
 				}
 				else
 				{
+					// Usuario Inactivo
 					document.querySelector("#listStatus").value = 2;
 				}
 
+				// Para mostrar la opcion que se le esta indicando
 				$('#listStatus').selectpicker('render');
 
 			}
