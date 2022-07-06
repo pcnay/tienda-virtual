@@ -163,20 +163,36 @@
 				if ($_SESSION['permisosMod']['u'])
 				{
 					// Se agrega la condicion para que solo el Super Usuario y que sea Administrador
-					//if ((($_SESSION['idUser'] == 1) and ($_SESSION['userData']['id_rol'] == 1)) || (($_SESSION['userData']['id_rol'] == 1) and ($arrData[$i]['id_rol'] != 1)))
-					//{
+					// idUser = 1; Usuario Super Administrador.
+					// y este mismo usuario tiene el Rol 1 Administrador.
+					//  $_SESSION['userData']['id_rol'] == 1) and ($arrData[$i]['id_rol'] != 1 :
+					// NO es un Usuario Administrador.
+					if ((($_SESSION['idUser'] == 1) and ($_SESSION['userData']['id_rol'] == 1)) || (($_SESSION['userData']['id_rol'] == 1) and ($arrData[$i]['id_rol'] != 1)))
+					{
 						$btnEdit = '<button class="btn btn-primary btn-sm btnEditUsuario" onClick="fntEditUsuario('.$arrData[$i]['id_persona'].')" title="Editar Usuario"><i class="fas fa-pencil-alt"></i></button>';
-					//}
-					//else
-					//{
-						//$btnEdit = '<button class="btn btn-secondary btn-sm" disabled><i class="fas fa-pencil-alt"></i></button>';
-					//}
-				}
+					}
+					else
+					{
+						$btnEdit = '<button class="btn btn-secondary btn-sm" disabled><i class="fas fa-pencil-alt"></i></button>';
+					}
 
+				} // if ($_SESSION['permisosMod']['u'])
+
+				// ($_SESSION['userData']['id_persona'] != $arrData[$i][id_persona])
+				// Se bloquea al Usuario Super Administrador el boton de Borrar, es decir no se puede eliminarse, se tiene que realizar
+				// Con la opcion "Profile"
 				if ($_SESSION['permisosMod']['d'])
 				{
-					$btnDelete = '<button class="btn btn-danger btn-sm btnDelUsuario" onClick="fntDelUsuario('.$arrData[$i]['id_persona'].')" title="Eliminar Usuario"><i class="fas fa-trash-alt"></i></button>';
-				}
+					if ((($_SESSION['idUser'] == 1) and ($_SESSION['userData']['id_rol'] == 1)) || (($_SESSION['userData']['id_rol'] == 1) and ($arrData[$i]['id_rol'] != 1)) and ($_SESSION['userData']['id_persona'] != $arrData[$i][id_persona]))
+					{
+						$btnDelete = '<button class="btn btn-danger btn-sm btnDelUsuario" onClick="fntDelUsuario('.$arrData[$i]['id_persona'].')" title="Eliminar Usuario"><i class="fas fa-trash-alt"></i></button>';
+					}
+					else
+					{
+						$btnDelete = '<button class="btn btn-secondary btn-sm" disabled><i class="far fa-trash-alt"></i></button>';
+					}
+
+				} // if ($_SESSION['permisosMod']['d'])
 
 				//Son los botones, en la columna de "options".
 				// Se agrega el evento "onclick" en la etiqueta "button" para evitar el error de en google de que no carga los eventos.

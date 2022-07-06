@@ -71,7 +71,7 @@
 		public function selectUsuarios()
 		{
 			$whereAdmin = "";			
-			if ($_SESSION['idUser'] != 1)
+			if ($_SESSION['idUser'] != 1) // No es el usuario "super Administrador"
 			{
 				// Para no mostrar al Super Usuario.
 				$whereAdmin = " AND p.id_persona != 1 ";

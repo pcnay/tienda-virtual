@@ -28,8 +28,14 @@
 		
 		public function selectRoles()
 		{
+			$whereAdmin = "";
+			if ($_SESSION['idUser'] != 1) // Si no es el Super Administrador.
+			{
+				$whereAdmin = " AND id_rol != 1"; // No extrae a los Aadministradores
+			}
+
 			// status = 0 ; Reg. Borrados
-			$sql = "SELECT * FROM t_Rol WHERE estatus != 0";
+			$sql = "SELECT * FROM t_Rol WHERE estatus != 0".$whereAdmin;
 			$request = $this->select_all($sql);
 			return $request;
 		}

@@ -144,7 +144,8 @@ function fntRolesUsuarios()
 		if (request.readyState == 4 && request.status == 200) // Vaiida si llego correctamente la respuesta.
 		{
 			document.querySelector('#listRolid').innerHTML = request.responseText;
-			document.querySelector('#listRolid').value = 1;
+			// Se comenta esta línea para que muestra datos para seleccionar en el ComboBox
+			// document.querySelector('#listRolid').value = 1;
 			$('#listRolid').selectpicker('render'); // Para que se refresque el Select.
 			//$('#listRolid').selectpicker('refresh'); // Para que se refresque el Select.
 		}
