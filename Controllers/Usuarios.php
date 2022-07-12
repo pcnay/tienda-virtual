@@ -252,8 +252,20 @@
 			}
 			die();
 		}
-		
 
+		// La vista para el perfil del usuario 
+		public function Perfil()
+		{
+			// Esta información se puede obtener desde una base de datos, ya que el Controlador se comunica con el Modelo.			
+			$data['page_tag'] = "Perfil";
+			$data['page_title'] = "Perfil De Usuario";
+			$data['page_name'] = "Perfil";
+			$data['page_functions_js'] = "Functions_usuarios.js";
+			// $this = Es equivalente "Usuarios"
+			// Se llama la vista "Usuarios"
+			$this->views->getView($this,"Perfil",$data);
+
+		}
 
 } // classs home extends Controllers
 

@@ -21,8 +21,8 @@
 					<?php dep($_SESSION['userData']);
 								//getPermisos(1);
 								//dep(getPermisos(11));								
-								dep($_SESSION['permisos']);
-								dep($_SESSION['permisosMod']);
+								//dep($_SESSION['permisos']);
+								//dep($_SESSION['permisosMod']);
 								
 					?>
 
