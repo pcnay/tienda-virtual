@@ -56,67 +56,74 @@ document.addEventListener('DOMContentLoaded',function(){
 		"order":[[0,"desc"]]
 	});
 
-	var formUsuario = document.querySelector("#formUsuario");
-	// Acivando el evento "onsubmit" a la variable "formUsuario" es donde esta el formulario.
-	formUsuario.onsubmit = function(e){
-		e.preventDefault();
-		// Obtiene el contenido de las etiquetas de las capturas de Usuarios.
-		let strIdentificacion = document.querySelector('#txtIdentificacion').value;		
-		let strNombre = document.querySelector('#txtNombre').value;		
-		let strApellido = document.querySelector('#txtApellido').value;		
-		let strEmail = document.querySelector('#txtEmail').value;		
-		let strTelefono = document.querySelector('#txtTelefono').value;		
-		let strTipousuario = document.querySelector('#listRolid').value;		
-		let strPassword = document.querySelector('#txtPassword').value;		
-	
-		if ((strIdentificacion == '')|| strApellido == '' || strNombre == '' || strEmail == '' || strTelefono == '' || strTipousuario == '' || strPassword == '')
-		{
-			swal ("Atencion", "Todos los campos son obligatorio","error");
-			return false;
-		}
+	// Se agrega esta condicion ya que se esta utilizando dos archivos que llama a "Functions_usuarios.php" en el archivo "ModalPerfil.php" lo llama y muestra error en:
+	//"formUsuario.onsubmit"
 
-		// Obtiene todos las etiquetas que tienen la clase "valid" del formulario de captura.
-		let elementsValid = document.getElementsByClassName("valid");
-		for (let b=0; b<elementsValid.length;b++)
-		{
-			if (elementsValid[b].classList.contains('is-invalid'))
+	if (document.querySelector("#formUsuario"))
+	{
+		var formUsuario = document.querySelector("#formUsuario");
+		// Acivando el evento "onsubmit" a la variable "formUsuario" es donde esta el formulario.
+		formUsuario.onsubmit = function(e){
+			e.preventDefault();
+			// Obtiene el contenido de las etiquetas de las capturas de Usuarios.
+			let strIdentificacion = document.querySelector('#txtIdentificacion').value;		
+			let strNombre = document.querySelector('#txtNombre').value;		
+			let strApellido = document.querySelector('#txtApellido').value;		
+			let strEmail = document.querySelector('#txtEmail').value;		
+			let strTelefono = document.querySelector('#txtTelefono').value;		
+			let strTipousuario = document.querySelector('#listRolid').value;		
+			let strPassword = document.querySelector('#txtPassword').value;		
+		
+			if ((strIdentificacion == '')|| strApellido == '' || strNombre == '' || strEmail == '' || strTelefono == '' || strTipousuario == '' || strPassword == '')
 			{
-				swal ("Atencion", "Por Favor verifique los campos en Rojo","error");
+				swal ("Atencion", "Todos los campos son obligatorio","error");
 				return false;
 			}
-		}
 
-		// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
-		let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
-
-		let ajaxUrl = base_url+'/Usuarios/setUsuario';
-		let formData = new FormData(formUsuario); // Se obtiene el formulario
-		request.open("POST",ajaxUrl,true); // Se abre la conexion, y se pasa por "GET"
-		request.send(formData); // Se envia la petición (ejecutar el archivo "getRol/XXX")
-		// Lo que retorne (echo Json.... el Controllers/Roles/getRol)
-
-		request.onreadystatechange = function(){
-			if (request.readyState == 4 && request.status == 200)
+			// Obtiene todos las etiquetas que tienen la clase "valid" del formulario de captura.
+			let elementsValid = document.getElementsByClassName("valid");
+			for (let b=0; b<elementsValid.length;b++)
 			{
-				let objData = JSON.parse(request.responseText);
-				if (objData.estatus)
+				if (elementsValid[b].classList.contains('is-invalid'))
 				{
-					$('#modalFormUsuario').modal("hide");
-					formUsuario.reset();
-					swal("Usuarios",objData.msg,"success");
-					// Mostrar los datos en el "dataTable"
-					tableUsuarios.api().ajax.reload(function(){
-
-					});
-				}
-				else
-				{
-					swal("Error",objData.msg,"error");
+					swal ("Atencion", "Por Favor verifique los campos en Rojo","error");
+					return false;
 				}
 			}
-		}
-	
-	} // formUsuario.onsubmit = function(e){
+
+			// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+			let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+
+			let ajaxUrl = base_url+'/Usuarios/setUsuario';
+			let formData = new FormData(formUsuario); // Se obtiene el formulario
+			request.open("POST",ajaxUrl,true); // Se abre la conexion, y se pasa por "GET"
+			request.send(formData); // Se envia la petición (ejecutar el archivo "getRol/XXX")
+			// Lo que retorne (echo Json.... el Controllers/Roles/getRol)
+
+			request.onreadystatechange = function(){
+				if (request.readyState == 4 && request.status == 200)
+				{
+					let objData = JSON.parse(request.responseText);
+					if (objData.estatus)
+					{
+						$('#modalFormUsuario').modal("hide");
+						formUsuario.reset();
+						swal("Usuarios",objData.msg,"success");
+						// Mostrar los datos en el "dataTable"
+						tableUsuarios.api().ajax.reload(function(){
+
+						});
+					}
+					else
+					{
+						swal("Error",objData.msg,"error");
+					}
+				}
+			}
+		
+		} // formUsuario.onsubmit = function(e){
+
+	} // if (document.querySelector("#formUsuario"))
 
 },false);
 
@@ -129,28 +136,32 @@ window.addEventListener('load',function(){
 // Para extraer los "Usuarios" y vaciarla al "Select"
 function fntRolesUsuarios()
 {
-	// Se pasan como parametro al método definido en "Roles.php -> Controllers" desde el Ajax
-	let ajaxUrl = base_url+'/Roles/getSelectRoles';
+	if (document.querySelector('#listRolid'))
+	{
+		// Se pasan como parametro al método definido en "Roles.php -> Controllers" desde el Ajax
+		let ajaxUrl = base_url+'/Roles/getSelectRoles';
 
-	// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
-	let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+		// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+		let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
 
-	request.open("GET",ajaxUrl,true); // Se abre la conexion, y se pasa por "GET"
-	request.send(); // Se envia la petición (ejecutar el archivo "getRol/XXX")
-	// Lo que retorne (echo Json.... el Controllers/Roles/getRol)
+		request.open("GET",ajaxUrl,true); // Se abre la conexion, y se pasa por "GET"
+		request.send(); // Se envia la petición (ejecutar el archivo "getRol/XXX")
+		// Lo que retorne (echo Json.... el Controllers/Roles/getRol)
 
-	// Agregando al "Select"
-	request.onreadystatechange = function(){
-		if (request.readyState == 4 && request.status == 200) // Vaiida si llego correctamente la respuesta.
-		{
-			document.querySelector('#listRolid').innerHTML = request.responseText;
-			// Se comenta esta línea para que muestra datos para seleccionar en el ComboBox
-			// document.querySelector('#listRolid').value = 1;
-			$('#listRolid').selectpicker('render'); // Para que se refresque el Select.
-			//$('#listRolid').selectpicker('refresh'); // Para que se refresque el Select.
+		// Agregando al "Select"
+		request.onreadystatechange = function(){
+			if (request.readyState == 4 && request.status == 200) // Vaiida si llego correctamente la respuesta.
+			{
+				document.querySelector('#listRolid').innerHTML = request.responseText;
+				// Se comenta esta línea para que muestra datos para seleccionar en el ComboBox
+				// document.querySelector('#listRolid').value = 1;
+				$('#listRolid').selectpicker('render'); // Para que se refresque el Select.
+				//$('#listRolid').selectpicker('refresh'); // Para que se refresque el Select.
+			}
 		}
-	}
 
+	} // if (document.querySelector('#listRolid'))
+	
 }
 
 // Para mostrar el modal "View User"
@@ -393,4 +404,9 @@ function openModal()
 	$('#modalFormUsuario').modal('show');
 }
 
+// Para abrir el modal del Perfil de Usuario.
+function openModalPerfil()
+{
+	$('#modalFormPerfil').modal('show');
+}
 

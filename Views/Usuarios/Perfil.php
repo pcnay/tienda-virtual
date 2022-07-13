@@ -1,4 +1,8 @@
-<?php headerAdmin($data); ?>
+<?php 
+	headerAdmin($data);
+	getModal('ModalPerfil',$data);
+
+?>
 
 <main class="app-content">
       <div class="row user">
