@@ -323,9 +323,39 @@
 		// Para grabar los datos Fiscales que se editaron.
 		public function putDFiscal()
 		{
-			dep($_POST);
-			die();
+			// Valida si se esta recibiendo una variable POST
+			if ($_POST)
+			{
+				// dep($_POST);
+				if (empty($_POST['txtNit']) || empty($_POST['txtNombreFiscal']) || empty($_POST['txtDirFiscal']))
+				{
+					$arrResponse = array("estatus" => false, "msg" =>"Datos Incorrectos");
+				}
+				else
+				{
+					$idUsuario = $_SESSION['idUser'];
+					$strNit = strClean($_POST['txtNit']);
+					$strNomFiscal = strClean($_POST['txtNombreFiscal']);
+					$strDirFiscal = strClean($_POST['txtDirFiscal']);
 
+					$request_datafiscal = $this->model->updateDataFiscal($idUsuario,$strNit,$strNomFiscal,$strDirFiscal);
+
+					if($request_datafiscal)
+					{
+						sessionUser($_SESSION['idUser']);
+						$arrResponse = array("estatus" => true, "msg" =>"Datos Actualizados Correctamente");
+					}
+					else
+					{
+						$arrResponse = array("estatus" => false, "msg" =>"NO es posible almacenar los datos");
+					}
+				} // if (empty($_POST['txtNit']) || empty($_POST['txtNombreFiscal']) || empty($_POST
+
+				// Retorna el formato JSon el arreglo.
+				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+
+			}// if ($_POST)
+			die();
 		}
 
 } // classs home extends Controllers

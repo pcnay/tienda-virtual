@@ -11,7 +11,10 @@
 		private $strToken;
 		private $intTipoId;
 		private $intStatus;
-	
+		private $strNit;
+		private $stNomFiscal;
+		private $strDirFiscal;
+
 		public function __construct()
 		{
 			
@@ -204,6 +207,23 @@
 			$request = $this->update($sql,$arrData);
 			return $request;
 		}
+
+		// Grabar los datos que se actualizaron de los datos fiscales.
+		public function updateDataFiscal(int $idUsuario, string $strNit, string $strNomFiscal, string $strDirFiscal)
+		{
+			$this->intIdUsuario = $idUsuario;
+			$this->strNit = $strNit;
+			$this->strNomFiscal = $strNomFiscal;
+			$this->strDirFiscal = $strDirFiscal;		
+			$sql = "UPDATE t_Personas SET nit=?, nombrefiscal=?, direccionfiscal=? WHERE id_persona = $this->intIdUsuario";
+			$arrData = array($this->strNit,$this->strNomFiscal, $this->strDirFiscal);
+			$request = $this->update($sql,$arrData);
+			return $request;
+
+
+		}
+
+			
 		
 	} // class homeModel
 ?>

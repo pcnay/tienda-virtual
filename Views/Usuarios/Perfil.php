@@ -68,11 +68,11 @@
                   <div class="row mb-4">
                     <div class="col-md-6">
                       <label>Identiifcacion Tributaria</label>
-                      <input class="form-control" type="text" id ="txtNit" name="txtNit" value="<?= $_SESSION['userData']['ntid']; ?>">
+                      <input class="form-control" type="text" id ="txtNit" name="txtNit" value="<?= $_SESSION['userData']['nit']; ?>">
                     </div>
                     <div class="col-md-6">
                       <label>Nombre Fiscal</label>
-                      <input class="form-control" type="text" id ="txtNombreFiscal" name="txtNombreFsical" value="<?= $_SESSION['userData']['nombrefiscal']; ?>">
+                      <input class="form-control" type="text" id ="txtNombreFiscal" name="txtNombreFiscal" value="<?= $_SESSION['userData']['nombrefiscal']; ?>">
                     </div>
 
                     <div class="col-md-12">
