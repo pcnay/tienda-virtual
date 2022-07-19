@@ -100,6 +100,15 @@
 		$_SESSION['permisosMod'] = $permisosMod;
 	}
 
+	// Obtiene los datos desde las tablas cuando se edita los perfiles del usuario
+	// Sin necesida de cerrar la sesion para obtener los datos editados 
+	function sessionUser(int $idpersona)
+	{
+		require_once ("Models/LoginModel.php");
+		$objLogin = new LoginModel();
+		$request = $objLogin->sessionLogin($idpersona);
+		return $request;
+	}
 	// Elimina exceso de espacios entre palabras.
 	function strClean($strCadena)
 	{

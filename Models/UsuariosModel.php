@@ -173,7 +173,37 @@
 			return $request;
 		}
 
+		// Grabar los datos que se actualizaron del usuario.
+		public function updatePerfil(int $idUsuario, string $identificacion, string $nombre, string $apellido, string $telefono, string $Password)
+		{
+			$this->intIdUsuario = $idUsuario;
+			$this->strIdentificacion = $identificacion;
+			$this->strNombre = $nombre;
+			$this->strApellido = $apellido;
+			$this->strTelefono = $telefono;
+			$this->strPassword = $Password;
 
+			if ($this->strPassword != "")
+			{
+				$sql = "UPDATE t_Personas SET identificacion =?, nombres=?, apellidos=?, telefono=?, passwords=? WHERE id_persona = $this->intIdUsuario";
+				$arrData = array($this->strIdentificacion,
+													$this->strNombre,
+													$this->strApellido,
+													$this->strTelefono,
+													$this->strPassword);
+			}
+			else
+			{
+				$sql = "UPDATE t_Personas SET identificacion =?, nombres=?, apellidos=?, telefono=? WHERE id_persona = $this->intIdUsuario";
+				$arrData = array($this->strIdentificacion,
+													$this->strNombre,
+													$this->strApellido,
+													$this->strTelefono);													
+
+			}
+			$request = $this->update($sql,$arrData);
+			return $request;
+		}
 		
 	} // class homeModel
 ?>

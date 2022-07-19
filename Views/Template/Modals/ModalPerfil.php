@@ -22,7 +22,7 @@
 				<!-- Es el contenido de la ventana del Modal, "Formulario", se copio desde el "Vali" -->
 				<form id = "formPerfil" name = "formPerfil" class = "form-horizontal">
 					<!-- Para obtener el "idRol" que se va utilizar para actualizar -->
-					<input type="hidden" id="idUsuario" name="idUsuario" value="">
+					<!-- <input type="hidden" id="idUsuario" name="idUsuario" value=""> -->
 					<p class="text-primary">Todos los campos son asterisco (<span class="required">*</span>)son bligatorios</p>
 
 					<div class="form-row">

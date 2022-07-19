@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
 	// Se agrega esta condicion ya que se esta utilizando dos archivos que llama a "Functions_usuarios.php" en el archivo "ModalPerfil.php" lo llama y muestra error en:
 	//"formUsuario.onsubmit"
-
+	// Es donde se graba  al usuario
 	if (document.querySelector("#formUsuario"))
 	{
 		var formUsuario = document.querySelector("#formUsuario");
@@ -112,6 +112,99 @@ document.addEventListener('DOMContentLoaded',function(){
 						// Mostrar los datos en el "dataTable"
 						tableUsuarios.api().ajax.reload(function(){
 
+						});
+					}
+					else
+					{
+						swal("Error",objData.msg,"error");
+					}
+				}
+			}
+		
+		} // formUsuario.onsubmit = function(e){
+
+	} // if (document.querySelector("#formUsuario"))
+
+	// Es donde se actualiza el Perfil del Usuario
+	if (document.querySelector("#formPerfil"))
+	{
+		let formPerfil = document.querySelector("#formPerfil");
+		// Acivando el evento "onsubmit" a la variable "formUsuario" es donde esta el formulario.
+		formPerfil.onsubmit = function(e){
+			e.preventDefault();
+			// Obtiene el contenido de las etiquetas de las capturas de Usuarios.
+			let strIdentificacion = document.querySelector('#txtIdentificacion').value;		
+			let strNombre = document.querySelector('#txtNombre').value;		
+			let strApellido = document.querySelector('#txtApellido').value;					
+			let strTelefono = document.querySelector('#txtTelefono').value;		
+			//let strTipousuario = document.querySelector('#listRolid').value;		
+			let strPassword = document.querySelector('#txtPassword').value;		
+			let strPasswordConfirm = document.querySelector('#txtPasswordConfirm').value;		
+		
+			if ((strIdentificacion == '')|| strApellido == '' || strNombre == '' ||  strTelefono == '')
+			{
+				swal ("Atencion", "Todos los campos son Obligatorio ","info");
+				return false;
+	
+			} //  if ((strIdentificacion == '')|| strApellido == '' || strNombre == '' ||  
+
+				if (strPassword != "" || strPasswordConfirm != "")
+				{
+					if (strPassword != strPasswordConfirm)
+					{
+						swal ("Atencion", "Las contraseñas NO son iguales","info");
+						return false;		
+					}
+
+					if (strPassword.length < 5)
+					{
+						swal ("Atencion", "Las contraseñas debe tener un mínimo de 5 caracteres","info");
+						return false;
+					}
+
+				} // if (strPassword != "" || strPasswordConfirm != "")		
+
+			// Obtiene todos las etiquetas que tienen la clase "valid" del formulario de captura.
+			let elementsValid = document.getElementsByClassName("valid");
+			for (let b=0; b<elementsValid.length;b++)
+			{
+				if (elementsValid[b].classList.contains('is-invalid'))
+				{
+					swal ("Atencion", "Por Favor verifique los campos en Rojo","error");
+					return false;
+				}
+			}
+
+			// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+			let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+
+			let ajaxUrl = base_url+'/Usuarios/putPerfil';
+			let formData = new FormData(formPerfil); // Se obtiene el formulario
+			request.open("POST",ajaxUrl,true); // Se abre la conexion, y se pasa por "GET"
+			request.send(formData); // Se envia la petición (ejecutar el archivo "getRol/XXX")
+			// Lo que retorne (echo Json.... el Controllers/Roles/getRol)
+
+			request.onreadystatechange = function(){
+				if (request.readyState != 4 ) return; 
+
+				if (request.status == 200)
+				{
+					let objData = JSON.parse(request.responseText);
+					if (objData.estatus)
+					{
+						$('#modalFormPerfil').modal("hide");
+						//formPerfil.reset();
+						swal({
+							title: "",
+							text: objData.msg,
+							type: "success",
+							confirmButtonText: "Aceptar",
+							closeOnConfirm:false,
+						}, function(isConfirm){
+								if (isConfirm)
+								{
+									location.reload(); // Recarga la página mostrara los datos actualizados
+								}						
 						});
 					}
 					else
@@ -377,9 +470,6 @@ function fntDelUsuario(id_Persona)
 			}
 	});		
 }
-
-
-
 
 
 // Para mostrar la ventana Modal de Roles.

@@ -50,6 +50,7 @@
 							ON p.rolid = r.id_rol
 							WHERE p.id_persona = $this->intIdUsuario";
 				$request = $this->select($sql);
+				$_SESSION['userData'] = $request;
 				return $request;
 		}
 

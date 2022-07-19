@@ -65,7 +65,11 @@ class Login extends Controllers
 						$_SESSION['login'] = true;
 						// Obtener todos los datos del usuario.
 						$arrData = $this->model->sessionLogin($_SESSION['idUser']);
-						$_SESSION['userData'] = $arrData;
+						//$_SESSION['userData'] = $arrData;
+
+						// Se agrega la funcion en el Helpers.php, que a su vez se llama desde el modelo "LoginModel.php", son de asigna el valor de la consulta a la variable de sesion $_SESSION['idUser'].
+						sessionUser($_SESSION['idUser']);  
+						
 						$arrResponse = array('estatus' => true, 'msg' =>'ok');
 					}
 					else

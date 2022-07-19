@@ -267,6 +267,60 @@
 
 		}
 
+		// Grabar los datos del perfil de usuario.
+		public function putPerfil()
+		{
+			// dep($_POST);
+			// Verifica que no esten vacios los campos.
+			if ($_POST)
+			{
+				if ( empty($_POST['txtIdentificacion']) || empty($_POST['txtNombre']) || empty($_POST['txtApellido']) || empty($_POST['txtTelefono']) )
+				{
+					$arrResponse = array("estatus" => false, "msg" => "Datos Incorrectos");
+				}
+				else
+				{
+					$idUsuario = $_SESSION['idUser'];
+					$strIdentificacion = strClean($_POST['txtIdentificacion']);
+					$strNombre = strClean($_POST['txtNombre']);
+					$strApellido = strClean($_POST['txtApellido']);
+					$intTelefono = strClean($_POST['txtTelefono']);
+					$strPassword = "";
+					if (!empty($_POST['txtPassword']))
+					{
+						// Esta Encriptando la nueva clave.
+						$strPassword = hash("SHA256",$_POST['txtPassword']);
+					}
+
+					// Actualiza los datos del usuario en la tabla.
+					$request_user = $this->model->updatePerfil($idUsuario,
+																				$strIdentificacion,
+																				$strNombre,
+																				$strApellido,
+																				$intTelefono,
+																				$strPassword);
+					
+					if ($request_user)
+					{
+						sessionUser($_SESSION['idUser']); // Se define en el "Helpers.php"
+						$arrResponse = array ('estatus' => true,'msg' => 'Datos Actualizados Correctamente ');
+					}
+					else
+					{
+						$arrResponse = array ('estatus' => false,'msg' => 'No es posible Almacenar los datos ');
+					}
+
+				} // else - if ( empty($_POST['txtIdentification']) || empty
+
+				// Retorna el formato JSon el arreglo.
+				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+
+			} // if ($_POST)
+
+			die();
+
+		}
+
 } // classs home extends Controllers
 
 ?>
