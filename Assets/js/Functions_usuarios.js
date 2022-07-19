@@ -218,6 +218,69 @@ document.addEventListener('DOMContentLoaded',function(){
 
 	} // if (document.querySelector("#formUsuario"))
 
+	
+	// Es para actualizar los Datos Fiscales, se le asigna el evento "submit"
+	if (document.querySelector("#formDataFiscal"))
+	{
+		let formPerfil = document.querySelector("#formDataFiscal");
+		// Acivando el evento "onsubmit" a la variable "formUsuario" es donde esta el formulario.
+		formDataFiscal.onsubmit = function(e){
+			e.preventDefault();
+			// Obtiene el contenido de las etiquetas de las capturas de Usuarios.
+			let strNit = document.querySelector('#txtNit').value;		
+			let strNombreFiscal = document.querySelector('#txtNombreFiscal').value;		
+			let strDirFiscal = document.querySelector('#txtDirFiscal').value;					
+		
+			if ((strNit == '')|| (strNombreFiscal == '') || (strDirFiscal == ''))
+			{
+				swal ("Atencion", "Todos los campos son Obligatorio ","info");
+				return false;
+	
+			} //  if ((strNit == '')|| (strNombreFiscal == '') || (strDirFiscal == ''))
+
+			// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+			let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+
+			let ajaxUrl = base_url+'/Usuarios/putDFiscal';
+			let formData = new FormData(formDataFiscal); // Se obtiene el formulario
+			request.open("POST",ajaxUrl,true); // Se abre la conexion, y se pasa por "GET"
+			request.send(formData); // Se envia la petición (ejecutar el archivo "getRol/XXX")
+			// Lo que retorne (echo Json.... el Controllers/Roles/getRol)
+
+			request.onreadystatechange = function(){
+				if (request.readyState != 4 ) return; 
+
+				if (request.status == 200)
+				{
+					let objData = JSON.parse(request.responseText);
+					if (objData.estatus)
+					{
+						$('#modalFormPerfil').modal("hide");
+						//formPerfil.reset();
+						swal({
+							title: "",
+							text: objData.msg,
+							type: "success",
+							confirmButtonText: "Aceptar",
+							closeOnConfirm:false,
+						}, function(isConfirm){
+								if (isConfirm)
+								{
+									location.reload(); // Recarga la página mostrara los datos actualizados
+								}						
+						});
+					}
+					else
+					{
+						swal("Error",objData.msg,"error");
+					}
+				}
+			}
+		
+		} // formUsuario.onsubmit = function(e){
+
+	} // if (document.querySelector("#formUsuario"))
+
 },false);
 
 // Cuando se cargue la ventana obtendra los "Roles"

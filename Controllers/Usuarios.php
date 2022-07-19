@@ -318,6 +318,13 @@
 			} // if ($_POST)
 
 			die();
+		}
+
+		// Para grabar los datos Fiscales que se editaron.
+		public function putDFiscal()
+		{
+			dep($_POST);
+			die();
 
 		}
 
