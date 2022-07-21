@@ -22,6 +22,12 @@
     <!-- <link rel="stylesheet" type="text/css" href="Assets/css/font_awesome.css">  -->
 	</head>
   <body class="app sidebar-mini">
+		<div id="divLoading"> 
+				<div>
+					<img src="<?= media(); ?>/images/loading.svg" alt="Loading">
+				</div>
+		</div>
+
     <!-- Navbar-->
     <header class="app-header"><a class="app-header__logo" href="<?php echo base_url(); ?>/Dashboard">Tienda Virtual</a>
       <!-- Sidebar toggle button-->

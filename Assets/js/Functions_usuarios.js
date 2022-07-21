@@ -1,4 +1,9 @@
 var tableUsuarios;
+
+let divLoading = document.querySelector("#divLoading");
+let rowTable = "";
+
+
 // Al terminar de cargar la vista de la captura de Usuario se ejecutara la funcion
 document.addEventListener('DOMContentLoaded',function(){
 	
@@ -72,7 +77,8 @@ document.addEventListener('DOMContentLoaded',function(){
 			let strEmail = document.querySelector('#txtEmail').value;		
 			let strTelefono = document.querySelector('#txtTelefono').value;		
 			let strTipousuario = document.querySelector('#listRolid').value;		
-			let strPassword = document.querySelector('#txtPassword').value;		
+			let strPassword = document.querySelector('#txtPassword').value;	
+			let intStatus = document.querySelector('#listStatus').value;		
 		
 			if ((strIdentificacion == '')|| strApellido == '' || strNombre == '' || strEmail == '' || strTelefono == '' || strTipousuario == '' || strPassword == '')
 			{
@@ -106,13 +112,28 @@ document.addEventListener('DOMContentLoaded',function(){
 					let objData = JSON.parse(request.responseText);
 					if (objData.estatus)
 					{
+						if (rowTable == "") // Creando un nuevo usuario.
+						{
+						// Mostrar los datos en el "dataTable"
+						tableUsuarios.api().ajax.reload(function(){});
+						}
+						else // Cuando se esta editado.
+						{
+							htmlStatus = intStatus == 1 ? '<span class="badge badge-success">Activos</span>':
+							'<span class="badge badge-danger">Inactivos</span>';
+
+							rowTable.cells[1].textContent = strNombre;
+							rowTable.cells[2].textContent = strApellido;
+							rowTable.cells[3].textContent = strEmail;
+							rowTable.cells[4].textContent = strTelefono;
+							// Obtiene el nombre que le corresponde al rol asignado, es decir "Administrador", "Vendedor", etc.
+							rowTable.cells[5].textContent = document.querySelector("#listRolid").selectedOptions[0].text;
+							rowTable.cells[6].innerHTML = htmlStatus; //Incrusta código HTML en la etiqueta del DataTable.
+						}
+
 						$('#modalFormUsuario').modal("hide");
 						formUsuario.reset();
 						swal("Usuarios",objData.msg,"success");
-						// Mostrar los datos en el "dataTable"
-						tableUsuarios.api().ajax.reload(function(){
-
-						});
 					}
 					else
 					{
@@ -175,6 +196,9 @@ document.addEventListener('DOMContentLoaded',function(){
 				}
 			}
 
+			// Activa el icono de "Cargando".
+			divLoading.style.display = "flex";
+
 			// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
 			let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
 
@@ -212,6 +236,11 @@ document.addEventListener('DOMContentLoaded',function(){
 						swal("Error",objData.msg,"error");
 					}
 				}
+
+				// Para desactivar el icono de "Cargando"
+				divLoading.style.display = "none";
+				return false;
+
 			}
 		
 		} // formUsuario.onsubmit = function(e){
@@ -237,6 +266,9 @@ document.addEventListener('DOMContentLoaded',function(){
 				return false;
 	
 			} //  if ((strNit == '')|| (strNombreFiscal == '') || (strDirFiscal == ''))
+
+
+			divLoading.style.display = "flex";
 
 			// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
 			let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
@@ -275,6 +307,9 @@ document.addEventListener('DOMContentLoaded',function(){
 						swal("Error",objData.msg,"error");
 					}
 				}
+
+				divLoading.style.display = "none";
+				return false;
 			}
 		
 		} // formUsuario.onsubmit = function(e){
@@ -388,8 +423,15 @@ function fntViewUsuario(idpersona)
 
 // Editar un Usuario
 // Para mostrar el modal "View User"
-function fntEditUsuario(idpersona)
+function fntEditUsuario(element,idpersona)
 {
+	// Se agrega estas lineas ya que se edita un Usuario, y se recarga, pierde la página donde se encontraba la tabla inicialmente.
+	rowTable = element.parentNode.parentNode.parentNode;
+	// .parentNode = Sube al padre inmediato superior, hasta subir el padre de la etiqueta (dos niveles)
+	//console.log(rowTable);
+	// rowTable.cells[1].textContent = 
+
+
 	//console.log('Entre a Function fntEditRol');
 	/*
 	var btnEditRol_b = document.querySelectorAll(".btnEditRol");
@@ -538,6 +580,8 @@ function fntDelUsuario(id_Persona)
 // Para mostrar la ventana Modal de Roles.
 function openModal()
 {
+	rowTable = "";
+
 	//alert("OpenModal");
 	// Se actualizan los datos de la ventana modal a Mostrar, se agregan estos valores para que se pueda actualiar la ventana modal de "Agregar" y "Actualizar" Usuarios.
 

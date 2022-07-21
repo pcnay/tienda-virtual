@@ -167,9 +167,10 @@
 					// y este mismo usuario tiene el Rol 1 Administrador.
 					//  $_SESSION['userData']['id_rol'] == 1) and ($arrData[$i]['id_rol'] != 1 :
 					// NO es un Usuario Administrador.
+					// this = Significa que se enviara como parámetro todo la etiqueta "botton" 
 					if ((($_SESSION['idUser'] == 1) and ($_SESSION['userData']['id_rol'] == 1)) || (($_SESSION['userData']['id_rol'] == 1) and ($arrData[$i]['id_rol'] != 1)))
 					{
-						$btnEdit = '<button class="btn btn-primary btn-sm btnEditUsuario" onClick="fntEditUsuario('.$arrData[$i]['id_persona'].')" title="Editar Usuario"><i class="fas fa-pencil-alt"></i></button>';
+						$btnEdit = '<button class="btn btn-primary btn-sm btnEditUsuario" onClick="fntEditUsuario(this,'.$arrData[$i]['id_persona'].')" title="Editar Usuario"><i class="fas fa-pencil-alt"></i></button>';
 					}
 					else
 					{
