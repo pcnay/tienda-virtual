@@ -57,7 +57,7 @@
 			if ($_POST)
 			{
 				//dep($_POST);
-				//die();
+				//die(); exit;
 
 				if (empty($_POST['txtIdentificacion']) || empty($_POST['txtNombre']) || empty($_POST['txtApellido']) || empty($_POST['txtTelefono']) || empty($_POST['txtEmail']) || empty($_POST['listRolid']) || empty($_POST['listStatus']))
 				{
@@ -74,6 +74,7 @@
 					$strEmail = strtolower(strClean($_POST['txtEmail']));
 					$intTipoId = intval($_POST['listRolid']);
 					$intStatus = intval($_POST['listStatus']);
+					$request_user = "";
 
 					// Si no se envia un "id_persona" significa que se esta crean el Usuario
 					if ($idUsuario == 0)
@@ -81,8 +82,12 @@
 						$option = 1;
 						// hash("SHA256",passGenerator())); Encripta la contraseña.
 						$strPassword = empty($_POST['txtPassword'])?hash("SHA256",passGenerator()):hash("SHA256",$_POST['txtPassword']);
-						
-						$request_user = $this->model->insertUsuario($strIdentificacion,$strNombre,$strApellido,$strTelefono,$strEmail,$strPassword,$intTipoId,$intStatus);
+
+						// Valida que solo inserte un nuevo usuario si tiene el permiso de Grabar Usuario.
+						if ($_SESSION['permisosMod']['r'])
+						{
+							$request_user = $this->model->insertUsuario($strIdentificacion,$strNombre,$strApellido,$strTelefono,$strEmail,$strPassword,$intTipoId,$intStatus);
+						}
 					}
 					else  // Actualizar Usuario
 					{
@@ -100,8 +105,12 @@
 						//var_dump($_POST['txtPassword']);// no funciona el boton de grabar en Actualizar 
 						//return false;
 						//exit;
-						
-						$request_user = $this->model->updateUsuario($idUsuario,$strIdentificacion,$strNombre,$strApellido,$strTelefono,$strEmail,$strPassword,$intTipoId,$intStatus);
+
+						// Valida que solo inserte un nuevo usuario si tiene el permiso de Grabar Usuario.
+						if ($_SESSION['permisosMod']['u'])
+						{						
+							$request_user = $this->model->updateUsuario($idUsuario,$strIdentificacion,$strNombre,$strApellido,$strTelefono,$strEmail,$strPassword,$intTipoId,$intStatus);
+						}					
 
 					}
 
@@ -136,98 +145,110 @@
 		// Obteniene los "Usuarios" con el "Rol"
 		public function getUsuarios()
 		{
-			$arrData = $this->model->selectUsuarios();
-			// dep($arrData);
-
-			// Para colocar en color Verde o Rojo el estatus del Usuario
-			for ($i= 0; $i<count($arrData);$i++)
+			// Esta condicion se utiliza para que usuarios que no tengan sesion no pueden visualizar los usuarios.
+			if ($_SESSION['permisosMod']['r'])
 			{
-				$btnView = '';
-				$btnEdit = '';
-				$btnDelete = '';
+				$arrData = $this->model->selectUsuarios();
+				// dep($arrData);
 
-				if ($arrData[$i]['estatus'] == 1)
+				// Para colocar en color Verde o Rojo el estatus del Usuario
+				for ($i= 0; $i<count($arrData);$i++)
 				{
-					$arrData[$i]['estatus'] = '<span class="badge badge-success">Activo</span>';
-				}
-				else
-				{
-					$arrData[$i]['estatus'] = '<span class="badge badge-danger">Inactivo</span>';
-				}
+					$btnView = '';
+					$btnEdit = '';
+					$btnDelete = '';
 
-				if ($_SESSION['permisosMod']['r'])
-				{
-					$btnView = '<button class="btn btn-info btn-sm btnViewUsuario" onClick="fntViewUsuario('.$arrData[$i]['id_persona'].')" title="Ver Usuario"><i class="far fa-eye"></i></button>';
-				}
-
-				if ($_SESSION['permisosMod']['u'])
-				{
-					// Se agrega la condicion para que solo el Super Usuario y que sea Administrador
-					// idUser = 1; Usuario Super Administrador.
-					// y este mismo usuario tiene el Rol 1 Administrador.
-					//  $_SESSION['userData']['id_rol'] == 1) and ($arrData[$i]['id_rol'] != 1 :
-					// NO es un Usuario Administrador.
-					// this = Significa que se enviara como parámetro todo la etiqueta "botton" 
-					if ((($_SESSION['idUser'] == 1) and ($_SESSION['userData']['id_rol'] == 1)) || (($_SESSION['userData']['id_rol'] == 1) and ($arrData[$i]['id_rol'] != 1)))
+					if ($arrData[$i]['estatus'] == 1)
 					{
-						$btnEdit = '<button class="btn btn-primary btn-sm btnEditUsuario" onClick="fntEditUsuario(this,'.$arrData[$i]['id_persona'].')" title="Editar Usuario"><i class="fas fa-pencil-alt"></i></button>';
+						$arrData[$i]['estatus'] = '<span class="badge badge-success">Activo</span>';
 					}
 					else
 					{
-						$btnEdit = '<button class="btn btn-secondary btn-sm" disabled><i class="fas fa-pencil-alt"></i></button>';
+						$arrData[$i]['estatus'] = '<span class="badge badge-danger">Inactivo</span>';
 					}
 
-				} // if ($_SESSION['permisosMod']['u'])
-
-				// ($_SESSION['userData']['id_persona'] != $arrData[$i][id_persona])
-				// Se bloquea al Usuario Super Administrador el boton de Borrar, es decir no se puede eliminarse, se tiene que realizar
-				// Con la opcion "Profile"
-				if ($_SESSION['permisosMod']['d'])
-				{
-					if ((($_SESSION['idUser'] == 1) and ($_SESSION['userData']['id_rol'] == 1)) || (($_SESSION['userData']['id_rol'] == 1) and ($arrData[$i]['id_rol'] != 1)) and ($_SESSION['userData']['id_persona'] != $arrData[$i][id_persona]))
+					if ($_SESSION['permisosMod']['r'])
 					{
-						$btnDelete = '<button class="btn btn-danger btn-sm btnDelUsuario" onClick="fntDelUsuario('.$arrData[$i]['id_persona'].')" title="Eliminar Usuario"><i class="fas fa-trash-alt"></i></button>';
+						$btnView = '<button class="btn btn-info btn-sm btnViewUsuario" onClick="fntViewUsuario('.$arrData[$i]['id_persona'].')" title="Ver Usuario"><i class="far fa-eye"></i></button>';
 					}
-					else
+
+					if ($_SESSION['permisosMod']['u'])
 					{
-						$btnDelete = '<button class="btn btn-secondary btn-sm" disabled><i class="far fa-trash-alt"></i></button>';
-					}
+						// Se agrega la condicion para que solo el Super Usuario y que sea Administrador
+						// idUser = 1; Usuario Super Administrador.
+						// y este mismo usuario tiene el Rol 1 Administrador.
+						//  $_SESSION['userData']['id_rol'] == 1) and ($arrData[$i]['id_rol'] != 1 :
+						// NO es un Usuario Administrador.
+						// this = Significa que se enviara como parámetro todo la etiqueta "botton" 
+						if ((($_SESSION['idUser'] == 1) and ($_SESSION['userData']['id_rol'] == 1)) || (($_SESSION['userData']['id_rol'] == 1) and ($arrData[$i]['id_rol'] != 1)))
+						{
+							$btnEdit = '<button class="btn btn-primary btn-sm btnEditUsuario" onClick="fntEditUsuario(this,'.$arrData[$i]['id_persona'].')" title="Editar Usuario"><i class="fas fa-pencil-alt"></i></button>';
+						}
+						else
+						{
+							$btnEdit = '<button class="btn btn-secondary btn-sm" disabled><i class="fas fa-pencil-alt"></i></button>';
+						}
 
-				} // if ($_SESSION['permisosMod']['d'])
+					} // if ($_SESSION['permisosMod']['u'])
 
-				//Son los botones, en la columna de "options".
-				// Se agrega el evento "onclick" en la etiqueta "button" para evitar el error de en google de que no carga los eventos.
-				$arrData[$i]['options'] = ' <div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
+					// ($_SESSION['userData']['id_persona'] != $arrData[$i][id_persona])
+					// Se bloquea al Usuario Super Administrador el boton de Borrar, es decir no se puede eliminarse, se tiene que realizar
+					// Con la opcion "Profile"
+					if ($_SESSION['permisosMod']['d'])
+					{
+						if ((($_SESSION['idUser'] == 1) and ($_SESSION['userData']['id_rol'] == 1)) || (($_SESSION['userData']['id_rol'] == 1) and ($arrData[$i]['id_rol'] != 1)) and ($_SESSION['userData']['id_persona'] != $arrData[$i][id_persona]))
+						{
+							$btnDelete = '<button class="btn btn-danger btn-sm btnDelUsuario" onClick="fntDelUsuario('.$arrData[$i]['id_persona'].')" title="Eliminar Usuario"><i class="fas fa-trash-alt"></i></button>';
+						}
+						else
+						{
+							$btnDelete = '<button class="btn btn-secondary btn-sm" disabled><i class="far fa-trash-alt"></i></button>';
+						}
 
-			} // for ($i= 0; $i<count($arrData);$i++)
-			
+					} // if ($_SESSION['permisosMod']['d'])
 
-			// <span class="badge badge-success">Success</span>
-			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+					//Son los botones, en la columna de "options".
+					// Se agrega el evento "onclick" en la etiqueta "button" para evitar el error de en google de que no carga los eventos.
+					$arrData[$i]['options'] = ' <div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
+
+				} // for ($i= 0; $i<count($arrData);$i++)
+				
+
+				// <span class="badge badge-success">Success</span>
+				echo json_encode($arrData,JSON_UNESCAPED_UNICODE);				
+
+			} // if ($_SESSION['permisosMod']['r'])
+
 			die(); // Finaliza el proceso.
 
 		}
 
-		public function getUsuario(int $idpersona)
+		public function getUsuario($idpersona)
 		{
-			//echo $idpersona;
-			$idusuario = intval($idpersona);
-			if ($idusuario > 0)
+			// Esta condicion se utiliza para que usuarios que no tengan sesion no pueden visualizar los usuarios.
+			if ($_SESSION['permisosMod']['r'])
 			{
-				$arrData = $this->model->selectUsuario($idusuario);
-				//dep($arrData);
-				if (empty($arrData))
+				//echo $idpersona;
+				$idusuario = intval($idpersona);
+				if ($idusuario > 0)
 				{
-					$arrResponse = array('estatus' =>false,'msg'=> 'Datos No Encontrado');
-				}
-				else
-				{
-					$arrResponse = array('estatus' =>true,'data'=> $arrData);
-				}
-				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-				
-			}
-			die();
+					$arrData = $this->model->selectUsuario($idusuario);
+					//dep($arrData);
+					if (empty($arrData))
+					{
+						$arrResponse = array('estatus' =>false,'msg'=> 'Datos No Encontrado');
+					}
+					else
+					{
+						$arrResponse = array('estatus' =>true,'data'=> $arrData);
+					}
+					echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+					
+				} 
+
+			} // if ($_SESSION['permisosMod']['r'])
+
+				die();
 		}
 
 		// Método para borrar un Usuario.
@@ -236,10 +257,15 @@
 			// Esta variable superglobal se genero en "Functions_roles.js", seccion "fntDelRol"
 			if ($_POST)
 			{
-				$intIdpersona = intval($_POST['idUsuario']);
+				// Valida que solo inserte un nuevo usuario si tiene el permiso de Grabar Usuario.
+				if ($_SESSION['permisosMod']['d'])
+				{
+					$intIdpersona = intval($_POST['idUsuario']);
 
-				// Este objeto se define en el Modleo "Rol".
-				$requestDelete = $this->model->deleteUsuario($intIdpersona);
+					// Este objeto se define en el Modleo "Rol".
+					$requestDelete = $this->model->deleteUsuario($intIdpersona);
+				}
+				
 
 				if($requestDelete)
 				{
