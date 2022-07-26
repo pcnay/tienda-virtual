@@ -3,11 +3,27 @@
 	{
 		public function __construct()
 		{
+			// Para que deje la sesion abierta en PHP desde la aplicacion y no desde la configuracion del servidor
+			// sessionStart();
+			// Se debe llamar desde esta posicion para evitar el problema de algunos "Hosting" que cuando se inicia sesion NO muestra nada en la pantalla
+			// Se soluciona agregando la linea
+
+			// Para que deje la sesion abierta en PHP desde la aplicacion y no desde la configuracion del servidor
+			sessionStart();
+
 			// Ejecuta el constructor padre (desde donde se hereda.)
 			parent::__construct();
 			
 			// Verifica si la variable de SESSION["login"] esta en Verdadero, sigfica que esta una sesion iniciada.
-			session_start();
+			//session_start();
+			
+			// Evitar que ingresen en otro navegador utilizando el PHPSESSID
+			// Elimina las ID Anteriores.
+			//session_regenerate_id(true);
+
+			// Para que deje la sesion abierta en PHP desde la aplicacion y no desde la configuracion del servidor
+			// sessionStart();
+
 			if (empty($_SESSION['login']))
 			{
 				header('Location: '.base_url().'/Login');

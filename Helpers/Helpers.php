@@ -109,6 +109,27 @@
 		$request = $objLogin->sessionLogin($idpersona);
 		return $request;
 	}
+
+	// Se crea la sesion y determina el tiempo que el usuario tendrá la sesion activa del Sistema.
+	function sessionStart()
+	{
+		session_start();
+		$inactive = 10; // Son expresados en Segundos, cuanto permanecera la sesion activo
+		if (isset($_SESSION['timeout']))
+		{
+			$session_in = time() - $_SESSION['inicio']; // Valores en Segundos.
+			if ($session_in > $inactive)
+			{
+				header("Location: ".BASE_URL."/Logout");				
+			}			
+		}
+		else
+		{
+			header("Location: ".BASE_URL."/Logout");
+		}		
+	}
+
+	
 	// Elimina exceso de espacios entre palabras.
 	function strClean($strCadena)
 	{
