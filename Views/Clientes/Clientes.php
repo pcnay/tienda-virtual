@@ -21,7 +21,7 @@
 			<ul class="app-breadcrumb breadcrumb">
 				<li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
 				<!-- /Roles = Es el Controlador que buscara -->
-				<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>/Usuarios"><?php echo $data['page_title']; ?></a></li>
+				<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>/Clientes"><?php echo $data['page_title']; ?></a></li>
 			</ul>
 		</div>
 
