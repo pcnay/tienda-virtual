@@ -97,7 +97,7 @@
 						$strPassword = empty($_POST['txtPassword'])?hash("SHA256",passGenerator()):hash("SHA256",$_POST['txtPassword']);
 
 						// Valida que solo inserte un nuevo usuario si tiene el permiso de Grabar Usuario.
-						if ($_SESSION['permisosMod']['r'])
+						if ($_SESSION['permisosMod']['w'])
 						{
 							$request_user = $this->model->insertUsuario($strIdentificacion,$strNombre,$strApellido,$strTelefono,$strEmail,$strPassword,$intTipoId,$intStatus);
 						}

@@ -54,6 +54,107 @@
 			$this->views->getView($this,"Clientes",$data);
 		}
 
+		// Para Grabar los datos en la tabla de Clientes
+		public function setCliente()
+		{
+			//dep($_POST); // Revisando el contenido de $_POST
+			//die(); // Finaliza el proceso
+
+			// Esta validando si los datos esta vacios.
+			if ($_POST)
+			{
+				//dep($_POST);
+				//die(); exit;
+
+				if (empty($_POST['txtIdentificacion']) || empty($_POST['txtNombre']) || empty($_POST['txtApellido']) || empty($_POST['txtTelefono']) || empty($_POST['txtEmail']) || empty($_POST['txtNit']) || empty($_POST['txtNombreFiscal']) || empty($_POST['txtDirFiscal']))
+				{
+					$arrResponse = array("status" => false, "msg" => 'Datos Incorrectos');
+				}
+				else
+				{
+					$idUsuario = intval($_POST['idUsuario']);
+					$strIdentificacion = strClean($_POST['txtIdentificacion']);
+					// Convierte la letras inicial de cada palabra.
+					$strNombre = ucwords(strClean($_POST['txtNombre']));
+					$strApellido = ucwords(strClean($_POST['txtApellido']));
+					$strTelefono = strClean($_POST['txtTelefono']);
+					$strEmail = strtolower(strClean($_POST['txtEmail']));
+					$strNit = strClean($_POST['txtNit']);
+					$strNomFiscal = strClean($_POST['txtNombreFiscal']);
+					$strDirFiscal = strClean($_POST['txtDirFiscal']);
+					$intTipoId = 4; // ID que esta en la tabla de Roles, para clientes.
+
+					$request_user = "";
+
+					// Si no se envia un "id_persona" significa que se esta crean el Usuario
+					if ($idUsuario == 0)
+					{
+						$option = 1;
+						// hash("SHA256",passGenerator())); Encripta la contraseña. Genera un password Aleatorio
+						$strPassword = empty($_POST['txtPassword'])?hash("SHA256",passGenerator()):hash("SHA256",$_POST['txtPassword']);
+
+						// Valida que solo inserte un nuevo usuario si tiene el permiso de Grabar Usuario.
+						if ($_SESSION['permisosMod']['w'])
+						{
+							$request_user = $this->model->insertCliente($strIdentificacion,$strNombre,$strApellido,$strTelefono,$strEmail,$strPassword,$intTipoId,$strNit,$strNomFiscal,$strDirFiscal);
+						}
+					}
+					else  // Actualizar Usuario
+					{
+						/*
+						$option = 2;
+						// hash("SHA256",$_POST['txtPassword']; Encripta la contraseña.
+						// Esta condicion se utiliza para evitar que se vuelva a encriptar la contraseña que ya estaba encriptada, por esta razon se determina si la contraña tiene mas de 40 caracteres (estan encriptada), ya que para teclar una clave de 40!!!
+						if (strlen($_POST['txtPassword']) > 40)
+						{
+							$strPassword = empty($_POST['txtPassword'])?"":$_POST['txtPassword'];
+						}
+						else
+						{
+							$strPassword = empty($_POST['txtPassword'])?"":hash("SHA256",$_POST['txtPassword']);
+						}
+						//var_dump($_POST['txtPassword']);// no funciona el boton de grabar en Actualizar 
+						//return false;
+						//exit;
+
+						// Valida que solo inserte un nuevo usuario si tiene el permiso de Grabar Usuario.
+						if ($_SESSION['permisosMod']['u'])
+						{						
+							$request_user = $this->model->updateUsuario($idUsuario,$strIdentificacion,$strNombre,$strApellido,$strTelefono,$strEmail,$strPassword,$intTipoId,$intStatus);
+						}					
+						*/
+
+					}
+
+					// Si se inserto el registro en la tabla.
+					if ($request_user > 0)
+					{
+						if ($option == 1)
+						{
+							$arrResponse = array ('estatus' => true, 'msg' => 'Datos Guardados Correctamente');
+						}
+						else
+						{
+							$arrResponse = array ('estatus' => true, 'msg' => 'Datos Actualizados Correctamente');
+						}
+
+					}
+						elseif ($request_user == 'exist')
+						{
+							$arrResponse = array ('estatus' => false, 'msg' => 'Registro Existente ');
+						}
+					else
+					{
+						$arrResponse = array ('estatus' => false, 'msg' => 'NO es posible Almacenar Los Registros ');
+					}
+					
+				} // else
+				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+			}
+			die(); // Detiene el proceso.
+		}
+
+
 	} // class Usuarios extends Controllers
 
 ?>
