@@ -99,6 +99,22 @@
 
 		}
 
+		// Obtiene la informacion de un solo Cliente.
+		public function selectCliente(int $idpersona)
+		{
+			// rolid = 4 Es el ID que esta grabado en la tabla "t_Rol"
+			
+			$this->intIdUsuario = $idpersona;
+			$sql = "SELECT id_persona,identificacion,nombres,apellidos,telefono,email_user,nit,nombrefiscal,direccionfiscal,estatus,DATE_FORMAT(datecreated,'%d-%m-%Y') as fechaRegistro
+				FROM t_Personas
+				WHERE id_persona = $this->intIdUsuario AND rolid = 4 ";
+
+			// echo $sql;exit;, se utiliza "Network" para seleccionar "Request" y se muetra el Echo.
+			
+			$request = $this->select($sql);
+			return $request;
+		}
+
 
 	} // Class 
 

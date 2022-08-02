@@ -210,6 +210,41 @@
 
 		} // Public function getClientes()
 
+		public function getCliente($idpersona)
+		{
+
+			// Esta condicion se utiliza para que usuarios que no tengan sesion no pueden visualizar los usuarios.
+			if ($_SESSION['permisosMod']['r'])
+			{
+				//echo $idpersona;
+				$idusuario = intval($idpersona);
+				if ($idusuario > 0)
+				{
+					$arrData = $this->model->selectCliente($idusuario);
+
+					// Se utilizan para mostrar lo que arroja la consulta en la pantalla.
+					//dep($arrData);
+					//exit;
+
+
+					if (empty($arrData))
+					{
+						$arrResponse = array('estatus' =>false,'msg'=> 'Datos No Encontrado');
+					}
+					else
+					{
+						$arrResponse = array('estatus' =>true,'data'=> $arrData);
+					}
+					echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+					
+				} 
+
+			} // if ($_SESSION['permisosMod']['r'])
+
+			die();
+			
+		} // public function getUsuario
+
 
 	} // class Usuarios extends Controllers
 

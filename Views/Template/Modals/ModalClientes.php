@@ -104,11 +104,11 @@
 -->
 
 <!-- Modal -->
-<div class="modal fade" id="modalViewClientes" name = "modalViewClientes" tabindex="-1" role="dialog"  aria-hidden="true">
+<div class="modal fade" id="modalViewCliente" name = "modalViewCliente" tabindex="-1" role="dialog"  aria-hidden="true">
   <div class="modal-dialog" >
     <div class="modal-content">
       <div class="modal-header header-primary">
-        <h5 class="modal-title" id="titleModal">Datos Del Usuario</h5>
+        <h5 class="modal-title" id="titleModal">Datos Del Cliente</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -138,16 +138,20 @@
 								<td id= "celEmail">correo@usuario1.com</td>
 							</tr>
 							<tr>
-								<td>Tipo Usuario:</td>
-								<td id= "celTipoUsuario">Vendedor</td>
+								<td>Identificacion Tributaria:</td>
+								<td id= "celIde">KLK23221</td>
 							</tr>
 							<tr>
-								<td>Estado:</td>
-								<td id= "celEstado">Activo</td>
+								<td>Nombre Fiscal:</td>
+								<td id= "celNomFiscal">Nombre Fiscal</td>
+							</tr>
+							<tr>
+								<td>Direccion Fiscal:</td>
+								<td id= "celDirFiscal">Direccion Fiscal</td>
 							</tr>
 							<tr>
 								<td>Fecha Registro:</td>
-								<td id= "celFechaRegistro">Fecha Registro></td>
+								<td id= "celFechaRegistro">Fecha Registro</td>
 							</tr>
 
 						</tbody>
