@@ -1,6 +1,65 @@
-// Agrega el evento de Escucha al cargar el documento.
+var tableClientes;
 
+// Para cargar la imagen "Cargando".
+let divLoading = document.querySelector("#divLoading");
+let rowTable = "";
+
+// Agrega el evento de Escucha al cargar el documento.
 document.addEventListener('DOMContentLoaded',function(){
+	// dataTable para  obtener los datos de los Clientes.
+	
+	// Es el dataTable para desplegar los "Usuarios".
+	tableClientes = $('#tableClientes').dataTable({
+		"aProcessing":true,
+		"aServerside":true,
+		"language": {
+			"url":"//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+		},
+		"ajax":{
+			"url":" "+base_url+"/Clientes/getClientes",
+			"dataSrc":""
+		},
+		"columns":[
+			{"data":"id_persona"},
+			{"data":"identificacion"},
+			{"data":"nombres"},
+			{"data":"apellidos"},
+			{"data":"email_user"},
+			{"data":"telefono"},	
+			{"data":"options"}
+		],
+		'dom': 'lBfrtip',
+    'buttons': [
+			{
+				"extend": "copyHtml5",
+				"text":"<i class = 'far fa-copy'></i>Copiar",
+				"titleAttr":"Copiar",
+				"className":"btn btn-secondary"
+			},
+			{
+				"extend": "excelHtml5",
+				"text":"<i class = 'far fa-file-excel'></i>Excel",
+				"titleAttr":"Exportar a Excel",
+				"className":"btn btn-success"
+			},
+			{
+				"extend": "pdfHtml5",
+				"text":"<i class = 'far fa-file-pdf'></i>PDF",
+				"titleAttr":"Exportar a PDF",
+				"className":"btn btn-danger"
+			},
+			{
+				"extend": "csvHtml5",
+				"text":"<i class = 'fas fa-file-csv'></i>CSV",
+				"titleAttr":"Exportar a CSV",
+				"className":"btn btn-info"
+			}
+    ],
+		"resonsieve":"true",
+		"bDestroy":true,
+		"iDisplayLength":10,
+		"order":[[0,"desc"]]
+	});
 
 	if (document.querySelector("#formCliente"))
 	{
@@ -56,8 +115,9 @@ document.addEventListener('DOMContentLoaded',function(){
 						$('#modalFormCliente').modal("hide");
 						formCliente.reset();
 						swal("Clientes",objData.msg,"success");
+
 						// Mostrar los datos en el "dataTable"
-						//tableClientes.api().ajax.reload(function(){});
+						tableClientes.api().ajax.reload(function(){});
 					}
 					else
 					{

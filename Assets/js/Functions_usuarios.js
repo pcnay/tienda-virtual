@@ -1,4 +1,4 @@
-var tableUsuarios;
+var tableClientes;
 
 let divLoading = document.querySelector("#divLoading");
 let rowTable = "";

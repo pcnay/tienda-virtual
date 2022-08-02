@@ -76,6 +76,30 @@
 
 		} // public function insertUsuario(string $i
 
+		// Obtener los "Clientes"
+		public function selectClientes()
+		{
+			$whereAdmin = "";			
+			if ($_SESSION['idUser'] != 1) // No es el usuario "super Administrador"
+			{
+				// Para no mostrar al Super Usuario.
+				$whereAdmin = " AND id_persona != 1 ";
+			}
+		
+			// Para desplegar la consulta en la pantalla.
+			//echo $sql = "SELECT id_persona,identificacion,nombres,apellidos,telefono,passwords,estatus,email_user
+			//	FROM t_Personas WHERE rolid = 4 and estatus != 0 ".$whereAdmin;			
+			// exit;
+
+			$sql = "SELECT id_persona,identificacion,nombres,apellidos,telefono,passwords,estatus,email_user
+			FROM t_Personas WHERE rolid = 4 and estatus != 0 ".$whereAdmin;			
+			
+			$request = $this->select_all($sql);
+			return $request;
+
+		}
+
+
 	} // Class 
 
 ?>

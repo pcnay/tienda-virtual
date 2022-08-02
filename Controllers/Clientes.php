@@ -154,6 +154,62 @@
 			die(); // Detiene el proceso.
 		}
 
+		// Para mostrar los clientes en pantalla.
+		// Obteniene los "Clientes" 
+		public function getClientes()
+		{
+			// Esta condicion se utiliza para que usuarios que no tengan sesion no pueden visualizar los usuarios.
+			if ($_SESSION['permisosMod']['r'])
+			{
+				
+				$arrData = $this->model->selectClientes();
+				//dep($arrData);
+				//exit;
+
+				// Para colocar en color Verde o Rojo el estatus del Usuario
+				for ($i= 0; $i<count($arrData);$i++)
+				{
+					$btnView = '';
+					$btnEdit = '';
+					$btnDelete = '';
+
+					if ($_SESSION['permisosMod']['r'])
+					{
+						$btnView = '<button class="btn btn-info btn-sm btnViewInfo" onClick="fntViewInfo('.$arrData[$i]['id_persona'].')" title="Ver Cliente"><i class="far fa-eye"></i></button>';
+					}
+
+					if ($_SESSION['permisosMod']['u'])
+					{
+						// this = Significa que se enviara como parámetro todo la etiqueta "botton" 
+							$btnEdit = '<button class="btn btn-primary btn-sm btnEditInfo" onClick="fntEditInfo(this,'.$arrData[$i]['id_persona'].')" title="Editar Cliente"><i class="fas fa-pencil-alt"></i></button>';
+
+					} // if ($_SESSION['permisosMod']['u'])
+
+					// ($_SESSION['userData']['id_persona'] != $arrData[$i][id_persona])
+					// Se bloquea al Usuario Super Administrador el boton de Borrar, es decir no se puede eliminarse, se tiene que realizar
+					// Con la opcion "Profile"
+					if ($_SESSION['permisosMod']['d'])
+					{
+						$btnDelete = '<button class="btn btn-danger btn-sm btnDelInfo" onClick="fntDelInfo('.$arrData[$i]['id_persona'].')" title="Eliminar Cliente"><i class="fas fa-trash-alt"></i></button>';
+
+					} // if ($_SESSION['permisosMod']['d'])
+
+					//Son los botones, en la columna de "options".
+					// Se agrega el evento "onclick" en la etiqueta "button" para evitar el error de en google de que no carga los eventos.
+					$arrData[$i]['options'] = ' <div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
+
+				} // for ($i= 0; $i<count($arrData);$i++)
+				
+
+				// <span class="badge badge-success">Success</span>
+				echo json_encode($arrData,JSON_UNESCAPED_UNICODE);				
+
+			} // if ($_SESSION['permisosMod']['r'])
+
+			die(); // Finaliza el proceso.
+
+		} // Public function getClientes()
+
 
 	} // class Usuarios extends Controllers
 
