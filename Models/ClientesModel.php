@@ -113,7 +113,74 @@
 			
 			$request = $this->select($sql);
 			return $request;
-		}
+
+		} // public function selectCliente(int $idpersona)
+
+
+		// Actualizar los datos del Cliente.
+		public function updateCliente(int $idUsuario, string $identificacion, string $nombre, string $apellido, string $telefono, string $email, string $password, string $nit, string $nomFiscal, string $dirFiscal)
+		{
+			$this->intIdUsuario = $idUsuario;
+			$this->strIdentificacion = $identificacion;
+			$this->strNombre = $nombre;
+			$this->strApellido = $apellido;
+			$this->strTelefono = $telefono;
+			$this->strEmail = $email;
+			$this->strPassword = $password;
+			$this->strNit = $nit;
+			$this->strNomFiscal = $nomFiscal;
+			$this->strDirFiscal = $dirFiscal;
+
+			// Verificando atraves de la "identificacion" o "Email" que no exista el Usuario.
+			// para que no se grabe un mismo correo dos personas diferentes
+			// Igual se aplica para la "Identificacion"
+			$sql = "SELECT * FROM t_Personas WHERE (email_user = '{$this->strEmail}' AND id_persona != '{$this->intIdUsuario}') OR (identificacion = '{$this->strIdentificacion}' AND id_persona != '{$this->intIdUsuario}')";
+			
+			$request = $this->select_all($sql);
+			// Si esta vacia, por lo tanto no esta duplicado el correo electronico y la "Identificacion"
+			if (empty($request))
+			{
+				// Si es diferente de Vacio se va "Actualizar" el Correo electrónico.
+				if ($this->strPassword != "")
+				{
+					$sql = "UPDATE t_Personas SET identificacion=?,nombres=?,apellidos=?,telefono=?,email_user=?,passwords=?,nit=?,nombrefiscal=?,direccionfiscal=? WHERE id_persona = $this->intIdUsuario";
+
+					$arrData = array($this->strIdentificacion,
+					$this->strNombre,
+					$this->strApellido,
+					$this->strTelefono,
+					$this->strEmail,
+					$this->strPassword,
+					$this->strNit,
+					$this->strNomFiscal,
+					$this->strDirFiscal);
+				}
+				else // Existe el Correo Electronico o la Identificación.
+				{
+					$sql = "UPDATE t_Personas SET identificacion=?,nombres=?,apellidos=?,telefono=?,email_user=?,nit=?,nombrefiscal=?,direccionfiscal=? WHERE id_persona = $this->intIdUsuario";
+
+					$arrData = array($this->strIdentificacion,
+					$this->strNombre,
+					$this->strApellido,
+					$this->strTelefono,
+					$this->strEmail,
+					$this->strNit,
+					$this->strNomFiscal,
+					$this->strDirFiscal);
+				} // if ($this->strPassword != "")
+
+				$request = $this->update($sql,$arrData);
+
+			}
+			else
+			{
+				$request = "exist";
+			} // if (empty($request))
+
+			return $request;
+
+		} // public function updateCliente
+
 
 
 	} // Class 

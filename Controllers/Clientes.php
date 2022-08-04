@@ -100,8 +100,7 @@
 						}
 					}
 					else  // Actualizar Usuario
-					{
-						/*
+					{						
 						$option = 2;
 						// hash("SHA256",$_POST['txtPassword']; Encripta la contraseña.
 						// Esta condicion se utiliza para evitar que se vuelva a encriptar la contraseña que ya estaba encriptada, por esta razon se determina si la contraña tiene mas de 40 caracteres (estan encriptada), ya que para teclar una clave de 40!!!
@@ -113,18 +112,14 @@
 						{
 							$strPassword = empty($_POST['txtPassword'])?"":hash("SHA256",$_POST['txtPassword']);
 						}
-						//var_dump($_POST['txtPassword']);// no funciona el boton de grabar en Actualizar 
-						//return false;
-						//exit;
 
 						// Valida que solo inserte un nuevo usuario si tiene el permiso de Grabar Usuario.
 						if ($_SESSION['permisosMod']['u'])
 						{						
-							$request_user = $this->model->updateUsuario($idUsuario,$strIdentificacion,$strNombre,$strApellido,$strTelefono,$strEmail,$strPassword,$intTipoId,$intStatus);
-						}					
-						*/
+							$request_user = $this->model->updateCliente($idUsuario,$strIdentificacion,$strNombre,$strApellido,$strTelefono,$strEmail,$strPassword,$strNit,$strNomFiscal,$strDirFiscal);
+						}											
 
-					}
+					} // if ($idUsuario == 0)
 
 					// Si se inserto el registro en la tabla.
 					if ($request_user > 0)

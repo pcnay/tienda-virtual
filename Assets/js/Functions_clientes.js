@@ -198,6 +198,87 @@ function fntViewInfo(idpersona)
 
 }
 
+// Editar un Cliente
+function fntEditInfo(element,idpersona)
+{
+	// Se agrega estas lineas ya que se edita un Usuario, y se recarga, pierde la página donde se encontraba la tabla inicialmente.
+	rowTable = element.parentNode.parentNode.parentNode;
+	// .parentNode = Sube al padre inmediato superior, hasta subir el padre de la etiqueta (dos niveles)
+	//console.log(rowTable);
+	// rowTable.cells[1].textContent = 
+
+
+	//console.log('Entre a Function fntEditRol');
+	/*
+	var btnEditRol_b = document.querySelectorAll(".btnEditRol");
+	console.log (btnEditRol_b);
+	btnEditRol_b.forEach(function(btnEditRol_b){
+	
+
+		btnEditRol_b.addEventListener('click',function(){
+			//console.log('Click en el boton de edit');
+	*/
+	
+	// El código para ejecutar Ajax.
+	// "us" se agrego junto con los botones de "Editar","Borrar" cunado se muestran los Usuarios. Es el "id" del Usuarios en la tabla.
+	//var idpersona = this.getAttribute("us");
+
+	// Se agrega este código para reutilizar la ventana de Capturar Usuarios, se cambiaran valores para las vistas y leyenda de botones.
+	// Estes lineas de definieron en "fntEditUsario()"
+	// Es el Input "hidden" que se encuentra : /Views/Templetes/Modals/ModalUsuarios.php
+	document.querySelector('#idUsuario').value = "";	
+	// Cambiando los colores de la franja de la ventana.
+	// Estas definidos en "ModalUsuarios.php"
+	document.querySelector('.modal-header').classList.replace("headerRegister","headerUpdate");
+	// Cambiando la clase de los botones (Colores)
+	document.querySelector('#btnActionForm').classList.replace("btn-primary","btn-info");
+	document.querySelector('#btnText').innerHTML = "Actualizar";
+	document.querySelector('#titleModal').innerHTML = "Actualizar Cliente";
+
+	let id_persona = idpersona;
+	//console.log(idrol);
+
+	// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+	let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+
+	// Se pasan como parametro al método definido en "Usuarios.php -> Controllers" desde el Ajax
+	// Va obtener los datos del usuarios usando "Ajax"
+	let ajaxUrl = base_url+'/Clientes/getCliente/'+id_persona; 
+	request.open("GET",ajaxUrl,true);
+	request.send(); // Se envia la petición (ejecutar el archivo "getRol/XXX")
+	// Lo que retorne (echo Json.... el Controllers/Usuarios/getUsuario
+	request.onreadystatechange = function()
+	{
+		// request.status == 200 ; se realizo la peticion
+
+		if (request.status == 200 && request.readyState == 4)
+		{
+			// Retorna a un objeto lo que se retorna en "getUsuario"
+
+			//$('#modalViewUser').modal('show');
+			//console.log(request.responseText);
+
+			let objData = JSON.parse(request.responseText);
+			if (objData.estatus)			
+			{	
+				//console.log("password ",objData.data.passwords);
+				document.querySelector("#idUsuario").value = objData.data.id_persona;
+				document.querySelector("#txtIdentificacion").value = objData.data.identificacion;
+				document.querySelector("#txtNombre").value = objData.data.nombres;
+				document.querySelector("#txtApellido").value = objData.data.apellidos;
+				document.querySelector("#txtTelefono").value = objData.data.telefono;
+				document.querySelector("#txtEmail").value = objData.data.email_user;
+				document.querySelector("#txtNit").value = objData.data.nit;
+				document.querySelector("#txtNombreFiscal").value = objData.data.nombrefiscal;
+				document.querySelector("#txtDirFiscal").value = objData.data.direccionfiscal;
+			}
+		}
+
+		$('#modalFormCliente').modal('show');
+
+	} // 	request.onreadystatechange = function()
+
+} //function fntEditInfo(idpersona)
 
 
 

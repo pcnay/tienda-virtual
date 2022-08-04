@@ -106,7 +106,7 @@
 			return $request;
 		}
 
-		// Actualizar un registro.
+		// Actualizar un registro de Usuario
 		public function updateUsuario(int $idUsuario, string $identificacion, string $nombre, string $apellido, string $telefono, string $email, string $password, int $tipoid, int $status)
 		{
 			$this->intIdUsuario = $idUsuario;
