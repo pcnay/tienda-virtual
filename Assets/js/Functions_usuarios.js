@@ -1,4 +1,4 @@
-var tableClientes;
+let tableUsuarios;
 
 let divLoading = document.querySelector("#divLoading");
 let rowTable = "";
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded',function(){
 	// Es donde se graba  al usuario
 	if (document.querySelector("#formUsuario"))
 	{
-		var formUsuario = document.querySelector("#formUsuario");
+		let formUsuario = document.querySelector("#formUsuario");
 		// Acivando el evento "onsubmit" a la variable "formUsuario" es donde esta el formulario.
 		formUsuario.onsubmit = function(e){
 			e.preventDefault();
@@ -391,7 +391,7 @@ function fntViewUsuario(idpersona)
 			// Retorna a un objeto lo que se retorna en "getUsuario"
 
 			//$('#modalViewUser').modal('show');
-			//console.log(request.responseText);
+			console.log(request.responseText);
 
 			let objData = JSON.parse(request.responseText);
 			if (objData.estatus)
@@ -425,6 +425,7 @@ function fntViewUsuario(idpersona)
 // Para mostrar el modal "View User"
 function fntEditUsuario(element,idpersona)
 {
+	//console.log('Entre a Function fntEditRol');
 	// Se agrega estas lineas ya que se edita un Usuario, y se recarga, pierde la página donde se encontraba la tabla inicialmente.
 	rowTable = element.parentNode.parentNode.parentNode;
 	// .parentNode = Sube al padre inmediato superior, hasta subir el padre de la etiqueta (dos niveles)
@@ -432,7 +433,7 @@ function fntEditUsuario(element,idpersona)
 	// rowTable.cells[1].textContent = 
 
 
-	//console.log('Entre a Function fntEditRol');
+	
 	/*
 	var btnEditRol_b = document.querySelectorAll(".btnEditRol");
 	console.log (btnEditRol_b);
@@ -446,6 +447,9 @@ function fntEditUsuario(element,idpersona)
 	// El código para ejecutar Ajax.
 	// "us" se agrego junto con los botones de "Editar","Borrar" cunado se muestran los Usuarios. Es el "id" del Usuarios en la tabla.
 	//var idpersona = this.getAttribute("us");
+
+	//$('#modalFormUsuario').modal('show');
+
 
 	// Se agrega este código para reutilizar la ventana de Capturar Usuarios, se cambiaran valores para las vistas y leyenda de botones.
 	// Estes lineas de definieron en "fntEditUsario()"
@@ -478,23 +482,28 @@ function fntEditUsuario(element,idpersona)
 		if (request.status == 200 && request.readyState == 4)
 		{
 			// Retorna a un objeto lo que se retorna en "getUsuario"
+			console.log("comple la condicion 200 y 400 ");
+			console.log(request.responseText);
 
-			//$('#modalViewUser').modal('show');
-			//console.log(request.responseText);
+			//$('#modalFormUsuario').modal('show');
 
 			let objData = JSON.parse(request.responseText);
 			if (objData.estatus)			
 			{	
-				console.log("password ",objData.data.passwords);
+				//console.log("password ",objData.data.passwords);
+				console.log("Valor de rolid ",objData.data.id_rol);
 				document.querySelector("#idUsuario").value = objData.data.id_persona;
+
+				
 				document.querySelector("#txtIdentificacion").value = objData.data.identificacion;
 				document.querySelector("#txtNombre").value = objData.data.nombres;
 				document.querySelector("#txtApellido").value = objData.data.apellidos;
 				document.querySelector("#txtTelefono").value = objData.data.telefono;
 				document.querySelector("#txtEmail").value = objData.data.email_user;
-				document.querySelector("#txtPassword").value = objData.data.passwords;
-				document.querySelector("#listRolid").value = objData.data.id_rol;
+				document.querySelector("#txtPassword").value = objData.data.passwords;				
+				document.querySelector("#listRolid").value = objData.data.rolid; // .id_rol
 				// Renderiza y asigna el valor que esta guardado en la tabla.
+				
 				$('#listRolid').selectpicker('render');
 
 				if (objData.data.estatus == 1)
@@ -510,13 +519,15 @@ function fntEditUsuario(element,idpersona)
 
 				// Para mostrar la opcion que se le esta indicando
 				$('#listStatus').selectpicker('render');
-
+	
 			}
+			
 		}
 
 		$('#modalFormUsuario').modal('show');
 
 	} // 	request.onreadystatechange = function()
+
 
 } //function fntEditUsuario(idpersona)
 
@@ -596,7 +607,7 @@ function openModal()
 	document.querySelector('#btnText').innerHTML = "Guardar";
 	document.querySelector('#titleModal').innerHTML = "Nuevo Usuario";
 	// Resetear el Formulario, limpia todos los campos.
-	document.querySelector('#formUsuario').reset();
+	//document.querySelector('#formUsuario').reset();
 
 	$('#modalFormUsuario').modal('show');
 }

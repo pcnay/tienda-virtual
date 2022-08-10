@@ -240,6 +240,36 @@
 			
 		} // public function getUsuario
 
+		// Método para borrar un Cliente.
+		public function delCliente()
+		{
+			// Esta variable superglobal se genero en "Functions_roles.js", seccion "fntDelRol"
+			if ($_POST)
+			{
+				// Valida que solo borre un nuevo usuario si tiene el permiso de borrar Usuario.
+				
+				if ($_SESSION['permisosMod']['d'])
+				{
+					$intIdpersona = intval($_POST['idUsuario']);
+
+					// Este objeto se define en el Modleo "Rol".
+					$requestDelete = $this->model->deleteCliente($intIdpersona);
+				}
+				
+
+				if($requestDelete)
+				{
+					$arrResponse = array('estatus'=> true, 'msg' => 'Se Ha Eliminado El Usuario');
+				}
+				else
+				{
+					$arrResponse = array('estatus'=> false, 'msg' => 'Error Al Eliminar el Usuario');
+				}
+				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+			}
+			die();
+		}
+
 
 	} // class Usuarios extends Controllers
 

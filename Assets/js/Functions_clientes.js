@@ -1,4 +1,4 @@
-var tableClientes;
+let tableClientes;
 
 // Para cargar la imagen "Cargando".
 let divLoading = document.querySelector("#divLoading");
@@ -280,6 +280,60 @@ function fntEditInfo(element,idpersona)
 
 } //function fntEditInfo(idpersona)
 
+// Borrar un Cliente
+function fntDelInfo(id_Persona)
+{
+	/*
+	let btnDelRol = document.querySelectorAll(".btnDelRol");
+	btnDelRol.forEach(function(btnDelRol){
+		btnDelRol.addEventListener('click',function(){
+	*/
+	let idUsuario = id_Persona;
+	// alert(idrol);
+	swal({
+		title:"Eliminar Cliente",
+		text:"Realmente quere eliminar el Cliente?",
+		type:"warning",
+		showCancelButton:true,
+		confirmButtonText:"Si, eliminar !",
+		cancelButtonText: "No, Cancelar !",
+		closeOnConfirm:false,
+		closeOnCancel:true
+		},function(isConfirm)
+		{
+			// Borrar el Cliente, utiliza Ajax para accesar a la Base de datos.
+			if (isConfirm)
+			{
+				let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+				// Se pasan como parametro al método definido en "Roles.php -> Controllers" desde el Ajax
+				let ajaxDelCliente = base_url+'/Clientes/delCliente';
+				let strData = "idUsuario="+idUsuario;
+				request.open("POST",ajaxDelCliente,true);
+				request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+				request.send(strData);
+				request.onreadystatechange = function(){
+					// Se hizo la petición y fue exitoso, llego la información al servidor.
+					if (request.readyState == 4 && request.status == 200)
+					{
+						let objData = JSON.parse(request.responseText);
+						if (objData.estatus)
+						{
+							swal("Eliminar! ",objData.msg,"success");
+							tableClientes.api().ajax.reload(function(){
+								//fntEditRol();
+								//fntDelrol();
+								//fntPermisos();
+							});
+						}
+						else
+						{
+							swal("Error",objData.msg,"error");
+						}
+					}
+				} 			
+			}
+	});		
+} // functio fntDelUsuario...
 
 
 // Para mostrar la ventana Modal de Clientes.

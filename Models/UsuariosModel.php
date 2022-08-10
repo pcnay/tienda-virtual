@@ -94,7 +94,7 @@
 		public function selectUsuario(int $idpersona)
 		{
 			$this->intIdUsuario = $idpersona;
-			$sql = "SELECT p.id_persona,p.identificacion,p.nombres,p.apellidos,p.telefono,p.email_user,p.nit,p.nombrefiscal,p.direccionfiscal,p.passwords,r.id_rol,r.nombrerol,p.estatus,DATE_FORMAT(p.datecreated,'%d-%m-%Y') as fechaRegistro
+			$sql = "SELECT p.id_persona,p.identificacion,p.nombres,p.apellidos,p.telefono,p.email_user,p.nit,p.nombrefiscal,p.direccionfiscal,p.passwords,p.rolid,r.id_rol,r.nombrerol,p.estatus,DATE_FORMAT(p.datecreated,'%d-%m-%Y') as fechaRegistro
 				FROM t_Personas p
 				INNER JOIN t_Rol r
 				ON p.rolid = r.id_rol

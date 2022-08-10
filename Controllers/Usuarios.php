@@ -190,8 +190,10 @@
 						// Se agrega la condicion para que solo el Super Usuario y que sea Administrador
 						// idUser = 1; Usuario Super Administrador.
 						// y este mismo usuario tiene el Rol 1 Administrador.
-						//  $_SESSION['userData']['id_rol'] == 1) and ($arrData[$i]['id_rol'] != 1 :
-						// NO es un Usuario Administrador.
+
+						// $_SESSION['userData']['id_rol'] = 1 Administrador
+						// $_SESSION['idUser'] = 1 Super Administrador
+						//  $_SESSION['userData']['id_rol'] == 1) and ($arrData[$i]['id_rol'] != 1 : NO es un Usuario Administrador.
 						// this = Significa que se enviara como parámetro todo la etiqueta "botton" 
 						if ((($_SESSION['idUser'] == 1) and ($_SESSION['userData']['id_rol'] == 1)) || (($_SESSION['userData']['id_rol'] == 1) and ($arrData[$i]['id_rol'] != 1)))
 						{

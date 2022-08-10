@@ -57,7 +57,7 @@
 
 					<div class="form-row">
 						<div class="form-group col-md-6">
-							<label for = "listRolid">Tipo Usuarios</label>
+							<label for = "listRolId">Tipo Usuarios</label>
 							<!-- Se utilizara Ajax para extraer todos los roles.-->
 							<select class = "form-control" data-live-search="true" id = "listRolid" name = "listRolid" required >								
 							</select>

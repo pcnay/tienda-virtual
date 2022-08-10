@@ -181,6 +181,18 @@
 
 		} // public function updateCliente
 
+		// Borrar un Cliente
+		public function deleteCliente(int $intIdpersona)
+		{
+			// Previene la Integridad Referencial De Los Datos, se revisa que no existe el usuario en la tabla "t_Personas"
+			$this->intIdUsuario = $intIdpersona;
+				$sql = "UPDATE t_Personas SET estatus = ? WHERE id_persona = $this->intIdUsuario";
+				$arrData = array(0); // Se asigna valor 0
+				$request = $this->update($sql,$arrData);
+				
+			return $request;
+		}
+
 
 
 	} // Class 

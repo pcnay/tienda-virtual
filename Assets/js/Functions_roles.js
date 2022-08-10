@@ -186,7 +186,7 @@ function fntEditRol(id_rol)
 				// Asigna los valores a Select (Combobox)
 				// Es importante que se utiliza "var" en "optionSelect" de lo contrario no funciona.
 				// "notBlock" = Es una clase para borrar el renglon duplicado 
-				console.log(typeof(objData.data.estatus));
+				//console.log(typeof(objData.data.estatus));
 
 				if (parseInt(objData.data.estatus) == 1)
 				{
