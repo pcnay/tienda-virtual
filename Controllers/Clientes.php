@@ -11,7 +11,8 @@
 
 			// Para que deje la sesion abierta en PHP desde la aplicacion y no desde la configuracion del servidor
 			sessionStart();
-
+			session_regenerate_id(true); // Regenere el Id de la sesion es para mayor seguridad.
+ 
 			parent::__construct();
 			// Verifica si la variable de SESSION["login"] esta en Verdadero, sigfica que esta una sesion iniciada.
 			//session_start();
@@ -91,12 +92,13 @@
 					{
 						$option = 1;
 						// hash("SHA256",passGenerator())); Encripta la contraseña. Genera un password Aleatorio
-						$strPassword = empty($_POST['txtPassword'])?hash("SHA256",passGenerator()):hash("SHA256",$_POST['txtPassword']);
+						$strPassword = empty($_POST['txtPassword'])?passGenerator():$_POST['txtPassword'];
+						$strPasswordEncript = hash("SHA256",$strPassword);
 
 						// Valida que solo inserte un nuevo usuario si tiene el permiso de Grabar Usuario.
 						if ($_SESSION['permisosMod']['w'])
 						{
-							$request_user = $this->model->insertCliente($strIdentificacion,$strNombre,$strApellido,$strTelefono,$strEmail,$strPassword,$intTipoId,$strNit,$strNomFiscal,$strDirFiscal);
+							$request_user = $this->model->insertCliente($strIdentificacion,$strNombre,$strApellido,$strTelefono,$strEmail,$strPasswordEncript,$intTipoId,$strNit,$strNomFiscal,$strDirFiscal);
 						}
 					}
 					else  // Actualizar Usuario
@@ -127,6 +129,15 @@
 						if ($option == 1)
 						{
 							$arrResponse = array ('estatus' => true, 'msg' => 'Datos Guardados Correctamente');
+
+							$nombreUsuario = $strNombre.' '.$strApellido;
+							$dataUsuario = array('nombreUsuario' => $nombreUsuario,
+							'email' => $strEmail,
+							'password' => $strPassword,
+							'asunto' => 'Bienvenido a tu tienda en línea');	
+
+							// La función "sendEmai" se crea en el Helper.php
+							sendEmail($dataUsuario,'email_bienvenida');	
 						}
 						else
 						{
@@ -195,8 +206,6 @@
 
 				} // for ($i= 0; $i<count($arrData);$i++)
 				
-
-				// <span class="badge badge-success">Success</span>
 				echo json_encode($arrData,JSON_UNESCAPED_UNICODE);				
 
 			} // if ($_SESSION['permisosMod']['r'])
@@ -207,7 +216,6 @@
 
 		public function getCliente($idpersona)
 		{
-
 			// Esta condicion se utiliza para que usuarios que no tengan sesion no pueden visualizar los usuarios.
 			if ($_SESSION['permisosMod']['r'])
 			{

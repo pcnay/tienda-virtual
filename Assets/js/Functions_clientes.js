@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
 	if (document.querySelector("#formCliente"))
 	{
-		var formCliente = document.querySelector("#formCliente");
+		let formCliente = document.querySelector("#formCliente");
 		// Acivando el evento "onsubmit" a la variable "formUsuario" es donde esta el formulario.
 		formCliente.onsubmit = function(e){
 			e.preventDefault();
@@ -112,12 +112,25 @@ document.addEventListener('DOMContentLoaded',function(){
 					let objData = JSON.parse(request.responseText);
 					if (objData.estatus)
 					{
+						if (rowTable == "")
+						{
+							// Mostrar los datos en el "dataTable"
+							tableClientes.api().ajax.reload(function(){});
+						}
+						else
+						{
+							rowTable.cells[1].textContent = strIdentificacion;
+							rowTable.cells[2].textContent = strNombre;
+							rowTable.cells[3].textContent = strApellido;
+							rowTable.cells[4].textContent = strEmail;
+							rowTable.cells[5].textContent = strTelefono;
+							rowTable = "";
+
+						}
 						$('#modalFormCliente').modal("hide");
 						formCliente.reset();
 						swal("Clientes",objData.msg,"success");
 
-						// Mostrar los datos en el "dataTable"
-						tableClientes.api().ajax.reload(function(){});
 					}
 					else
 					{
@@ -268,6 +281,7 @@ function fntEditInfo(element,idpersona)
 				document.querySelector("#txtApellido").value = objData.data.apellidos;
 				document.querySelector("#txtTelefono").value = objData.data.telefono;
 				document.querySelector("#txtEmail").value = objData.data.email_user;
+				document.querySelector("#txtPassword").value = objData.data.passwords;				
 				document.querySelector("#txtNit").value = objData.data.nit;
 				document.querySelector("#txtNombreFiscal").value = objData.data.nombrefiscal;
 				document.querySelector("#txtDirFiscal").value = objData.data.direccionfiscal;

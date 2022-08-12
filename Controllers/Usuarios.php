@@ -11,6 +11,7 @@
 
 			// Para que deje la sesion abierta en PHP desde la aplicacion y no desde la configuracion del servidor
 			sessionStart();
+			session_regenerate_id(true); // Regenere el Id de la sesion es para mayor seguridad.
 
 			parent::__construct();
 			// Verifica si la variable de SESSION["login"] esta en Verdadero, sigfica que esta una sesion iniciada.
