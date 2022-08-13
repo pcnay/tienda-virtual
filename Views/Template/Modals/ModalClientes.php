@@ -28,32 +28,32 @@
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for = "txtIdentificacion">Identificacion<span class = "required">*</span></label>
-							<input class="form-control" type="text" id ="txtIdentificacion" name = "txtIdentificacion" placeholder="Ingresa Idenfificacion" required="">
+							<input class="form-control" type="text" id ="txtIdentificacion" name = "txtIdentificacion" maxlength="30" placeholder="Ingresa Idenfificacion" required="">
 						</div>
 						<div class="form-group col-md-4">
 							<label for = "txtNombre">Nombres<span class = "required">*</span></label>
-							<input class="form-control valid validText" type="text" id ="txtNombre" name = "txtNombre" placeholder="Ingresa Nombre" required="">
+							<input class="form-control valid validText" type="text" id ="txtNombre" name = "txtNombre" maxlength="80" placeholder="Ingresa Nombre" required="">
 						</div>
 						<div class="form-group col-md-4">
 							<label for = "txtApellido">Apellidos<span class = "required">*</span></label>
-							<input class="form-control valid validText" type="text" id ="txtApellido" name = "txtApellido" placeholder="Ingresa Apellido" required="">
+							<input class="form-control valid validText" type="text" id ="txtApellido" name = "txtApellido" maxlength="30" placeholder="Ingresa Apellido" required="">
 						</div>
 					</div> <!-- <div class="form-row" -->
 
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for = "txtTelefono">Telefonos<span class = "required">*</span></label>
-							<input class="form-control valid validNumber" type="text" id ="txtTelefono" name = "txtTelefono" placeholder="Ingresa Telefono" required="" onkeypress="return controlTag(event);">
+							<input class="form-control valid validNumber" type="text" id ="txtTelefono" name = "txtTelefono" maxlength="20" placeholder="Ingresa Telefono" required="" onkeypress="return controlTag(event);">
 							<!-- Solo escribe numeros. -->
 						</div>
 						<div class="form-group col-md-4">
 							<label for = "txtEmail">Email<span class = "required">*</span></label>
-							<input class="form-control valid validEmail" type="email" id ="txtEmail" name = "txtEmail" placeholder="Ingresa Email" required="">
+							<input class="form-control valid validEmail" type="email" id ="txtEmail" name = "txtEmail" maxlength="100" placeholder="Ingresa Email" required="">
 						</div>
 						
 						<div class="form-group col-md-4">
 							<label for = "txtPassword">Password</label>
-							<input class="form-control" type="password" id ="txtPassword" name = "txtPassword" >
+							<input class="form-control" type="password" maxlength="75" id ="txtPassword" name = "txtPassword" >
 						</div>
 					
 					</div> <!-- <div class="form-row" -->
@@ -63,15 +63,15 @@
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label>Identiifcacion Tributaria<span class = "required">*</span></label>
-							<input class="form-control" type="text" id="txtNit" name="txtNit" required="">
+							<input class="form-control" type="text" maxlength="20"  id="txtNit" name="txtNit" required="">
 						</div>
 						<div class="form-group col-md-6">	
 							<label>Nombre Fiscal<span class = "required">*</span></label>
-							<input class="form-control" type="text" id="txtNombreFiscal" name="txtNombreFiscal" required="">          					
+							<input class="form-control" type="text" maxlength="80" id="txtNombreFiscal" name="txtNombreFiscal" required="">          					
 						</div>	
 						<div class="form-group col-md-12">	
 							<label>Direccion Fiscal<span class = "required">*</span></label>
-							<input class="form-control" type="text" id="txtDirFiscal" name="txtDirFiscal" required= "">
+							<input class="form-control" type="text" maxlength="100" id="txtDirFiscal" name="txtDirFiscal" required= "">
 						</div>                  
 
 					</div>

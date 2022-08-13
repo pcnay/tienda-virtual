@@ -61,6 +61,97 @@ document.addEventListener('DOMContentLoaded',function(){
 		"order":[[0,"desc"]]
 	});
 
+
+	// Validar la entrada, solo caracteres permitidos "txtIdentificacion"
+	$("#txtIdentificacion").bind('keypress', function(event) {
+		var regex = new RegExp("^[A-Za-z0-9]+$");
+		var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+		if (!regex.test(key)) {
+			event.preventDefault();
+			return false;
+		}
+	});
+
+// Validar la entrada, solo caracteres permitidos "txtNombre"
+$("#txtNombre").bind('keypress', function(event) {
+	var regex = new RegExp("^[A-Za-zñÑ]+$");
+	var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+	if (!regex.test(key)) {
+		event.preventDefault();
+		return false;
+	}
+});
+
+// Validar la entrada, solo caracteres permitidos "txtApellidos"
+$("#txtApellido").bind('keypress', function(event) {
+	var regex = new RegExp("^[A-Za-zñÑ]+$");
+	var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+	if (!regex.test(key)) {
+		event.preventDefault();
+		return false;
+	}
+});
+
+// Validar la entrada, solo caracteres permitidos "txtTelefono"
+$("#txtTelefono").bind('keypress', function(event) {
+	var regex = new RegExp("^[0-9-]+$");
+	var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+	if (!regex.test(key)) {
+		event.preventDefault();
+		return false;
+	}
+});
+
+// Validar la entrada, solo caracteres permitidos "txtEmail"
+$("#txtEmail").bind('keypress', function(event) {
+	var regex = new RegExp("^[a-zA-Z0-9.-_@]+$");
+	var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+	if (!regex.test(key)) {
+		event.preventDefault();
+		return false;
+	}
+});
+
+// Validar la entrada, solo caracteres permitidos "txtPassword"
+$("#txtPassword").bind('keypress', function(event) {
+	var regex = new RegExp("^[a-zA-Z0-9.-_@]+$");
+	var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+	if (!regex.test(key)) {
+		event.preventDefault();
+		return false;
+	}
+});
+
+// Validar la entrada, solo caracteres permitidos "txtNit"
+$("#txtNit").bind('keypress', function(event) {
+	var regex = new RegExp("^[a-zA-Z0-9]+$");
+	var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+	if (!regex.test(key)) {
+		event.preventDefault();
+		return false;
+	}
+});
+
+// Validar la entrada, solo caracteres permitidos "txtNombreFiscal"
+$("#txtNombreFiscal").bind('keypress', function(event) {
+	var regex = new RegExp("^[a-zA-Z0-9.-]+$");
+	var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+	if (!regex.test(key)) {
+		event.preventDefault();
+		return false;
+	}
+});
+
+// Validar la entrada, solo caracteres permitidos "txtDirFiscal"
+$("#txtDirFiscal").bind('keypress', function(event) {
+	var regex = new RegExp("^[a-zA-Z0-9.-#]+$");
+	var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+	if (!regex.test(key)) {
+		event.preventDefault();
+		return false;
+	}
+});
+
 	if (document.querySelector("#formCliente"))
 	{
 		let formCliente = document.querySelector("#formCliente");
