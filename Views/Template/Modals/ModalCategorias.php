@@ -32,11 +32,11 @@
 							<input type="hidden" id="idCategoria" name="idCategoria" value="">
 							<div class="form-group">
 								<label class="control-label">Nombre<span class = "required">*</span></label>
-								<input class="form-control" type="text" id ="txtNombre" name = "txtNombre" placeholder="Ingresa Nombre Completo" required="">
+								<input class="form-control" type="text" id ="txtNombre" name = "txtNombre" placeholder="Nombre Categoria" required="">
 							</div>
 							<div class="form-group">
 								<label class="control-label">Descripcion<span class = "required">*</span></label>
-								<textarea class="form-control" rows="2" id = "txtDescripcion" name = "txtDescripcion" placeholder="Ingresar Descripcion" required =""></textarea>
+								<textarea class="form-control" rows="2" id = "txtDescripcion" name = "txtDescripcion" placeholder="Descripcion De Categoria" required =""></textarea>
 							</div>
 
 							<!-- Select - Combobox -->
@@ -50,10 +50,26 @@
 
 						</div> <!-- <div class="col-md-6">  -->
 
-
+						<!-- Se coloca el codigo HTML para agregar la imagen de la categoria. -->
 						<div class="col-md-6"> 
+							<div class="photo">
+								<label for="foto">Foto (570x380)</label>
+								<div class="prevPhoto">
+									<span class="delPhoto notBlock">X</span>
+									<label for="foto"></label>
+									<div>
+										<img id="img" src="<?= media(); ?>/images/uploads/portada_categoria.png">
+									</div>
+								</div>
+								<div class="upimg">
+									<input type="file" name="foto" id="foto">
+								</div>
+								<div id="form_alert"></div>
+								
+							</div> <!-- <div class="photo"> -->
 
 						</div> <!-- <div class="col-md-6">  -->
+
 
 					</div> <!-- <div class= "row"> -->
 
