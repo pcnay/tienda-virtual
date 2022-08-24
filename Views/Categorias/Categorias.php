@@ -35,12 +35,10 @@
                 <table class="table table-hover table-bordered" id="tableCategorias">
                   <thead>
                     <tr>
-                      <th>ID</th>
-                      <th>Identificacion</th>											
-                      <th>Nombres</th>
-                      <th>Apellidos</th>
-                      <th>Email</th>
-											<th>Telefono</th>
+                      <th>ID</th>                      
+                      <th>Nombre</th>
+                      <th>Descripcion</th>
+											<th>Estatus</th>
 											<th>Acciones</th>
                     </tr>
                   </thead>

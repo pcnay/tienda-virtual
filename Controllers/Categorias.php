@@ -171,7 +171,7 @@
 					// Cambiando el valor del "Estatus" a Colores
 					if ($arrData[$i]['estatus'] == 1)
 					{
-						$arrData[$i]['estatus'] = '<span class="badge badge-sucess">Activo</span>';
+						$arrData[$i]['estatus'] = '<span class="badge badge-success">Activo</span>';
 					}
 					else
 					{

@@ -22,10 +22,64 @@
 	});
 
 
-
+let tableCategorias;
 // Cuando se termina de cargar la página, se asignan los eventos Listener.
 document.addEventListener('DOMContentLoaded',function()
 {
+	// Código para mostrar las Categorias.
+		// Es el dataTable para desplegar los "Clientes".
+		tableCategorias = $('#tableCategorias').dataTable({
+			"aProcessing":true,
+			"aServerside":true,
+			"language": {
+				"url":"//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+			},
+			"ajax":{
+				"url":" "+base_url+"/Categorias/getCategorias",
+				"dataSrc":""
+			},
+			"columns":[
+				{"data":"id_categoria"},
+				{"data":"nombre"},
+				{"data":"descripcion"},
+				{"data":"estatus"},
+				{"data":"options"}
+			],
+			'dom': 'lBfrtip',
+			'buttons': [
+				{
+					"extend": "copyHtml5",
+					"text":"<i class = 'far fa-copy'></i>Copiar",
+					"titleAttr":"Copiar",
+					"className":"btn btn-secondary"
+				},
+				{
+					"extend": "excelHtml5",
+					"text":"<i class = 'far fa-file-excel'></i>Excel",
+					"titleAttr":"Exportar a Excel",
+					"className":"btn btn-success"
+				},
+				{
+					"extend": "pdfHtml5",
+					"text":"<i class = 'far fa-file-pdf'></i>PDF",
+					"titleAttr":"Exportar a PDF",
+					"className":"btn btn-danger"
+				},
+				{
+					"extend": "csvHtml5",
+					"text":"<i class = 'fas fa-file-csv'></i>CSV",
+					"titleAttr":"Exportar a CSV",
+					"className":"btn btn-info"
+				}
+			],
+			"resonsieve":"true",
+			"bDestroy":true,
+			"iDisplayLength":2,
+			"order":[[0,"desc"]]
+		});
+	
+
+
 	// Se utiliza para la carga de la foto en "Categorías"
 	if(document.querySelector("#foto"))
 	{

@@ -8,7 +8,7 @@ let rowTable = "";
 document.addEventListener('DOMContentLoaded',function(){
 	// dataTable para  obtener los datos de los Clientes.
 	
-	// Es el dataTable para desplegar los "Usuarios".
+	// Es el dataTable para desplegar los "Clientes".
 	tableClientes = $('#tableClientes').dataTable({
 		"aProcessing":true,
 		"aServerside":true,
