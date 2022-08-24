@@ -55,4 +55,166 @@
 			$this->views->getView($this,"Categorias",$data);
 		}
 
+		// Método para asignar Categorias.
+		// Se llama en "Functions_categorias.js", request.open("POST",ajaxUrl,true);
+		public function setCategoria()
+		{
+			if ($_SESSION['permisosMod']['w'])
+				{
+					//dep($_POST); // Obtener el valor de la variable "Global". 
+					//dep($_FILES);
+					//exit();
+					if ($_POST)
+					{
+						if (empty($_POST['txtNombre']) || empty($_POST['txtDescripcion']) || empty($_POST['listStatus']))
+						{
+							$arrResponse = array("estatus" => false, "msg" => 'Datos Incorrectos');
+						}
+						else
+						{
+							// Obtener los datos que se estan enviando por Ajax 
+							// "strClean" = Esta definida en "Helpers", para limpiar las cadenas.
+							$intIdcategoria= intval($_POST['idCategoria']); // Convertir a Entero.
+							$strCategoria = strClean($_POST['txtNombre']);
+							$strDescripcion = strClean($_POST['txtDescripcion']);
+							$intStatus = intval($_POST['listStatus']); // Conviertiendola a Entero.
+
+							// Obteniendo los datos de la foto en Categoria
+							$foto = $_FILES['foto'];
+							$nombre_foto = $foto['name'];
+							$type = $foto['type'];
+							$url_temp = $foto['tmp_name'];
+							//$fecha = date('ymd');
+							//$hora = date('Hms');
+							$imgPortada = 'portada_categoria.jpg';
+
+							if ($nombre_foto != '')
+							{
+								// md5 = Encripta, para nombre aleatorio para  que no se repita.
+								$imgPortada = 'img_'.md5(date('m-d-Y H:m:s')).'.jpg';
+							}
+							// Enviando la información al modelo. Este es el enlace de Controller -> Modelo.
+							// $request_rol = $this->model->insertRol($strRol,$strDescripcion,$intStatus);
+		
+							// Seccion para Crear o Actualizar los Roles.
+							if($intIdcategoria == 0)
+							{
+								// Crear Categoria
+								$request_categoria = $this->model->insertCategoria($strCategoria,$strDescripcion,$imgPortada,$intStatus);
+								$option = 1;
+							}
+							else
+							{
+								// Actualizar Categoria
+								$request_categoria = $this->model->updateCategoria($intIdcategoria,$strCategoria,$strDescripcion,$imgPortada,$intStatus);
+								$option = 2;
+							}
+
+							if ($request_categoria > 0)
+							{
+								if ($option == 1)
+								{
+									$arrResponse = array('status' => true, 'msg' => 'Datos Guardados Correctamente');					
+									// Grabar la foto en el servidor.
+									if ($nombre_foto != '')
+									{
+										uploadImage($foto,$imgPortada);
+									}
+								}
+								else
+								{
+									$arrResponse = array('status' => true, 'msg' => 'Datos Actualizados Correctamente');					
+								}				
+		
+							}
+							else if($request_categoria == 'Existe')
+							{
+								$arrResponse = array('status'=>false,'msg'=>'La Categoria Ya Existe');
+							}
+							else
+							{
+								$arrResponse = array('status'=>false,'msg'=>'NO es posible almacenar los datos');
+							}
+
+						} // if (empty($_POST['txtNombre']) || empty($_POST[
+
+						// Corrige los datos de caracteres raros.
+						// Esta información es enviada a "functions_roles.js"
+						echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+
+					} // 	if ($_POST)					
+
+					die(); // Finaliza el proceso.
+
+				} // if ($_SESSION['permisosMod']['w'])
+		}
+
+		// Para mostrar las Categorias en pantalla.
+		// Obteniene las "Categorias" 
+		public function getCategorias()
+		{
+			// Esta condicion se utiliza para que usuarios que no tengan sesion no pueden visualizar las Categorias.
+			if ($_SESSION['permisosMod']['r'])
+			{
+				
+				$arrData = $this->model->selectCategorias();
+				//dep($arrData);
+				//exit;
+
+				// Para colocar en color Verde o Rojo el estatus del Usuario
+				for ($i= 0; $i<count($arrData);$i++)
+				{
+					$btnView = '';
+					$btnEdit = '';
+					$btnDelete = '';
+
+					// Cambiando el valor del "Estatus" a Colores
+					if ($arrData[$i]['estatus'] == 1)
+					{
+						$arrData[$i]['estatus'] = '<span class="badge badge-sucess">Activo</span>';
+					}
+					else
+					{
+						$arrData[$i]['estatus'] = '<span class="badge badge-danger">Inactivo</span>';
+					}
+					
+
+					if ($_SESSION['permisosMod']['r'])
+					{
+						$btnView = '<button class="btn btn-info btn-sm btnViewInfo" onClick="fntViewInfo('.$arrData[$i]['id_categoria'].')" title="Ver Categoria"><i class="far fa-eye"></i></button>';
+					}
+
+					if ($_SESSION['permisosMod']['u'])
+					{
+						// this = Significa que se enviara como parámetro todo la etiqueta "botton" 
+							$btnEdit = '<button class="btn btn-primary btn-sm btnEditInfo" onClick="fntEditInfo(this,'.$arrData[$i]['id_categoria'].')" title="Editar Categoria"><i class="fas fa-pencil-alt"></i></button>';
+
+					} // if ($_SESSION['permisosMod']['u'])
+
+					// ($_SESSION['userData']['id_persona'] != $arrData[$i][id_persona])
+					// Se bloquea al Usuario Super Administrador el boton de Borrar, es decir no se puede eliminarse, se tiene que realizar
+					// Con la opcion "Profile"
+					if ($_SESSION['permisosMod']['d'])
+					{
+						$btnDelete = '<button class="btn btn-danger btn-sm btnDelInfo" onClick="fntDelInfo('.$arrData[$i]['id_categoria'].')" title="Eliminar Categoria"><i class="fas fa-trash-alt"></i></button>';
+
+					} // if ($_SESSION['permisosMod']['d'])
+
+					//Son los botones, en la columna de "options".
+					// Se agrega el evento "onclick" en la etiqueta "button" para evitar el error de en google de que no carga los eventos.
+					$arrData[$i]['options'] = ' <div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
+
+				} // for ($i= 0; $i<count($arrData);$i++)
+				
+				echo json_encode($arrData,JSON_UNESCAPED_UNICODE);				
+
+			} // if ($_SESSION['permisosMod']['r'])
+
+			die(); // Finaliza el proceso.
+
+		} // Public function getCategorias()
+
+
 	} // Class Categorias ...
+
+	?>

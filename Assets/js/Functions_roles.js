@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded',function(){
 	//console.log (formaRol);
 	formaRol.onsubmit = function(e){
 		e.preventDefault();
-		console.log("Onsubmit");
+		//console.log("Onsubmit");
 
 		// Obtener el contenido de las etiquetas del Modal "Agregar Rol"
 		var intIdRol = document.querySelector('#idRol').value;
@@ -83,6 +83,7 @@ document.addEventListener('DOMContentLoaded',function(){
 				}
 			}
 			//console.log(request);
+			return false;
 		}
 	}
 

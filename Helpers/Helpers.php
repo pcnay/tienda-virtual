@@ -129,7 +129,17 @@
 		}		
 	}
 
-	
+	// Funcion para subir la imagen al Servidor.
+	function uploadImage(array $data, string $name)
+	{
+		$url_temp = $data['tmp_name'];
+		// Importante que se debe dar los permisos 777 a la carpeta "uploads" de lo contrario
+		// muesra error y no la sube al servidor de la ruta "Assetes/images/uploads"
+		$destino = 'Assets/images/uploads/'.$name;
+		$move = move_uploaded_file($url_temp,$destino);
+		return $move;
+	}
+
 	// Elimina exceso de espacios entre palabras.
 	function strClean($strCadena)
 	{

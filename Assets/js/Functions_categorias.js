@@ -1,4 +1,28 @@
 
+	// Validar las datos de capturas de Categorias
+
+	// Validar la entrada, solo caracteres permitidos "txtNombre"
+	$("#txtNombre").bind('keypress', function(event) {
+		var regex = new RegExp("^[A-Za-z0-9 ]+$");
+		var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+		if (!regex.test(key)) {
+			event.preventDefault();
+			return false;
+		}
+	});
+
+	// Validar la entrada, solo caracteres permitidos "txtDescripcion"
+	$("#txtDescripcion").bind('keypress', function(event) {
+		var regex = new RegExp("^[A-Za-z0-9 ]+$");
+		var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+		if (!regex.test(key)) {
+			event.preventDefault();
+			return false;
+		}
+	});
+
+
+
 // Cuando se termina de cargar la página, se asignan los eventos Listener.
 document.addEventListener('DOMContentLoaded',function()
 {
@@ -63,6 +87,68 @@ document.addEventListener('DOMContentLoaded',function()
 			removePhoto();
 		}
 	}
+
+	// Seccion para enviar los datos a la tablas por medio de Ajax
+	// En esta parte se inici con el Ajax para grabar la información.
+	// Capturar los datos del formulario de "Nuevo Categoria"
+	// Seleccionan el id del formulario de Categoria
+	var formCategoria = document.querySelector("#formCategoria");
+	//console.log (formaRol);
+	formCategoria.onsubmit = function(e){
+		e.preventDefault();
+		//console.log("Onsubmit");
+
+		// Obtener el contenido de las etiquetas del Modal "Agregar Categoria"
+		let intIdCategoria = document.querySelector('#idCategoria').value;
+		let strNombre = document.querySelector("#txtNombre").value;
+		let strDescripcion = document.querySelector("#txtDescripcion").value;
+		let intStatus = document.querySelector("#listStatus").value;
+
+		if (strNombre == '' || strDescripcion == '' || intStatus == '')
+		{
+			swal ("Atencion","Todos los campos son obligatorios","error");
+			return false; // Detiene el proceso.
+		}
+
+		// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+		let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+		let ajaxUrl = base_url+'/Categorias/setCategoria'; // Url a donde buscara el archivo, es en el Controlador/Roles.
+		
+		var formData = new FormData(formCategoria);
+		// El método utilizado para enviar la informacion es "POST"
+		request.open("POST",ajaxUrl,true);
+		request.send(formData);
+		request.onreadystatechange = function(){
+			if (request.readyState == 4 && request.status == 200) // Verifica que si llego la información.
+			{
+				// console.log(request.responseText); // Determinar el contenido de lo que reotorno(Roles/seRol)
+				// La información que viene desde el método "setRol" del Controllers "Roles"
+				let objData = JSON.parse(request.responseText);
+
+				// Accesando a los elementos del Arreglo asociativo, del valor retornado de "setRol"
+				if (objData.status)
+				{
+					$('#modalFormCategoria').modal("hide");
+					formCategoria.reset();
+					swal("Categorias ",objData.msg,"success");
+					removePhoto();
+					// Recarga el DataTable
+					//tableRoles.api().ajax.reload() //function(){
+						//fntEditRol(); // Para cuando se reacargue el DataTable asigne el evento "Click" de los botones.
+						//fntDelRol();
+						//fntPermisos();
+					//});					
+				}
+				else
+				{
+					swal("Error",objData.msg,"error");
+				}
+			}
+			//console.log(request);
+			return false;
+		}
+	}
+
 
 }, false); //document.addEventListener('DOMContentLoaded',function(){
 

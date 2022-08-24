@@ -22,7 +22,7 @@
 				<!-- Es el contenido de la ventana del Modal, "Formulario", se copio desde el "Vali" -->
 				<form id = "formCategoria" name = "formCategoria" class = "form-horizontal">
 					<!-- Para obtener el "idRol" que se va utilizar para actualizar -->
-					<input type="hidden" id="idUsuario" name="idUsuario" value="">
+					<input type="hidden" id="idCategoria" name="idCategoria" value="">
 					<p class="text-primary"><span class = "required">*</span>Todos los campos son obligatorios</p>
 
 					<div class= "row">
@@ -58,7 +58,7 @@
 									<span class="delPhoto notBlock">X</span>
 									<label for="foto"></label>
 									<div>
-										<img id="img" src="<?= media(); ?>/images/uploads/portada_categoria.png">
+										<img id="img" src="<?= media(); ?>/images/portada_categoria.png">
 									</div>
 								</div>
 								<div class="upimg">
