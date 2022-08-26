@@ -215,6 +215,48 @@
 		} // Public function getCategorias()
 
 
+		// Obtener una "Categoria"
+		// Depende de la definicion del “.htaccess”, que se manden por valores por la URL
+		public function getCategoria(int $idcategoria)
+		{			
+			// Validando que no pueda ver las Categorias, sin Permisos.
+			if ($_SESSION['permisosMod']['r'])
+			{				
+				$intIdcategoria = intval($idcategoria); // Convertilo a Entero, si tuviera letras la conveirte a 0.
+
+				//dep($intIdrol);
+				//die;
+
+				// Si existe el idcategoria
+				if ($intIdcategoria > 0)
+				{
+					$arrData = $this->model->selectCategoria($intIdcategoria); // Extraer la Categoria
+					//dep ($arrData);
+					//exit;
+
+
+					if (empty($arrData)) // No existe Rol
+					{
+						$arrResponse = array('estatus'=>false,'msg'=>'Datos no encontrados');
+					}
+					else
+					{
+						// Obtener la URL de la ubicación del archivo.
+						$arrData['url_portada'] = media().'/images/uploads/'.$arrData['portada'];
+						$arrResponse = array('estatus'=>true,'data'=>$arrData);
+					}
+
+					// Envia la variable , pero antes la convierte en forma JSon, las caracteres especiales los convierte a texto
+					//dep($arrData);
+					//exit;
+					echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+				}
+
+			} // if ($_SESSION['permisosMod']['r'])		
+
+			die();
+		}
+
 	} // Class Categorias ...
 
 	?>

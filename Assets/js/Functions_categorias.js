@@ -215,6 +215,72 @@ function removePhoto()
 }
 
 
+// Para mostrar el modal "View Categoría"
+function fntViewInfo(idcategoria)
+{
+	//$('#modalViewCliente').modal('show');
+
+	//console.log('Entre a Function fntViewCliene');
+	/*
+	var btnEditRol_b = document.querySelectorAll(".btnEditRol");
+	console.log (btnEditRol_b);
+	btnEditRol_b.forEach(function(btnEditRol_b){
+	
+
+		btnEditRol_b.addEventListener('click',function(){
+			//console.log('Click en el boton de edit');
+	*/
+	
+	// El código para ejecutar Ajax.
+	// "us" se agrego junto con los botones de "Editar","Borrar" cunado se muestran los Roles. Es el "id" del Rol en la tabla.
+	//var idpersona = this.getAttribute("us");
+	let id_categoria = idcategoria;
+	//console.log(idrol);
+
+	// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+	let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+
+	// Se pasan como parametro al método definido en "Usuarios.php -> Controllers" desde el Ajax
+	// Va obtener los datos del usuarios usando "Ajax"
+	let ajaxUrl = base_url+'/Categorias/getCategoria/'+id_categoria; 
+	request.open("GET",ajaxUrl,true);
+	request.send(); // Se envia la petición (ejecutar el archivo "getCategoria/XXX")
+	// Lo que retorne (echo Json.... el Controllers/Categorias/getCategoria
+	request.onreadystatechange = function()
+	{
+		if (request.status == 200 && request.readyState == 4)
+		{
+			// Retorna a un objeto lo que se retorna en "getUsuario"
+
+			let objData = JSON.parse(request.responseText);
+			if (objData.estatus)
+			{	
+				let estado = objData.data.estatus == 1 ?
+				'<span class="badge badge-success">Activo</span>':
+				'<span class="badge badge-danger">Inactivo</span>';
+				
+				document.querySelector("#celId").innerHTML = objData.data.id_categoria;	
+				document.querySelector("#celNombre").innerHTML = objData.data.nombre;
+				document.querySelector("#celDescripcion").innerHTML = objData.data.descripcion;
+				document.querySelector("#celEstado").innerHTML = estado;
+				document.querySelector("#imgCategoria").innerHTML = '<img src = "'+objData.data.url_portada+'"></img>';
+				
+				$('#modalViewCategoria').modal('show');
+
+			} // if (objData.estatus)
+			else
+			{
+				swal ("Error",objData.msg, "error");
+			}
+
+		} // if (request.status == 200)
+
+	} // 	request.onreadystatechange = function()
+
+} // function fntViewInfo(idpersona)
+
+
+
 // Para mostrar la ventana Modal de Clientes.
 function openModal()
 {
@@ -238,3 +304,4 @@ function openModal()
 
 	$('#modalFormCategorias').modal('show');
 }
+

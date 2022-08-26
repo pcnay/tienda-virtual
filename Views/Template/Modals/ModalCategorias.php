@@ -58,7 +58,7 @@
 									<span class="delPhoto notBlock">X</span>
 									<label for="foto"></label>
 									<div>
-										<img id="img" src="<?= media(); ?>/images/portada_categoria.png">
+										<img id="img" src="<?= media(); ?>/images/uploads/portada_categoria.png">
 									</div>
 								</div>
 								<div class="upimg">
@@ -96,7 +96,7 @@
 -->
 
 <!-- Modal -->
-<div class="modal fade" id="modalViewCliente" name = "modalViewCliente" tabindex="-1" role="dialog"  aria-hidden="true">
+<div class="modal fade" id="modalViewCategoria" name = "modalViewCategoria" tabindex="-1" role="dialog"  aria-hidden="true">
   <div class="modal-dialog" >
     <div class="modal-content">
       <div class="modal-header header-primary">
@@ -109,41 +109,26 @@
 				<div class ="modal-body">
 					<table class = "table table-bordered">
 						<tbody>
+
 							<tr>
-								<td>Identificacion:</td>
-								<td id= "celIdentificacion">645353535353:</td>
+								<td>ID:</td>
+								<td id= "celId"></td>
 							</tr>
 							<tr>
 								<td>Nombres:</td>
-								<td id= "celNombre">Pedro</td>
+								<td id= "celNombre"></td>
 							</tr>
 							<tr>
-								<td>Apellidos:</td>
-								<td id= "celApellidos">Fernandez</td>
+								<td>Descripcion:</td>
+								<td id= "celDescripcion"></td>
 							</tr>
 							<tr>
-								<td>Telefonos:</td>
-								<td id= "celTelefono">999-99-99</td>
+								<td>Estado:</td>
+								<td id= "celEstado"></td>
 							</tr>
 							<tr>
-								<td>Email - Usuario:</td>
-								<td id= "celEmail">correo@usuario1.com</td>
-							</tr>
-							<tr>
-								<td>Identificacion Tributaria:</td>
-								<td id= "celIde">KLK23221</td>
-							</tr>
-							<tr>
-								<td>Nombre Fiscal:</td>
-								<td id= "celNomFiscal">Nombre Fiscal</td>
-							</tr>
-							<tr>
-								<td>Direccion Fiscal:</td>
-								<td id= "celDirFiscal">Direccion Fiscal</td>
-							</tr>
-							<tr>
-								<td>Fecha Registro:</td>
-								<td id= "celFechaRegistro">Fecha Registro</td>
+								<td>Foto:</td>
+								<td id= "imgCategoria"></td>
 							</tr>
 
 						</tbody>

@@ -75,6 +75,14 @@
 
 		}
 
-
+		// Obtener una Categoria.
+		public function selectCategoria(int $idcategoria)
+		{
+			$this->intIdcategoria = $idcategoria;
+			$sql = "SELECT * FROM t_Categorias WHERE id_categoria = $this->intIdcategoria";
+			$request = $this->select($sql); // Este método se definio en MySQL
+			return $request;
+		}
+		
 	} // class homeModel
 ?>
