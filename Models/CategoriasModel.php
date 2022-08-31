@@ -84,5 +84,69 @@
 			return $request;
 		}
 		
+		// Actualizar una Categoria.
+		public function updateCategoria(int $idCategoria, string $categoria, string $descripcion, string $portada, int $status)
+		{
+			$this->intIdcategoria = $idCategoria;
+			$this->strCategoria = $categoria;
+			$this->strDescripcion = $descripcion;
+			$this->strPortada = $portada;
+			$this->intStatus = $status;
+
+			// Verificando atraves del "nombre" que no exita						
+			$sql = "SELECT * FROM t_Categorias WHERE (nombre = '{$this->strCategoria}' AND id_categoria != '{$this->intIdcategoria}')";
+			
+			$request = $this->select_all($sql);
+			// Si esta vacio, por lo tanto no esta duplicado el "nombre"
+			if (empty($request))
+			{
+					$sql = "UPDATE t_Categorias SET nombre=?,descripcion=?,portada=?,estatus=? WHERE id_categoria = $this->intIdcategoria";
+
+					$arrData = array($this->strCategoria,
+					$this->strDescripcion,
+					$this->strPortada,
+					$this->intStatus);
+
+				$request = $this->update($sql,$arrData);
+			}
+			else
+			{
+				$request = "exist";
+			} // if (empty($request))
+
+			return $request;
+
+		} // public function updateCategoria
+
+		// Borrar una Categoria
+		public function deleteCategoria(int $idcategoria)
+		{
+			// Previene la Integridad Referencial De Los Datos, se revisa que no existe el usuario en la tabla "t_Categorias"
+			$this->intIdcategoria = $idcategoria;
+			$sql = "SELECT * FROM t_Productos WHERE categoriaid = $this->intIdcategoria";
+			$request = $this->select_all($sql);
+			if (empty($request))
+			{
+				$sql = "UPDATE t_Categorias SET estatus = ? WHERE id_categoria = $this->intIdcategoria";
+				$arrData = array(0); // Se asigna valor 0
+				$request = $this->update($sql,$arrData);
+				if ($request)
+				{
+					$request = 'ok';
+				}
+				else
+				{
+					$request = 'error';
+				}
+			}
+			else
+			{
+				$request = 'existe';
+			}
+
+			return $request;
+		}
+		
+
 	} // class homeModel
 ?>

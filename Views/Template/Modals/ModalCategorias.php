@@ -23,13 +23,13 @@
 				<form id = "formCategoria" name = "formCategoria" class = "form-horizontal">
 					<!-- Para obtener el "idRol" que se va utilizar para actualizar -->
 					<input type="hidden" id="idCategoria" name="idCategoria" value="">
+					<input type="hidden" id="foto_actual" name="foto_actual" value="">
+					<input type="hidden" id="foto_remove" name="foto_remove" value="0">
 					<p class="text-primary"><span class = "required">*</span>Todos los campos son obligatorios</p>
 
 					<div class= "row">
 						<div class="col-md-6"> 
 
-							<!-- Para obtener el "idRol" que se va utilizar para actualizar -->
-							<input type="hidden" id="idCategoria" name="idCategoria" value="">
 							<div class="form-group">
 								<label class="control-label">Nombre<span class = "required">*</span></label>
 								<input class="form-control" type="text" id ="txtNombre" name = "txtNombre" placeholder="Nombre Categoria" required="">
@@ -42,7 +42,7 @@
 							<!-- Select - Combobox -->
 							<div class="form-group">
 									<label for="exampleSelect1">Estado<span class = "required">*</span></label>
-									<select class="form-control" id="listStatus" name = "listStatus" required= "">
+									<select class="form-control selectpicker" id="listStatus" name = "listStatus" required= "">
 										<option value = "1">Activo</option>
 										<option value = "2">Inactivo</option>
 									</select>

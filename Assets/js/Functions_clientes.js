@@ -440,7 +440,6 @@ function fntDelInfo(id_Persona)
 	});		
 } // functio fntDelUsuario...
 
-
 // Para mostrar la ventana Modal de Clientes.
 function openModal()
 {

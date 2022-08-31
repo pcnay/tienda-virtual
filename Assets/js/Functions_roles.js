@@ -149,14 +149,14 @@ function fntEditRol(id_rol)
 	// El código para ejecutar Ajax.
 	// "rl" se agrego junto con los botones de "Editar","Borrar" cunado se muestran los Roles. Es el "id" del Rol en la tabla.
 	//var idrol = this.getAttribute("rl");
-	var idrol = id_rol;
+	let idrol = id_rol;
 	//console.log(idrol);
 
 	// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
 	let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
 
 	// Se pasan como parametro al método definido en "Roles.php -> Controllers" desde el Ajax
-	var ajaxUrl = base_url+'/Roles/getRol/'+idrol; 
+	let ajaxUrl = base_url+'/Roles/getRol/'+idrol; 
 	request.open("GET",ajaxUrl,true);
 	request.send(); // Se envia la petición (ejecutar el archivo "getRol/XXX")
 	// Lo que retorne (echo Json.... el Controllers/Roles/getRol)
@@ -169,7 +169,7 @@ function fntEditRol(id_rol)
 			// console.log(request.responseText);
 			
 			// Convertir la informacion de Objeto a Formato JSon					
-			var objData = JSON.parse(request.responseText); // Es el resultado de la ejecución del Ajax-
+			let objData = JSON.parse(request.responseText); // Es el resultado de la ejecución del Ajax-
 			//console.log("ResponseText ",objData);
 
 			if (objData.status)
@@ -191,11 +191,11 @@ function fntEditRol(id_rol)
 
 				if (parseInt(objData.data.estatus) == 1)
 				{
-					var optionSelect = '<option value="1" selected class="notBlock">Activo</option>';
+					let optionSelect = '<option value="1" selected class="notBlock">Activo</option>';
 				}
 				else
 				{
-					var optionSelect = '<option value="2" selected class="notBlock">Inactivo</option>';
+					let optionSelect = '<option value="2" selected class="notBlock">Inactivo</option>';
 				}
 
 				// Completa la instrucción  del Select.

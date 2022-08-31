@@ -1,3 +1,4 @@
+let rowTable = "";
 
 	// Validar las datos de capturas de Categorias
 
@@ -138,15 +139,18 @@ document.addEventListener('DOMContentLoaded',function()
 		let delPhoto = document.querySelector(".delPhoto");
 		delPhoto.onclick = function(e)
 		{
+			// La imagen actual se tiene que eliminar, pero siempre y cuando el usuario oprima la X de la parte superior.
+			document.querySelector("#foto_remove").value = 1;
 			removePhoto();
 		}
 	}
 
 	// Seccion para enviar los datos a la tablas por medio de Ajax
+	// Tambien se utiliza para editar una categoria.
 	// En esta parte se inici con el Ajax para grabar la información.
 	// Capturar los datos del formulario de "Nuevo Categoria"
 	// Seleccionan el id del formulario de Categoria
-	var formCategoria = document.querySelector("#formCategoria");
+	let formCategoria = document.querySelector("#formCategoria");
 	//console.log (formaRol);
 	formCategoria.onsubmit = function(e){
 		e.preventDefault();
@@ -180,18 +184,32 @@ document.addEventListener('DOMContentLoaded',function()
 				let objData = JSON.parse(request.responseText);
 
 				// Accesando a los elementos del Arreglo asociativo, del valor retornado de "setRol"
-				if (objData.status)
+				if (objData.estatus)
 				{
-					$('#modalFormCategoria').modal("hide");
+					if (rowTable == "")
+					{
+						tableCategorias.api().ajax.reload() //function(){
+							//fntEditRol(); // Para cuando se reacargue el DataTable asigne el evento "Click" de los botones.
+							//fntDelRol();
+							//fntPermisos();
+						//});					
+					}
+					else
+					{
+						htmlStatus = intStatus == 1 ?
+						'<span class="badge badge-success">Activo</span>':
+						'<span class="badge badge-danger">Inactivo</span>';
+
+						rowTable.cells[1].textContent = strNombre;
+						rowTable.cells[2].textContent = strDescripcion;
+						rowTable.cells[3].innerHTML = htmlStatus; // Es por que se asigna código HTML
+						rowTable = "";
+					}
+					$('#modalFormCategorias').modal("hide");
 					formCategoria.reset();
 					swal("Categorias ",objData.msg,"success");
 					removePhoto();
 					// Recarga el DataTable
-					//tableRoles.api().ajax.reload() //function(){
-						//fntEditRol(); // Para cuando se reacargue el DataTable asigne el evento "Click" de los botones.
-						//fntDelRol();
-						//fntPermisos();
-					//});					
 				}
 				else
 				{
@@ -211,7 +229,12 @@ function removePhoto()
 {
 	document.querySelector('#foto').value ="";
 	document.querySelector('.delPhoto').classList.add("notBlock"); // Ocultar la X
-	document.querySelector('#img').remove(); // Remueve la imagen.
+	// Si existe la etiqueta "img"
+	if (document.querySelector('#img'))
+	{
+		document.querySelector('#img').remove(); // Remueve la imagen.
+	}
+
 }
 
 
@@ -279,6 +302,167 @@ function fntViewInfo(idcategoria)
 
 } // function fntViewInfo(idpersona)
 
+// Para editar Categoría
+function fntEditInfo(element,idcategoria)
+{
+	//$('#modalViewCliente').modal('show');
+	rowTable = element.parentNode.parentNode.parentNode;
+	// console.log(rowTable);
+	//rowTable.cells[1].textContent = "sdfeds";
+
+
+	//console.log('Entre a Function fntViewCliene');
+	/*
+	var btnEditRol_b = document.querySelectorAll(".btnEditRol");
+	console.log (btnEditRol_b);
+	btnEditRol_b.forEach(function(btnEditRol_b){
+	
+
+		btnEditRol_b.addEventListener('click',function(){
+			//console.log('Click en el boton de edit');
+	*/
+	
+	// El código para ejecutar Ajax.
+	// "us" se agrego junto con los botones de "Editar","Borrar" cunado se muestran los Roles. Es el "id" del Rol en la tabla.
+	//var idpersona = this.getAttribute("us");
+	// Cambiando los colores de la franja al formulario.
+	// Estas definidos en "ModalCategorias.php"
+	document.querySelector('.modal-header').classList.replace("headerRegister","headerUpdate");
+	// Cambiando la clase de los botones (Colores)
+	document.querySelector('#btnActionForm').classList.replace("btn-primary","btn-info");
+	document.querySelector('#btnText').innerHTML = "Actualizar";
+	document.querySelector('#titleModal').innerHTML = "Actualizar Categoria";
+
+	let id_categoria = idcategoria;
+	//console.log(idrol);
+
+	// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+	let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+
+	// Se pasan como parametro al método definido en "Usuarios.php -> Controllers" desde el Ajax
+	// Va obtener los datos del usuarios usando "Ajax"
+	let ajaxUrl = base_url+'/Categorias/getCategoria/'+id_categoria; 
+	request.open("GET",ajaxUrl,true);
+	request.send(); // Se envia la petición (ejecutar el archivo "getCategoria/XXX")
+	// Lo que retorne (echo Json.... el Controllers/Categorias/getCategoria
+	request.onreadystatechange = function()
+	{
+		if (request.status == 200 && request.readyState == 4)
+		{
+			// Retorna a un objeto de la funcion "getUsuario" de ModeloCategorias.php, al formato JSon
+			let objData = JSON.parse(request.responseText);
+			if (objData.estatus)
+			{													
+				document.querySelector("#idCategoria").value = objData.data.id_categoria;	
+				document.querySelector("#txtNombre").value = objData.data.nombre;
+				document.querySelector("#txtDescripcion").value = objData.data.descripcion;
+				document.querySelector("#foto_actual").value = objData.data.portada;
+				document.querySelector("#foto_remove").value = 0;
+
+				if (objData.data.estatus == 1)
+				{
+					document.querySelector('#listStatus').value = 1;
+				}
+				else
+				{
+					document.querySelector('#listStatus').value = 2;
+				}
+
+				// Para que se seleccione la opcion que esta grabada en la tabla
+				$('#listStatus').selectpicker('render');
+				
+				// Mostrar la portada de la imagen
+				if (document.querySelector('#img'))
+				{
+					// Coloca la ruta de la imagen.
+					document.querySelector('#img').src = objData.data.url_portada;					
+				}
+				else
+				{
+					// Se derige a la clase "prevPhoto" (que se define en ModalCategoria), en el "DIV", y crea en tiempo de ejecución.
+					document.querySelector('.prevPhoto div').innerHTML = "<img id='img' src="+objData.data.url_portada+">";
+				}
+
+				// Para mostrar la "X" 
+				if (objData.data.portada == 'portada_categoria.png')
+				{
+					// Que no se muestre la "X" 
+					document.querySelector('.delPhoto').classList.add("notBlock");
+				}
+				else
+				{
+					// Que se muestre la "X" en la parte superior de la foto.
+					document.querySelector('.delPhoto').classList.remove("notBlock");
+				}
+
+				$('#modalFormCategorias').modal('show');
+
+			} // if (objData.estatus)
+			else
+			{
+				swal ("Error",objData.msg, "error");
+			}
+
+		} // if (request.status == 200)
+
+	} // 	request.onreadystatechange = function()
+
+} // function fntViewInfo(idpersona)
+
+// Borrar una Categoria
+function fntDelInfo(id_Categoria)
+{
+	/*
+	let btnDelRol = document.querySelectorAll(".btnDelRol");
+	btnDelRol.forEach(function(btnDelRol){
+		btnDelRol.addEventListener('click',function(){
+	*/
+	let idCategoria = id_Categoria;
+	// alert(idrol);
+	swal({
+		title:"Eliminar Categoria",
+		text:"Realmente quiere eliminar la Categoria ?",
+		type:"warning",
+		showCancelButton:true,
+		confirmButtonText:"Si, eliminar !",
+		cancelButtonText: "No, Cancelar !",
+		closeOnConfirm:false,
+		closeOnCancel:true
+		},function(isConfirm)
+		{
+			// Borrar el Cliente, utiliza Ajax para accesar a la Base de datos.
+			if (isConfirm)
+			{
+				let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+				// Se pasan como parametro al método definido en "Roles.php -> Controllers" desde el Ajax
+				let ajaxDelCliente = base_url+'/Categorias/delCategoria';
+				let strData = "idCategoria="+idCategoria;
+				request.open("POST",ajaxDelCliente,true);
+				request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+				request.send(strData);
+				request.onreadystatechange = function(){
+					// Se hizo la petición y fue exitoso, llego la información al servidor.
+					if (request.readyState == 4 && request.status == 200)
+					{
+						let objData = JSON.parse(request.responseText);
+						if (objData.estatus)
+						{
+							swal("Eliminar! ",objData.msg,"success");
+							tableCategorias.api().ajax.reload(function(){
+								//fntEditRol();
+								//fntDelrol();
+								//fntPermisos();
+							});
+						}
+						else
+						{
+							swal("Error",objData.msg,"error");
+						}
+					}
+				} 			
+			}
+	});		
+} // functio fntDelUsuario...
 
 
 // Para mostrar la ventana Modal de Clientes.
@@ -303,5 +487,7 @@ function openModal()
 	document.querySelector('#formCategoria').reset();
 
 	$('#modalFormCategorias').modal('show');
+	removePhoto();
+
 }
 

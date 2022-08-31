@@ -11,7 +11,7 @@
 
 			// Para que deje la sesion abierta en PHP desde la aplicacion y no desde la configuracion del servidor
 			sessionStart();
-			session_regenerate_id(true); // Regenere el Id de la sesion es para mayor seguridad.
+			session_regenerate_id(true); // Regenere el Id de la sesion es para mayor seguridad. NO puede usar la ID se la sesion y ingresen al sistema.
  
 			parent::__construct();
 			// Verifica si la variable de SESSION["login"] esta en Verdadero, sigfica que esta una sesion iniciada.
@@ -64,6 +64,7 @@
 					//dep($_POST); // Obtener el valor de la variable "Global". 
 					//dep($_FILES);
 					//exit();
+
 					if ($_POST)
 					{
 						if (empty($_POST['txtNombre']) || empty($_POST['txtDescripcion']) || empty($_POST['listStatus']))
@@ -87,6 +88,7 @@
 							//$fecha = date('ymd');
 							//$hora = date('Hms');
 							$imgPortada = 'portada_categoria.jpg';
+							$request_categoria = "";
 
 							if ($nombre_foto != '')
 							{
@@ -100,21 +102,36 @@
 							if($intIdcategoria == 0)
 							{
 								// Crear Categoria
-								$request_categoria = $this->model->insertCategoria($strCategoria,$strDescripcion,$imgPortada,$intStatus);
-								$option = 1;
+								if ($_SESSION['permisosMod']['w'])
+								{
+									$request_categoria = $this->model->insertCategoria($strCategoria,$strDescripcion,$imgPortada,$intStatus);
+									$option = 1;
+								}
 							}
 							else
 							{
 								// Actualizar Categoria
-								$request_categoria = $this->model->updateCategoria($intIdcategoria,$strCategoria,$strDescripcion,$imgPortada,$intStatus);
-								$option = 2;
+								// Validar cuando no se actualiza la foto.
+								// Crear Categoria
+								if ($_SESSION['permisosMod']['u'])
+								{
+									if ($nombre_foto == '')
+									{
+										if (($_POST['foto_actual'] != 'portada_categoria.png') && ($_POST['foto_remove'] == 0))
+										{
+											$imgPortada = $_POST['foto_actual'];
+										}
+									}
+									$request_categoria = $this->model->updateCategoria($intIdcategoria,$strCategoria,$strDescripcion,$imgPortada,$intStatus);
+									$option = 2;
+								}
 							}
 
 							if ($request_categoria > 0)
 							{
 								if ($option == 1)
 								{
-									$arrResponse = array('status' => true, 'msg' => 'Datos Guardados Correctamente');					
+									$arrResponse = array('estatus' => true, 'msg' => 'Datos Guardados Correctamente');					
 									// Grabar la foto en el servidor.
 									if ($nombre_foto != '')
 									{
@@ -123,23 +140,32 @@
 								}
 								else
 								{
-									$arrResponse = array('status' => true, 'msg' => 'Datos Actualizados Correctamente');					
+									$arrResponse = array('estatus' => true, 'msg' => 'Datos Actualizados Correctamente');					
+									// Grabar la foto en el servidor.
+									if ($nombre_foto != '')
+									{
+										uploadImage($foto,$imgPortada);
+									}
+									if (($nombre_foto == '' && $_POST['foto_remove'] == 1 && $_POST['foto_actual'] != 'portada_categoria.png') || ($nombre_foto == '' && $_POST['foto_actual'] != 'portada_categoria.png'))
+									{
+										deleteFile($_POST['foto_actual']); // Se crea la funcion en el "Helpers.php"
+									}
 								}				
 		
 							}
 							else if($request_categoria == 'Existe')
 							{
-								$arrResponse = array('status'=>false,'msg'=>'La Categoria Ya Existe');
+								$arrResponse = array('estatus'=>false,'msg'=>'La Categoria Ya Existe');
 							}
 							else
 							{
-								$arrResponse = array('status'=>false,'msg'=>'NO es posible almacenar los datos');
+								$arrResponse = array('estatus'=>false,'msg'=>'NO es posible almacenar los datos');
 							}
 
 						} // if (empty($_POST['txtNombre']) || empty($_POST[
 
 						// Corrige los datos de caracteres raros.
-						// Esta información es enviada a "functions_roles.js"
+						// Esta información es enviada a "Functions_categorias.js"
 						echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 
 					} // 	if ($_POST)					
@@ -217,7 +243,7 @@
 
 		// Obtener una "Categoria"
 		// Depende de la definicion del “.htaccess”, que se manden por valores por la URL
-		public function getCategoria(int $idcategoria)
+		public function getCategoria($idcategoria)
 		{			
 			// Validando que no pueda ver las Categorias, sin Permisos.
 			if ($_SESSION['permisosMod']['r'])
@@ -256,6 +282,41 @@
 
 			die();
 		}
+
+
+		// Método para borrar la Categoria.
+		public function delCategoria()
+		{
+			// Esta variable superglobal se genero en "Functions_roles.js", seccion "fntDelCategoria"
+			if ($_POST)
+			{
+				if ($_SESSION['permisosMod']['d'])
+				{
+					$intIdcategoria = intval($_POST['idCategoria']);
+
+					// Este objeto se define en el Modleo "Rol".
+					$requestDelete = $this->model->deleteCategoria($intIdcategoria);
+
+					if($requestDelete == "ok")
+					{
+						$arrResponse = array('estatus'=> true, 'msg' => 'Se ha Eliminado La Categoria');
+					}
+					else if ($requestDelete == "existe")
+					{
+						$arrResponse = array('estatus'=> false, 'msg' => 'No es posible eliminar una Categoria con productos Asociados');			
+					}
+					else
+					{
+						$arrResponse = array('estatus'=> false, 'msg' => 'Error Al Eliminar la Categoria');
+					}
+					echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+
+				} // if ($_SESSION['permisosMod']['d'])
+
+			}
+			die();
+		}
+
 
 	} // Class Categorias ...
 
