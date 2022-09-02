@@ -45,8 +45,8 @@
 						<span class="app-menu__label">Tienda</span><i class="treeview-indicator fa 									fa-angle-right"></i></a>
 						<ul class="treeview-menu">
 
-							<!-- permisos[5] = Productos; -->
-							<?php if (!empty($_SESSION['permisos'][5]['r'])) { ?>
+							<!-- permisos[4] = Productos; -->
+							<?php if (!empty($_SESSION['permisos'][4]['r'])) { ?>
 								<li><a class="treeview-item" href="<?php echo base_url(); ?>/Productos"><i class="icon fa fa-circle-o"></i>Productos</a></li>
 							<?php } ?>	
 
