@@ -15,6 +15,10 @@
     <script src="<?php echo base_url(); ?>/Assets/js/plugins/pace.min.js"></script>
     <!-- Page specific javascripts-->
 		<script type="text/javascript" src="<?php echo base_url(); ?>/Assets/js/plugins/sweetalert.min.js"></script>
+
+		<!-- Es el Script de Javascript para el editor donde se captura los productos .-->
+		<script type="text/javascript" src="<?php echo base_url(); ?>/Assets/js/tinymce/tinymce.min.js"></script>
+		
     <!-- Data table plugin-->
     <script type="text/javascript" src="<?php echo base_url(); ?>/Assets/js/plugins/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>/Assets/js/plugins/dataTables.bootstrap.min.js"></script>

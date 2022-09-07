@@ -32,7 +32,7 @@
 
 							<div class="form-group">
 								<label class="control-label">Nombre<span class = "required">*</span></label>
-								<input class="form-control" type="text" id ="txtNombre" name = "txtNombre" placeholder="Nombre Categoria" required="">
+								<input class="form-control" type="text" id ="txtNombre" name = "txtNombre" placeholder="Nombre Categoria" maxlength="100"required="">
 							</div>
 							<div class="form-group">
 								<label class="control-label">Descripcion<span class = "required">*</span></label>

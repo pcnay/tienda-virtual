@@ -12,6 +12,26 @@ let rowTable = "";
 		}
 	});
 
+	// Validar la entrada, solo caracteres permitidos "txtPrecio"
+	$("#txtPrecio").bind('keypress', function(event) {
+		var regex = new RegExp("^[0-9.]+$");
+		var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+		if (!regex.test(key)) {
+			event.preventDefault();
+			return false;
+		}
+	});
+
+	// Validar la entrada, solo caracteres permitidos "txtStock"
+	$("#txtStock").bind('keypress', function(event) {
+		var regex = new RegExp("^[0-9.]+$");
+		var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+		if (!regex.test(key)) {
+			event.preventDefault();
+			return false;
+		}
+	});
+
 	// Validar la entrada, solo caracteres permitidos "txtDescripcion"
 	$("#txtDescripcion").bind('keypress', function(event) {
 		var regex = new RegExp("^[A-Za-z0-9 ]+$");

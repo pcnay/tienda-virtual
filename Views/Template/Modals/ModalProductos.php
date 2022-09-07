@@ -7,7 +7,8 @@
 
 <!-- Modal -->
 <div class="modal fade" id="modalFormProductos" name = "modalFormCategorias" tabindex="-1" role="dialog"  aria-hidden="true">
-  <div class="modal-dialog modal-lg" >
+  <div class="modal-dialog modal-xl" > <!-- modal-lg = Modal anterior, con 
+	xl = mas grande -->
     <div class="modal-content">
       <div class="modal-header headerRegister">
         <h5 class="modal-title" id="titleModal">Nuevo Producto</h5>
@@ -26,41 +27,82 @@
 					<p class="text-primary"><span class = "required">*</span>Todos los campos son obligatorios</p>
 
 					<div class= "row">
-						<div class="col-md-6"> 
+						<div class="col-md-8"> 
 
 							<div class="form-group">
-								<label class="control-label">Nombre<span class = "required">*</span></label>
-								<input class="form-control" type="text" id ="txtNombre" name = "txtNombre" placeholder="Nombre Categoria" required="">
+								<label class="control-label">Nombre Producto<span class = "required">*</span></label>
+								<input class="form-control" type="text" id ="txtNombre" name = "txtNombre" maxlength="100" required="">
 							</div>
 							<div class="form-group">
-								<label class="control-label">Descripcion<span class = "required">*</span></label>
-								<textarea class="form-control" rows="2" id = "txtDescripcion" name = "txtDescripcion" placeholder="Descripcion De Categoria" required =""></textarea>
+								<label class="control-label">Descripcion Producto </label>
+								<textarea class="form-control" id = "txtDescripcion" name = "txtDescripcion"></textarea>
 							</div>
 
-							<!-- Select - Combobox -->
+						</div> <!-- <div class="col-md-8">  -->
+
+						<!-- Se coloca el codigo HTML para agregar la imagen de la categoria. -->
+						<!-- Se modifican las columnas de la vistas que se utilizaran en la capturas de registros.-->
+						<!-- Se implementa la maquetacion de Grid de 12 Columnas -->
+						<div class="col-md-4"> 
 							<div class="form-group">
-									<label for="exampleSelect1">Estado<span class = "required">*</span></label>
+								<label class="control-label">Código<span class="required">*</span>
+								</label>
+								<input class="form-control" id="txtCodigo" name="txtCodigo" type="text" placeholder="Codigo de Barras" maxlength="100" required= "">
+								<br> <!-- Dejar un renglon de espacio --> 
+							</div>
+
+							<div class="row">
+
+								<div class="form-group col-md-6">
+									<label class="control-label">Precio<span class="required">*</span></label>
+									<input class="form-control" id="txtPrecio" name="txtPecio" type="text" required= "">
+								</div>
+
+								<div class="form-group col-md-6">
+									<label class="control-label">Stock<span class="required">*</span></label>
+									<input class="form-control" id="txtStock" name="txtStock" type="text" required= "">
+								</div>
+
+							</div> <!-- <div class="row"> -->	
+
+							<!-- Seccion donde se muestran las Categorias -->
+							<div class="row">
+
+								<div class="form-group col-md-6">
+									<label for="listCategoria">Categoria<span class="required">*</span></label>
+									<select class="form-control" data-live-search="true" id="listCategoria" name="listCategoria" required=""></select>				
+								</div>
+
+								<!-- Select - Combobox -->
+								<div class="form-group">
+									<label for="listStatus">Estado<span class = "required">*</span></label>
 									<select class="form-control selectpicker" id="listStatus" name = "listStatus" required= "">
 										<option value = "1">Activo</option>
 										<option value = "2">Inactivo</option>
 									</select>
-							</div>
+								</div>
 
-						</div> <!-- <div class="col-md-6">  -->
 
-						<!-- Se coloca el codigo HTML para agregar la imagen de la categoria. -->
-						<div class="col-md-6"> 
+							</div> <!-- <div class="row"> -->	
+							<div class="row">
+								
+								<div class="form-group col-md-6">
+									<!-- data-dismiss = Para que se cierre el Modal al oprimir el boton "Cancelar" -->
+										<button id = "btnActionForm" class="btn btn-primary btn-lg btn-block" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i><span id="btnText">Guardar</span></button>
 
-						</div> <!-- <div class="col-md-6">  -->
+								</div><!-- <div class="form-group col-md-6"> -->
+
+								<div class="form-group col-md-6">
+									<button class = "btn btn-danger btn-lg btn-block" type="button" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-check-circle"></i>Cerrar</button>
+								</div>
+
+							</div> <!-- <div class="row" -->								
+							
+						</div> <!-- <div class="col-md-4">  -->
 
 					</div> <!-- <div class= "row"> -->
 
-					<!-- data-dismiss = Para que se cierre el Modal al oprimir el boton "Cancelar" -->
-					<div class="tile-footer">
-						<button id = "btnActionForm" class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i><span id="btnText">Guardar</span></button>&nbsp;&nbsp;&nbsp; 
-						
-						<button class = "btn btn-danger" type="button" data-dismiss="modal"><i class="fa fa-fw fa-lg fa-check-circle"></i>Cerrar</button>
-
+					<div class="title-footer">
 					</div>
 					
 				</form>      
