@@ -1,3 +1,8 @@
+// Se agrega este código en este archivo, ya que solo se requiere en esta parte
+// Su tilizan esta comillas ` `para agregar variables con llaves.
+
+document.write(`<script src="${base_url}/Assets/js/plugins/JsBarcode.all.min.js"></script>`);
+
 // Validar la entrada, solo caracteres permitidos "txtNombre"
 $("#txtNombre").bind('keypress', function(event) {
 	var regex = new RegExp("^[A-Za-z0-9- ]+$");
@@ -36,6 +41,24 @@ $(document).on('focusin',function(e){
 	}
 });
 
+// Valida la longuitud del código de barras.
+if (document.querySelector("#txtCodigo"))
+{
+	let inputCodigo = document.querySelector("#txtCodigo");
+	inputCodigo.onkeyup = function() 
+	{
+		if (inputCodigo.value.length >= 5)
+		{
+			document.querySelector('#divBarCode').classList.remove("notBlock");
+			fntBarcode();
+		}
+		else
+		{
+			document.querySelector('#divBarCode').classList.add("notBlock");
+		}
+	};
+}
+
 // Para llamar a la libreria "tinymce"
 tinymce.init({
 	selector: '#txtDescripcion',
@@ -49,6 +72,26 @@ tinymce.init({
 		],
 toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",
 });
+
+// Se utiliza para desplegar el código de barra
+function fntBarcode()
+{
+	let codigo = document.querySelector("#txtCodigo").value;
+	JsBarcode("#barcode",codigo);
+
+}
+
+// Para imprimir el código de Barras.
+function fntPrintBarcode(area)
+{
+	let elemntArea = document.querySelector(area);
+	let vprint = window.open('','popimpr','height=400,width=600'); //Define el tamaño de la ventana
+	vprint.document.write(elemntArea.innerHTML); // Escribe el código HTML en la ventana
+	vprint.document.close();
+	vprint.print();
+	vprint.close();
+}
+
 
 // Para mostrar la ventana Modal de los Productos
 function openModal()

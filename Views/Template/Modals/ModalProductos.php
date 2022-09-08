@@ -49,6 +49,15 @@
 								</label>
 								<input class="form-control" id="txtCodigo" name="txtCodigo" type="text" placeholder="Codigo de Barras" maxlength="100" required= "">
 								<br> <!-- Dejar un renglon de espacio --> 
+								<div id="divBarCode" class="notBlock textcenter">
+									<div id="printCode">
+										<!-- Es donde se muestra el código de barra -->
+										<svg id="barcode">
+										</svg>
+									</div>
+									<button class="btn btn-success btn-sm" type="button" onClick= "fntPrintBarcode('#printCode')"><i class="fas fa-print"></i>Imprimir</button>
+
+								</div>
 							</div>
 
 							<div class="row">

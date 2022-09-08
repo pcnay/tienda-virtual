@@ -35,6 +35,11 @@
 	color:#FFF; /* Color de letra Blanco */
 }
 
+.textcenter
+{
+	text-align:center;
+}
+
 .notBlock
 {
 	display:none;
