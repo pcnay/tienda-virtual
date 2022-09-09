@@ -317,6 +317,25 @@
 			die();
 		}
 
+		// Obtiene las categorias para el combo de la pantalla de captura de los productos
+		public function getSelectCategorias()
+		{
+			$htmlOptions = "";
+			$arrData = $this->model->selectCategorias(); // Extraer todas las Categorias
+			if (count($arrData) > 0)
+			{
+				for ($i=0; $i<count($arrData); $i++)
+				{
+					if ($arrData[$i]['estatus'] == 1)
+					{
+						$htmlOptions .= '<option value = "'.$arrData[$i]['id_categoria'].'">'.$arrData[$i]['nombre'].'</option>';
+					}
+				}
+			}
+			echo $htmlOptions;
+			die();
+
+		}
 
 	} // Class Categorias ...
 

@@ -41,6 +41,11 @@ $(document).on('focusin',function(e){
 	}
 });
 
+// Cuando se cargan la pagina de Productos (JavaScript) carga la pagina 
+window.addEventListener('load',function(){
+	fntCategorias();
+},false);
+
 // Valida la longuitud del código de barras.
 if (document.querySelector("#txtCodigo"))
 {
@@ -92,6 +97,36 @@ function fntPrintBarcode(area)
 	vprint.close();
 }
 
+// Funcion para extraer los datos de Categorias
+function fntCategorias()
+{
+	if (document.querySelector('#listCategoria'))
+	{
+		let ajaxUrl = base_url+'/Categorias/getSelectCategorias';
+		// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+		let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+		//let ajaxUrl = base_url+'/Categorias/setCategoria'; // Url a donde buscara el archivo, es en el Controlador/Roles.
+		// El método utilizado para enviar la informacion es "POST"
+		request.open("GET",ajaxUrl,true);
+		request.send();
+		
+		// Validando lo que regresa el Ajax
+		request.onreadystatechange = function()
+		{
+			// Valida que este devolviendo informacion.
+			if (request.readyState == 4 && request.status == 200)
+			{				
+				// Agrega el codigo HTML que regresa el Ajax de la consulta (getSelectCategorias)
+				document.querySelector('#listCategoria').innerHTML = request.responseText;
+				// Se muestren las opciones aplicando el buscador.
+				$('#listCategoria').selectpicker('render');
+
+			}
+		}
+
+	}
+
+}
 
 // Para mostrar la ventana Modal de los Productos
 function openModal()

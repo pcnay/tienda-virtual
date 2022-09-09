@@ -45,6 +45,11 @@
 	display:none;
 }
 
+.bootstrap-select > .dropdown-toggle
+{
+	border:1px solid #CCC;	
+}
+
 /*Estilos del Login */
 #divLoading
 {
