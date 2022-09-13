@@ -40,6 +40,16 @@
 	text-align:center;
 }
 
+.textright
+{
+	text-align:right;
+}
+
+.textleft
+{
+	text-align:left;
+}
+
 .notBlock
 {
 	display:none;

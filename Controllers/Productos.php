@@ -55,6 +55,71 @@
 			$this->views->getView($this,"Productos",$data);
 		}
 
+		// Para mostrar los Productos en pantalla.
+		// Obtiene los "Productos" 
+		public function getProductos()
+		{
+			// Esta condicion se utiliza para que usuarios que no tengan sesion no pueden visualizar las Categorias.
+			if ($_SESSION['permisosMod']['r'])
+			{				
+				$arrData = $this->model->selectProductos();
+				//dep($arrData);
+				//exit;
+
+				// Para colocar en color Verde o Rojo el estatus del Usuario
+				for ($i= 0; $i<count($arrData);$i++)
+				{
+					$btnView = '';
+					$btnEdit = '';
+					$btnDelete = '';
+
+					// Cambiando el valor del "Estatus" a Colores
+					if ($arrData[$i]['estatus'] == 1)
+					{
+						$arrData[$i]['estatus'] = '<span class="badge badge-success">Activo</span>';
+					}
+					else
+					{
+						$arrData[$i]['estatus'] = '<span class="badge badge-danger">Inactivo</span>';
+					}
+
+					$arrData[$i]['precio'] = MONEY.' '.formatMoney($arrData[$i]['precio']);
+					
+
+					if ($_SESSION['permisosMod']['r'])
+					{
+						$btnView = '<button class="btn btn-info btn-sm btnViewInfo" onClick="fntViewInfo('.$arrData[$i]['id_producto'].')" title="Ver Producto"><i class="far fa-eye"></i></button>';
+					}
+
+					if ($_SESSION['permisosMod']['u'])
+					{
+						// this = Significa que se enviara como parámetro todo la etiqueta "botton" 
+							$btnEdit = '<button class="btn btn-primary btn-sm btnEditInfo" onClick="fntEditInfo(this,'.$arrData[$i]['id_producto'].')" title="Editar Producto"><i class="fas fa-pencil-alt"></i></button>';
+
+					} // if ($_SESSION['permisosMod']['u'])
+
+					// ($_SESSION['userData']['id_persona'] != $arrData[$i][id_persona])
+					// Se bloquea al Usuario Super Administrador el boton de Borrar, es decir no se puede eliminarse, se tiene que realizar
+					// Con la opcion "Profile"
+					if ($_SESSION['permisosMod']['d'])
+					{
+						$btnDelete = '<button class="btn btn-danger btn-sm btnDelInfo" onClick="fntDelInfo('.$arrData[$i]['id_producto'].')" title="Eliminar Producto"><i class="fas fa-trash-alt"></i></button>';
+
+					} // if ($_SESSION['permisosMod']['d'])
+
+					//Son los botones, en la columna de "options".
+					// Se agrega el evento "onclick" en la etiqueta "button" para evitar el error de en google de que no carga los eventos.
+					$arrData[$i]['options'] = ' <div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
+
+				} // for ($i= 0; $i<count($arrData);$i++)
+				
+				echo json_encode($arrData,JSON_UNESCAPED_UNICODE);				
+				die(); // Finaliza el proceso.
+
+			} // if ($_SESSION['permisosMod']['r'])
+
+		} // Public function getProductos()
+
 	} //class Productos extends Controllers
 
 ?>
