@@ -1,6 +1,6 @@
 <!-- Para que despliegue la informacion en el "TAB" desde el arreglo "$data" -->
 <?php headerAdmin($data);
-			getModal('ModalClientes',$data);	// Para mostrar el Modal. ?>
+	getModal('ModalUsuarios',$data);	// Para mostrar el Modal. ?>
 <main class="app-content">
 
 	<!-- Se crea el <DIV> donde se colocara el código HTML que se genero en "function_roles.js"  -->

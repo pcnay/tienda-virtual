@@ -39,8 +39,11 @@
 
 			// Verifica que no esten duplicados el correo electronico o la identificacion.
 			$sql = "SELECT * FROM t_Personas WHERE email_user = '{$this->strEmail}' or identificacion = '{$this->strIdentificacion}'";
-
+			
 			$request = $this->select_all($sql);
+			//dep($sql);			
+			//dep($request);			
+
 			if (empty($request))
 			{
 				$query_insert = "INSERT INTO t_Personas (identificacion,nombres,apellidos,telefono,email_user,passwords,rolid,estatus) VALUES(?,?,?,?,?,?,?,?)";
@@ -66,6 +69,10 @@
 			{
 				$return = "exist";
 			}
+
+			//dep($return);			
+			//die();exit();
+
 
 			return $return;
 		}
@@ -93,6 +100,7 @@
 		// Obtiene la informacion de un solo usuario.
 		public function selectUsuario(int $idpersona)
 		{
+			// Se utiliza DAE_FORMAT = para mostrar fecha "dd-mmm-aaaa"
 			$this->intIdUsuario = $idpersona;
 			$sql = "SELECT p.id_persona,p.identificacion,p.nombres,p.apellidos,p.telefono,p.email_user,p.nit,p.nombrefiscal,p.direccionfiscal,p.passwords,p.rolid,r.id_rol,r.nombrerol,p.estatus,DATE_FORMAT(p.datecreated,'%d-%m-%Y') as fechaRegistro
 				FROM t_Personas p
@@ -100,7 +108,7 @@
 				ON p.rolid = r.id_rol
 				WHERE p.id_persona = $this->intIdUsuario";
 
-			// echo $sql;exit;, se utiliza "Network" para seleccionar "Request" y se muetra el Echo.
+			 //echo $sql;exit; //se utiliza "Network" para seleccionar "Request" y se muetra el Echo.
 			
 			$request = $this->select($sql);
 			return $request;
@@ -128,7 +136,7 @@
 			// Si esta vacia, por lo tanto no esta duplicado el correo electronico y la "Identificacion"
 			if (empty($request))
 			{
-				// Si es diferente de Vacio se va "Actualizar" el Correo electrónico.
+				// Si es diferente de Vacio se va "Actualizar" el Password
 				if ($this->strPassword != "")
 				{
 					$sql = "UPDATE t_Personas SET identificacion=?,nombres=?,apellidos=?,telefono=?,email_user=?,passwords=?,rolid=?,estatus=? WHERE id_persona = $this->intIdUsuario";
@@ -141,7 +149,7 @@
 					$this->intTipoId,
 					$this->intStatus);
 				}
-				else // Existe el Correo Electronico o la Identificación.
+				else // Para no actualizar el Password.
 				{
 					$sql = "UPDATE t_Personas SET identificacion=?,nombres=?,apellidos=?,telefono=?,email_user=?,rolid=?,estatus=? WHERE id_persona = $this->intIdUsuario";
 					$arrData = array($this->strIdentificacion,

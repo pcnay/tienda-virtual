@@ -62,7 +62,7 @@
 					<p class = "text-primary">Datos Fiscales :</p>
 					<div class="form-row">
 						<div class="form-group col-md-6">
-							<label>Identiifcacion Tributaria<span class = "required">*</span></label>
+							<label>Identificacion Tributaria<span class = "required">*</span></label>
 							<input class="form-control" type="text" maxlength="20"  id="txtNit" name="txtNit" required="">
 						</div>
 						<div class="form-group col-md-6">	

@@ -37,15 +37,15 @@
 
 		
 		<!-- Estos archivos tienen una función "openModal"  -->
-		<?php //if ($data['page_name'] == "Roles"){ ?>
-		<!-- <script src="Assets/js/Functions_roles.js"></script>-->
+		<?php if ($data['page_name'] == "Roles"){ ?>
+			<script src="Assets/js/Functions_roles.js"></script>
 		<?php
-			//}
+			}
 		?>
-		<?php //if ($data['page_name'] == "Usuarios"){ ?>
-			<!-- <script src="Assets/js/Functions_usuarios.js"></script>-->
+		<?php if ($data['page_name'] == "Usuarios"){ ?>
+			 <script src="Assets/js/Functions_usuarios.js"></script>
 			<?php
-			//}
+			}
 		?>
 
   </body>

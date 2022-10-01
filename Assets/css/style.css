@@ -40,9 +40,24 @@
 	text-align:center;
 }
 
+.textright
+{
+	text-align:right;
+}
+
+.textleft
+{
+	text-align:left;
+}
+
 .notBlock
 {
 	display:none;
+}
+
+.bootstrap-select > .dropdown-toggle
+{
+	border:1px solid #CCC;	
 }
 
 /*Estilos del Login */

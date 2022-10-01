@@ -235,6 +235,7 @@
 			die();
 		}
 
+		// Se utiliza el ComboBox de la captura de usuarios.
 		public function getSelectRoles()
 		{
 			$htmlOptions = "";
@@ -243,6 +244,7 @@
 			{
 				for ($i=0; $i<count($arrData); $i++)
 				{
+					// Verifica que este activo el "Role"
 					if ($arrData[$i]['estatus']==1)
 					{
 						$htmlOptions .= '<option value="'.$arrData[$i]['id_rol'].'">'.$arrData[$i]['nombrerol'].'</option>';
@@ -251,7 +253,8 @@
 			}
 			echo $htmlOptions;
 			die();
-		}
+
+		} // public function getSelectRoles()
 
 } // classs home extends Controllers
 ?>

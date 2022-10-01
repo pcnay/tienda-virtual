@@ -28,40 +28,40 @@
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label for = "txtIdentificacion">Identificacion</label>
-							<input class="form-control" type="text" id ="txtIdentificacion" name = "txtIdentificacion" placeholder="Ingresa Idenfificacion" required="">
+							<input class="form-control" type="text" id ="txtIdentificacion" name = "txtIdentificacion" placeholder="Ingresa Idenfificacion" maxlength="30" required="">
 						</div>
 					</div> <!-- <div class="form-row" -->
 
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label for = "txtNombre">Nombres</label>
-							<input class="form-control valid validText" type="text" id ="txtNombre" name = "txtNombre" placeholder="Ingresa Nombre" required="">
+							<input class="form-control valid validText" type="text" id ="txtNombre" name = "txtNombre" placeholder="Ingresa Nombre" maxlength="80" required="">
 						</div>
 						<div class="form-group col-md-6">
 							<label for = "txtApellido">Apellidos</label>
-							<input class="form-control valid validText" type="text" id ="txtApellido" name = "txtApellido" placeholder="Ingresa Apellido" required="">
+							<input class="form-control valid validText" type="text" id ="txtApellido" name = "txtApellido" placeholder="Ingresa Apellido" maxlength="100" required="">
 						</div>
 					</div> <!-- <div class="form-row" -->
 
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label for = "txtTelefono">Telefonos</label>
-							<input class="form-control valid validNumber" type="text" id ="txtTelefono" name = "txtTelefono" placeholder="Ingresa Telefono" required="" onkeypress="return controlTag(event);">
+							<input class="form-control valid validNumber" type="text" id ="txtTelefono" name = "txtTelefono" placeholder="Ingresa Telefono" maxlength="20" required="" onkeypress="return controlTag(event);">
 							<!-- Solo escribe numeros. -->
 						</div>
 						<div class="form-group col-md-6">
 							<label for = "txtEmail">Email</label>
-							<input class="form-control valid validEmail" type="email" id ="txtEmail" name = "txtEmail" placeholder="Ingresa Email" required="">
+							<input class="form-control valid validEmail" type="email" id ="txtEmail" name = "txtEmail" placeholder="Ingresa Email" maxlength="100" required="">
 						</div>
 					</div> <!-- <div class="form-row" -->
 
 					<div class="form-row">
+
 						<div class="form-group col-md-6">
-							<label for = "listRolId">Tipo Usuarios</label>
-							<!-- Se utilizara Ajax para extraer todos los roles.-->
-							<select class = "form-control" data-live-search="true" id = "listRolid" name = "listRolid" required >								
-							</select>
+							<label for="listaRoles">Tipo Usuario</label>
+							<select class="form-control" data-live-search = "true" id="listaRoles" name="listaRoles" required></select>				
 						</div>
+
 						<div class="form-group col-md-6">
 							<label for = "txtStatus">Status</label>
 							<select class = "form-control selectpicker" id = "listStatus" name = "listStatus" required >								
@@ -69,6 +69,7 @@
 								<option value="2">Inactivos</option>
 							</select>
 						</div>
+
 					</div> <!-- <div class="form-row" -->
 
 					<div class="form-row">
