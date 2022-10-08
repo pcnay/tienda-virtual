@@ -120,6 +120,87 @@
 
 		} // Public function getProductos()
 
+		// Se define la funcion para llamar el método que graba información.
+		// Método para asignar Categorias.
+		// Se llama en "Functions_categorias.js", request.open("POST",ajaxUrl,true);
+		public function setProducto()
+		{
+			if ($_SESSION['permisosMod']['w'])
+				{
+					//dep($_POST); // Obtener el valor de la variable "Global". 					
+					//die();
+					//exit();
+
+					if ($_POST)
+					{
+						if (empty($_POST['txtNombre']) || empty($_POST['txtCodigo']) || empty($_POST['listCategoria']) || empty($_POST['txtPrecio']) || empty($_POST['listStatus']))
+						{
+							$arrResponse = array("estatus" => false, "msg" => 'Datos Incorrectos');
+						}
+						else
+						{
+							// Obtener los datos que se estan enviando por Ajax 
+							// "strClean" = Esta definida en "Helpers", para limpiar las cadenas.
+							$idProducto= intval($_POST['idProducto']); // Convertir a Entero, si esta vacia la convierte 0
+							$strNombre = strClean($_POST['txtNombre']);
+							$strDescripcion = strClean($_POST['txtDescripcion']);
+							$strCodigo  = strClean($_POST['txtCodigo']);
+							$intCategoriaId  = intval($_POST['listCategoria']);
+							$intPrecio  = strClean($_POST['txtPrecio']);
+							$intStock  = intval($_POST['txtStock']);
+							$intStatus = intval($_POST['listStatus']); // Conviertiendola a Entero.
+							
+							if ($idProducto == 0) // Es un nuevo producto
+							{
+								$option = 1;
+								// $request_producto = Es el ID que retorna cuando se inserta en la base de datos.
+								$request_producto = $this->model->insertProducto($strNombre,$strDescripcion,$strCodigo,$intCategoriaId,$intPrecio,$intStock,$intStatus);
+							}
+							else // Actualizar
+							{
+								$option = 2;								
+							}
+							//dep($request_producto);
+							//die();exit;
+
+							if ($request_producto > 0)
+							{
+								if ($option == 1) // Se inserto un registro.
+								{
+									$arrResponse = array('estatus'=> true, 'id_producto'=> $request_producto, 'msg'=> 'Datos Guardados Correctamente');
+
+								} // if ($option == 1)
+								else
+								{
+									// Seccion para actualizar el Producto.
+
+								} //if ($option == 1)
+
+							} // if ($request_producto > 0)
+							else if ($request_producto == 'exist')
+							{
+								$arrResponse = array('estatus'=> false, 'msg'=>'Atencion! Ya Existe El Producto');
+							}
+							else
+							{
+								$arrResponse = array('estatus'=> false, 'msg'=>'NO es posible Almacenar el Reg.');
+							}							
+
+						} // if (empty($_POST['txtNombre']) || empty($_POST[
+
+						// Corrige los datos de caracteres raros.
+						// Esta información es enviada a "Functions_producto.js"
+						echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+
+					} // 	if ($_POST)					
+
+					die(); // Finaliza el proceso.
+
+				} // if ($_SESSION['permisosMod']['w'])
+				
+		} // public function setProducto()
+
+
 	} //class Productos extends Controllers
 
 ?>

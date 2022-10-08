@@ -46,7 +46,7 @@ $(document).on('focusin',function(e){
 // Cuando se cargan la pagina de Productos (JavaScript) carga la pagina 
 window.addEventListener('load',function(){
 	
-	tableProdutos = $('#tableProductos').dataTable({
+	tableProductos = $('#tableProductos').dataTable({
 		"aProcessing":true,
 		"aServerside":true,
 		"language": {
@@ -111,6 +111,80 @@ window.addEventListener('load',function(){
 		"iDisplayLength":2,
 		"order":[[0,"desc"]]
 	});
+
+	// Cuando se oprime el boton "Guardar" 
+	if (document.querySelector("#formProductos"))
+	{
+		let formProducto = document.querySelector("#formProductos");
+		formProducto.onsubmit = function(e)
+		{
+			e.preventDefault(); // Previene que se recargue 
+			let strNombre = document.querySelector('#txtNombre').value;
+			let intCodigo = document.querySelector('#txtCodigo').value;
+			let strPrecio = document.querySelector('#txtPrecio').value;
+			let intStock = document.querySelector('#txtStock').value;
+
+			if (strNombre == '' || intCodigo == '' || strPrecio == '' || intStock == '')
+			{
+				swal ("Atencion","Todos los cmpos son Obligatorio","error");
+				return false;
+			}
+
+			if (intCodigo.length < 5)
+			{
+				swal ("Atencion","El Código debe ser mayor que 5 díditoso","error");
+				return false;
+			}
+
+			divLoading.style.display = "flex";
+			tinyMCE.triggerSave();// Seccion del editor guarda todo al TextArea.
+			// Ya que para  guardar información se extrae los datos de las etiqueta HTML.
+
+			// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+			let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+			let ajaxUrl = base_url+'/Productos/setProducto'; // Url a donde buscara el archivo, es en el Controlador/Productos.
+			let formData = new FormData(formProducto);
+			// El método utilizado para enviar la informacion es "POST"
+			request.open("POST",ajaxUrl,true);
+			request.send(formData);
+
+			// Validando lo que regresa el Ajax
+			request.onreadystatechange = function()
+			{
+				// Valida que este devolviendo informacion.
+				if (request.readyState == 4 && request.status == 200)
+				{	
+					//console.log(request.responseText);
+					// Parsea el "request", es decir se convierte en Objeto
+					let objData = JSON.parse(request.responseText);
+					if (objData.estatus)
+					{
+						swal("",objData.msg,"success");	
+						// Para agregar las fotos del Producto.
+						document.querySelector("#idProducto").value = objData.id_producto;
+						tableProductos.api().ajax.reload();					
+					}
+					else
+					{
+						swal("Error",objData.msg,"error");						
+					}
+					
+					/*
+					// Agrega el codigo HTML que regresa el Ajax de la consulta (getSelectCategorias)
+					document.querySelector('#listCategoria').innerHTML = request.responseText;
+					// Se muestren las opciones aplicando el buscador.
+					$('#listCategoria').selectpicker('render');
+					*/
+				}
+				divLoading.style.display = "none";
+				return false;
+
+			} // request.onreadystatechange = function()
+
+		} // formProductos.onsubmit = function(e)
+
+	} // if (this.document.querySelector("#formProductos"))
+
 
 	fntCategorias();
 

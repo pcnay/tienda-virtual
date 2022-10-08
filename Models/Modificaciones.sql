@@ -37,6 +37,16 @@ Para ejecutar el "script"
 
 USE bd_tienda_virtual;
 
+
+CREATE TABLE t_Imagen
+(
+  id_imagen INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,  
+	productoid INT UNSIGNED  NOT NULL,
+	img VARCHAR(100),
+	FOREIGN KEY(productoid) REFERENCES t_Productos(id_producto)
+	ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
 /* 
 Cambiar el nombre de un campo. 
 

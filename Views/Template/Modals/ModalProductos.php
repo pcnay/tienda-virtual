@@ -64,7 +64,7 @@
 
 								<div class="form-group col-md-6">
 									<label class="control-label">Precio<span class="required">*</span></label>
-									<input class="form-control" id="txtPrecio" name="txtPecio" type="text" required= "">
+									<input class="form-control" id="txtPrecio" name="txtPrecio" type="text" required= "">
 								</div>
 
 								<div class="form-group col-md-6">
