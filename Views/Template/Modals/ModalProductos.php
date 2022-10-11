@@ -112,8 +112,52 @@
 
 					</div> <!-- <div class= "row"> -->
 
+					<!-- Seccion donde se mostrara las imagenes en la captura de productos  -->
 					<div class="title-footer">
-					</div>
+
+						<div class="form-group col-md-12">
+							<div id="containerGalley">
+								<span>Galería De Foto</span>
+								<button class="btnAddImage btn btn-info btn-sm" type="button"><i class="fas fa-plus"></i></button>
+							</div>
+
+							<hr>
+							<div id="containerImages">
+
+								<div id="div24">
+									<div class="prevImage">
+										<img src="<?= media();  ?>/images/uploads/camiseta.jpg" alt="">
+									</div>
+										<input type="file" name = "foto" id = "img1" class="inputUploadfile" >
+										<label for="img1" class="btnUploadfile"><i class="fas fa-upload"></i></label>
+										<button class="btnDeleteImage" type="button" onclick="fntDelItem('div24')"><i class="fas fa-trash-alt"></i></button>
+
+								</div> <!-- <div id="div24">  -->
+								<div id="div24">
+									<div class="prevImage">
+										<img class="loading" src="<?= media();  ?>/images/loading.svg" alt="">
+									</div>
+										<input type="file" name = "foto" id = "img1" class="inputUploadfile" >
+										<label for="img1" class="btnUploadfile"><i class="fas fa-upload"></i></label>
+										<button class="btnDeleteImage" type="button" onclick="fntDelItem('div24')"><i class="fas fa-trash-alt"></i></button>
+
+								</div> <!-- <div id="div24">  -->
+
+								<div id="div24">
+									<div class="prevImage">
+										<img src="<?= media();  ?>/images/uploads/camiseta.jpg" alt="">
+									</div>
+										<input type="file" name = "foto" id = "img1" class="inputUploadfile" >
+										<label for="img1" class="btnUploadfile"><i class="fas fa-upload"></i></label>
+										<button class="btnDeleteImage" type="button" onclick="fntDelItem('div24')"><i class="fas fa-trash-alt"></i></button>
+
+								</div> <!-- <div id="div24">  -->
+
+							</div> <!-- <div id="containerImages"> -->
+
+						</div> <!-- <div class="form-group col-md-12"> -->
+
+					</div> <!-- <div class="title-footer"> -->
 					
 				</form>      
 
