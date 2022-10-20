@@ -1,0 +1,21 @@
+# NO permite ver el contenido de las carpetas
+Options All -Indexes
+RewriteEngine On 
+
+#Agrega las rutas amigables.
+# [QSA,L] = Anexe cualquier cadena de consulta a solicitar
+# url = Almacena la ruta, depues del "index.php?"
+#Permita letras y numeros
+# Cuando se este enviando a traves de la ruta "index.php" con variable GET "ruta" que se convierta en una 
+# URL amigable, expresion regular "^()$" a utilizar ^(.*)$
+#$1 = Convierte cualquier valor que traiga "ruta y la convierta en una URL amigable, es decir $1 = index.php?ruta
+#### => No se deben cambiar las siguientes lineas, ya que NO funcionan las URL que utiliza el sistema.
+# Busca un directorio valido
+RewriteCond %{REQUEST_FILENAME} !-d
+# Para contener las URL
+RewriteCond %{REQUEST_FILENAME} !-f 
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+
+
+
