@@ -34,21 +34,21 @@ Para ejecutar el "script"
 			Borrar un campo dela tabla. : ALTER TABLE t_Rol DROP status;
 */
 
-<<<<<<< HEAD
 DROP DATABASE IF EXISTS bd_tienda_virtual;
 
 CREATE DATABASE IF NOT EXISTS bd_tienda_virtual;
  /* SET time_zone = 'America/Tijuana';  */
 
+CREATE USER 'usuario_tienda'@'localhost' IDENTIFIED BY 'Tienda_2022';
+GRANT ALL on bd_tienda_virtual.* to 'usuario_tienda'  IDENTIFIED BY 'Tienda_2022';
+
 USE bd_tienda_virtual;
 
 /*
-=======
 
 USE bd_tienda_virtual;
 
 
->>>>>>> 15abb44e4e9ba1db0eb8176134d30943d5eee715
 CREATE TABLE t_Imagen
 (
   id_imagen INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,  
