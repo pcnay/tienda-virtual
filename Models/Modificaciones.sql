@@ -34,6 +34,7 @@ Para ejecutar el "script"
 			Borrar un campo dela tabla. : ALTER TABLE t_Rol DROP status;
 */
 
+<<<<<<< HEAD
 DROP DATABASE IF EXISTS bd_tienda_virtual;
 
 CREATE DATABASE IF NOT EXISTS bd_tienda_virtual;
@@ -42,6 +43,12 @@ CREATE DATABASE IF NOT EXISTS bd_tienda_virtual;
 USE bd_tienda_virtual;
 
 /*
+=======
+
+USE bd_tienda_virtual;
+
+
+>>>>>>> 15abb44e4e9ba1db0eb8176134d30943d5eee715
 CREATE TABLE t_Imagen
 (
   id_imagen INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,  

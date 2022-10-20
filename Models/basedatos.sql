@@ -60,7 +60,11 @@ Para mostrar los campos de una tabla:
   */
 
 
+<<<<<<< HEAD
 DROP DATABASE IF EXISTS bd_tienda_virtual;
+=======
+ DROP DATABASE IF EXISTS bd_tienda_virtual;
+>>>>>>> 15abb44e4e9ba1db0eb8176134d30943d5eee715
 
 CREATE DATABASE IF NOT EXISTS bd_tienda_virtual;
  /* SET time_zone = 'America/Tijuana';  */
