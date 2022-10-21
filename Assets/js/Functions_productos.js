@@ -185,6 +185,23 @@ window.addEventListener('load',function(){
 
 	} // if (this.document.querySelector("#formProductos"))
 
+	// Código para cuando se oprime el boton de "agregar"
+	// Valida si existe esta etiqueta.
+	if (document.querySelector(".btnAddImage"))
+	{
+		let btnAddImages = document.querySelector(".btnAddImage");
+		// Se agrega el evento click al boton "+"
+		btnAddImages.onclick = function(e)
+		{
+			// Se creara la seccion donde se carga la imagenes en la captura de Productos.
+			let key = Date.now();
+			alert();
+			
+			
+
+		} // btnAddImages.onclick = function(e)
+
+	}
 
 	fntCategorias();
 

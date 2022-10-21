@@ -34,19 +34,19 @@ Para ejecutar el "script"
 			Borrar un campo dela tabla. : ALTER TABLE t_Rol DROP status;
 */
 
+/*
 DROP DATABASE IF EXISTS bd_tienda_virtual;
 
 CREATE DATABASE IF NOT EXISTS bd_tienda_virtual;
- /* SET time_zone = 'America/Tijuana';  */
+ /* SET time_zone = 'America/Tijuana';  
 
 CREATE USER 'usuario_tienda'@'localhost' IDENTIFIED BY 'Tienda_2022';
 GRANT ALL on bd_tienda_virtual.* to 'usuario_tienda'  IDENTIFIED BY 'Tienda_2022';
 
-USE bd_tienda_virtual;
-
-/*
+*/
 
 USE bd_tienda_virtual;
+
 
 
 CREATE TABLE t_Imagen
@@ -57,6 +57,7 @@ CREATE TABLE t_Imagen
 	FOREIGN KEY(productoid) REFERENCES t_Productos(id_producto)
 	ON DELETE RESTRICT ON UPDATE CASCADE
 );
+
 
 /* 
 Cambiar el nombre de un campo. 

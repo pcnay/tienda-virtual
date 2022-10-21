@@ -189,6 +189,16 @@ CREATE TABLE t_Detalle_Temp
 );
 
 
+CREATE TABLE t_Imagen
+(
+  id_imagen INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,  
+	productoid INT UNSIGNED  NOT NULL,
+	img VARCHAR(100),
+	FOREIGN KEY(productoid) REFERENCES t_Productos(id_producto)
+	ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+
 /*
 CREATE TABLE t_Usuario
 (
