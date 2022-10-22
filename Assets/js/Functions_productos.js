@@ -195,7 +195,23 @@ window.addEventListener('load',function(){
 		{
 			// Se creara la seccion donde se carga la imagenes en la captura de Productos.
 			let key = Date.now();
-			alert();
+			//alert(key);
+			// Se crea la seccion del "DIV" donde se agrega la imagen 
+			let newElement = document.createElement("div");
+			newElement.id = "div"+key;
+			newElement.innerHTML = `<div class="prevImage"></div>
+				<input type="file" name = "foto" id = "img${key}" class="inputUploadfile" >
+				<label for="img${key}" class="btnUploadfile"><i class="fas fa-upload"></i></label>
+				<button class="btnDeleteImage" type="button" onclick="fntDelItem('#div${key}')"><i class="fas fa-trash-alt"></i></button>`;
+			// Se agrega al "DIV" <div id="containerImages">
+			document.querySelector("#containerImages").appendChild(newElement);
+			document.querySelector(".btnUploafile").click();
+			
+
+
+
+
+
 			
 			
 
