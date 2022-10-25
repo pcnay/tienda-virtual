@@ -275,6 +275,60 @@ function fntPrintBarcode(area)
 	vprint.close();
 }
 
+
+//Function para subir el archivo
+function fntInputFile()
+{
+	let inputUploadfile = document.querySelectorAll(".inputUploadfile");
+	inputUploadfile.forEach(function(inputUploadfile){
+		inputUploadfile.addEventListener('change', function(){
+			let idProducto = document.querySelector ("#idProducto").value;
+			let parentId = this.parentNode.getAttribute("id");
+			let idFile = this.getAttribute("id");
+			let uploadFoto = document.querySelector("#"+idFile).value;
+			let fileimg = document.querySelector("#"+idFile).files;
+			let prevImg = document.querySelector("#"+parentId+" .prevImage");
+			let nav =  window.URL || window.webkitURL;
+			if (uploadFoto != '')
+			{
+				let type = fileimg[0].type;
+				let name = fileimg[0].name;
+				if (type != 'image/jpeg' && type != 'image/jpg' && type != 'image/png')
+				{
+					prevImg.innerHTML = "Archivo NO válido";
+					uploadFoto.value = "";
+					return false;
+				}
+				else
+				{
+					let objeto_url = nav-createObjectURL(this.files[0]);
+					prevImg.innerHTML = `<img class="loading" src="${base_url}/Assets/images/loading.svg" > `;
+
+					// Enviando los datos por Ajax de la imagen que se grabara en la tabla.
+					// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+					let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+					let ajaxUrl = base_url+'/Productos/setImage'; // Url a donde buscara el archivo, es en el Controlador/Productos.
+					let formData = new FormData();
+					// El método utilizado para enviar la informacion es "POST"
+					formData.append('idproducto',idProducto);
+					formData.append("foto",this.files[0]);
+					request.open("POST",ajaxUrl,true);
+					request.send(formData);
+					request.onreadystatechange = funtion() 
+					{
+						
+					} //request.onreadystatechange = funtion() 
+
+
+				}
+			}
+
+		}); // inputUploadfile.addEventListener('change', function(){
+		
+	}); // inputUploadfile.forEach(function(inputUploadfile){
+
+} //function fntInputFile()
+
 // Funcion para extraer los datos de Categorias
 function fntCategorias()
 {
