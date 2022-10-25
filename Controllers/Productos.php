@@ -200,6 +200,15 @@
 				
 		} // public function setProducto()
 
+		public function setImage()
+		{
+			dep($_POST);
+			dep($_FILES);
+			die();exit;
+
+
+		}
+
 
 	} //class Productos extends Controllers
 

@@ -205,21 +205,15 @@ window.addEventListener('load',function(){
 				<button class="btnDeleteImage" type="button" onclick="fntDelItem('#div${key}')"><i class="fas fa-trash-alt"></i></button>`;
 			// Se agrega al "DIV" <div id="containerImages">
 			document.querySelector("#containerImages").appendChild(newElement);
-			document.querySelector(".btnUploafile").click();
-			
-
-
-
-
-
-			
-			
+			document.querySelector(".btnUploadfile").click();
+			fntInputFile();			
 
 		} // btnAddImages.onclick = function(e)
 
 	}
 
 	fntCategorias();
+	fntInputFile();
 
 
 },false);
@@ -301,7 +295,7 @@ function fntInputFile()
 				}
 				else
 				{
-					let objeto_url = nav-createObjectURL(this.files[0]);
+					let objeto_url = nav.createObjectURL(this.files[0]);
 					prevImg.innerHTML = `<img class="loading" src="${base_url}/Assets/images/loading.svg" > `;
 
 					// Enviando los datos por Ajax de la imagen que se grabara en la tabla.
@@ -314,11 +308,17 @@ function fntInputFile()
 					formData.append("foto",this.files[0]);
 					request.open("POST",ajaxUrl,true);
 					request.send(formData);
-					request.onreadystatechange = funtion() 
+					request.onreadystatechange = function() 
 					{
+						if (request.readyState != 4) return;
+						if (request.status == 200)
+						{
+							let objData = JSON.parse(request.responseText);
+							prevImg.innerHTML = `<img src="${objeto_url}">`;
+
+						} // if (request.status == 200)
 						
 					} //request.onreadystatechange = funtion() 
-
 
 				}
 			}
