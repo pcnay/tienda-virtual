@@ -202,11 +202,13 @@
 
 		public function setImage()
 		{
-			dep($_POST);
-			dep($_FILES);
-			die();exit;
-
-
+			//dep($_POST);
+			//dep($_FILES);			
+			$arrrespose = array('estatus' => true, 'imgname' => "img_6546565d.jpg");
+			echo json_encode($arrrespose,JSON_UNESCAPED_UNICODE);
+			die();
+			exit();
+			
 		}
 
 

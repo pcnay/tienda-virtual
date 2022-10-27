@@ -315,7 +315,9 @@ function fntInputFile()
 						{
 							let objData = JSON.parse(request.responseText);
 							prevImg.innerHTML = `<img src="${objeto_url}">`;
-
+							document.querySelector("#"+parentId+" .btnDeleteImage").setAttribute("imgname",objData.imgname);
+							document.querySelector("#"+parentId+" .btnUploadfile").classLit.add("notblock");
+							document.querySelector("#"+parentId+" .btnUploadfile").classLit.add("notblock");
 						} // if (request.status == 200)
 						
 					} //request.onreadystatechange = funtion() 
