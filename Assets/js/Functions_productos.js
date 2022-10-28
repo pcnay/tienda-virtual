@@ -203,9 +203,13 @@ window.addEventListener('load',function(){
 				<input type="file" name = "foto" id = "img${key}" class="inputUploadfile" >
 				<label for="img${key}" class="btnUploadfile"><i class="fas fa-upload"></i></label>
 				<button class="btnDeleteImage" type="button" onclick="fntDelItem('#div${key}')"><i class="fas fa-trash-alt"></i></button>`;
-			// Se agrega al "DIV" <div id="containerImages">
+
+			// Se agrega al "DIV" <div id="containerImages">, a la estructura completa, referencia "ModalProductos.php" donde esta donde se crea manualmente el DIV24.
 			document.querySelector("#containerImages").appendChild(newElement);
-			document.querySelector(".btnUploadfile").click();
+			
+			// Se esta agregando el evento "click" 
+			document.querySelector("#div"+key+" .btnUploadfile").click();
+
 			fntInputFile();			
 
 		} // btnAddImages.onclick = function(e)
@@ -314,10 +318,17 @@ function fntInputFile()
 						if (request.status == 200)
 						{
 							let objData = JSON.parse(request.responseText);
-							prevImg.innerHTML = `<img src="${objeto_url}">`;
-							document.querySelector("#"+parentId+" .btnDeleteImage").setAttribute("imgname",objData.imgname);
-							document.querySelector("#"+parentId+" .btnUploadfile").classLit.add("notblock");
-							document.querySelector("#"+parentId+" .btnUploadfile").classLit.add("notblock");
+							if (objData.estatus)
+							{
+								prevImg.innerHTML = `<img src="${objeto_url}">`;
+								document.querySelector("#"+parentId+" .btnDeleteImage").setAttribute("imgname",objData.imgname);
+								document.querySelector("#"+parentId+" .btnUploadfile").classList.add("notblock");
+								document.querySelector("#"+parentId+" .btnDeleteImage").classList.remove("notblock");
+							}
+							else
+							{
+								swal("Error", objData,msg,"error")
+							}
 						} // if (request.status == 200)
 						
 					} //request.onreadystatechange = funtion() 
