@@ -204,13 +204,41 @@
 		{
 			//dep($_POST);
 			//dep($_FILES);			
-			$arrrespose = array('estatus' => true, 'imgname' => "img_6546565d.jpg");
-			echo json_encode($arrrespose,JSON_UNESCAPED_UNICODE);
-			die();
-			exit();
-			
-		}
+			if($_POST)
+			{
+				if (empty($_POST['idproducto']))
+				{
+					$arrResponse = array('estatus' => false, 'msg' => 'Error De Carga');					
+				}
+				else
+				{
+					$idProducto = intval($_POST['idproducto']);
+					$idProducto = 1;
+					$foto = $_FILES['foto'];
+					$imgNombre = 'pro_'.md5(date('d-m-Y H:m:s')).'.jpg';
+					$request_image = $this->model->insertImage($idProducto,$imgNombre);
+					
+					if ($request_image)
+					{
+						$uploadImage = uploadImage($foto,$imgNombre);
+						$arrResponse = array('estatus' => true, 'imgname' => $imgNombre, 'msg' => 'Archivo cargado ');
+					}
+					else
+					{
+						$arrResponse = array('estatus' => false, 'msg' => 'Error De Carga');
+					} // if ($request_image)
+					
+					
+				} //if (empty($_POST['idproducto']))
+				
+				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+				
+			} //	if($_POST)
 
+			die();
+			//exit();
+			
+		} // public function setImage()
 
 	} //class Productos extends Controllers
 

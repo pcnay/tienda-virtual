@@ -9,6 +9,8 @@
 		private $intPrecio;
 		private $intStock;
 		private $intStatus;
+		private $strImagen;
+		
 
 		public function __construct()
 		{
@@ -67,9 +69,22 @@
 			}
 
 			return $return;
-
 		}
 
+		// Seccion para grabar imagenes en el Servidor.
+		public function insertImage(int $idproducto, string $imagen)
+		{
+			$this-> intIdProducto = $idproducto;
+			$this->strImagen = $imagen;
+			// Para que se pueda grabar la imagen en el servidor, se debe proporcionar en la carpeta de "uploads" para la columna "otros" el permiso de +rxw ya que graba el usuario "www-data"
+			// chmod o=+rxw uploads/
+			$query_insert = "INSERT INTO t_Imagen(productoid,img) VALUES(?,?)";
+			$arrData = array($this->intIdProducto,
+												$this->strImagen);
+			$request_insert = $this->insert($query_insert,$arrData);
+			return $request_insert;
 
+			
+		}
 	} // class homeModel
 ?>
