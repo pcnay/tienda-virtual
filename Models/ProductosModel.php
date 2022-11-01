@@ -82,9 +82,41 @@
 			$arrData = array($this->intIdProducto,
 												$this->strImagen);
 			$request_insert = $this->insert($query_insert,$arrData);
-			return $request_insert;
-
-			
+			return $request_insert;			
 		}
+
+		// Funcion para seleccionar una imagen desde la tabla.
+		public function selectImages(int $idproducto)
+		{
+			$this->intIdProducto = $idproducto;
+			$sql = "SELECT productoid,img FROM t_Imagen WHERE productoid = $this->intIdProducto";
+			$request = $this->select_all($sql);
+			return $request;
+		}
+
+		// Funcion utilizada para obtener el producto de la tabla "t_Productos"
+		public function selectProducto(int $idproducto)
+		{
+			$this->intIdProducto = $idproducto;
+			$sql = "SELECT p.id_producto,
+				p.codigo,
+				p.nombre,
+				p.descripcion,
+				p.categoriaid,
+				c.nombre AS categoria,
+				p.precio,
+				p.stock,
+				p.estatus
+				FROM t_Productos p
+				INNER JOIN t_Categorias c
+				ON p.categoriaid = c.id_categoria
+				WHERE p.id_producto = $this->intIdProducto AND p.estatus != 0";
+			
+			$request = $this->select_all($sql);
+			return $request;			
+
+
+		}
+
 	} // class homeModel
 ?>
