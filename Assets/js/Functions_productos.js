@@ -342,6 +342,34 @@ function fntInputFile()
 
 } //function fntInputFile()
 
+// Funcion utilizada para mostrar el producto en una ventana modal.
+function fntViewInfo(idProducto)
+{
+	// Obtiene los datos desde la tabla.
+	// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+	let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+	let ajaxUrl = base_url+'/Productos/getProducto/'+idProducto; // Url a donde buscara el archivo, es en el Controlador/Productos.
+	request.open("GET",ajaxUrl,true);
+	request.send();
+
+	request.onreadystatechange = function() 
+	{
+		if (request.readyState == 4 && request.status == 200) // Esta retornando informacion
+		{
+			// Conviertiendo de formato JSon a Objeto.
+			let objData = JSON.parse(request.responseText);
+			if (objData.estatus)
+			{
+				
+			}
+		}
+
+	} // request.onreadystatechange = function() 
+
+	$('#modalViewProducto').modal('show');
+
+}
+
 // Funcion para extraer los datos de Categorias
 function fntCategorias()
 {

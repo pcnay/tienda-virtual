@@ -170,11 +170,11 @@
 -->
 
 <!-- Modal -->
-<div class="modal fade" id="modalViewCategoria" name = "modalViewCategoria" tabindex="-1" role="dialog"  aria-hidden="true">
-  <div class="modal-dialog" >
+<div class="modal fade" id="modalViewProducto" name = "modalViewProducto" tabindex="-1" role="dialog"  aria-hidden="true">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header header-primary">
-        <h5 class="modal-title" id="titleModal">Datos Del Cliente</h5>
+        <h5 class="modal-title" id="titleModal">Datos Del Producto</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -185,25 +185,38 @@
 						<tbody>
 
 							<tr>
-								<td>ID:</td>
-								<td id= "celId"></td>
+								<td>Codigo :</td>
+								<td id= "celCodigo">65656565656565</td>
 							</tr>
 							<tr>
 								<td>Nombres:</td>
 								<td id= "celNombre"></td>
 							</tr>
 							<tr>
+								<td>Precio:</td>
+								<td id= "celPrecio"></td>
+							</tr>
+							<tr>
+								<td>Stock:</td>
+								<td id= "celStock"></td>
+							</tr>
+							<tr>
+								<td>Categoria:</td>
+								<td id= "celCategoria"></td>
+							</tr>
+							<tr>
+								<td>Status:</td>
+								<td id= "celStatus"></td>
+							</tr>
+							<tr>
 								<td>Descripcion:</td>
 								<td id= "celDescripcion"></td>
 							</tr>
 							<tr>
-								<td>Estado:</td>
-								<td id= "celEstado"></td>
+								<td>Foto De Transferencia:</td>
+								<td id= "celFotos"></td>
 							</tr>
-							<tr>
-								<td>Foto:</td>
-								<td id= "imgCategoria"></td>
-							</tr>
+
 
 						</tbody>
 					</table>
