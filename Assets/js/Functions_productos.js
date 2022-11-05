@@ -360,10 +360,27 @@ function fntViewInfo(idProducto)
 			let objData = JSON.parse(request.responseText);
 			if (objData.estatus)
 			{
+				//console.log(objData);
+				let objProducto = objData.data;
+				let estadoProducto = objProducto[0].estatus == 1?
+				'<span class="badge badge-success">Activo</span>':
+				'<span class="badge badge-danger">Inactivo</span>';
+				// console.log(objProducto);
+				// console.log(objProducto[0].nombre); Funciona PHP 8 para accesar a un elemento.
+
+				document.querySelector("#celCodigo").innerHTML = objProducto[0].codigo;
+				document.querySelector("#celNombre").innerHTML = objProducto[0].nombre;
+				document.querySelector("#celPrecio").innerHTML = objProducto[0].precio;
+				document.querySelector("#celStock").innerHTML = objProducto[0].stock;
+				document.querySelector("#celCategoria").innerHTML = objProducto[0].categoria;
+				document.querySelector("#celStatus").innerHTML = estadoProducto;
+				document.querySelector("#celDescripcion").innerHTML = objProducto[0].descripcion;
+
+				// Mostrando las imagenes.
+				let htmlImage = "";
 				
 			}
 		}
-
 	} // request.onreadystatechange = function() 
 
 	$('#modalViewProducto').modal('show');
