@@ -365,7 +365,7 @@ function fntViewInfo(idProducto)
 				let estadoProducto = objProducto[0].estatus == 1?
 				'<span class="badge badge-success">Activo</span>':
 				'<span class="badge badge-danger">Inactivo</span>';
-				// console.log(objProducto);
+				console.log(objProducto);
 				// console.log(objProducto[0].nombre); Funciona PHP 8 para accesar a un elemento.
 
 				document.querySelector("#celCodigo").innerHTML = objProducto[0].codigo;
@@ -378,10 +378,30 @@ function fntViewInfo(idProducto)
 
 				// Mostrando las imagenes.
 				let htmlImage = "";
+				if (objProducto.images.length > 0)
+				{
+					let objProductos = objProducto.images;
+					for (let p=0;p<objProductos.length;p++)
+					{
+						console.log("htmlImage ", objProductos[0].url_image);				
+						htmlImage += `<img src="${objProductos[p].url_image}"></img>`;
+					} // for (let p=0;p<objProductos.length;p++)
+				} // if (objProducto[0].images.length > 0)
+
+				document.querySelector("#celFotos").innerHTML = htmlImage;
 				
-			}
+
+				$('#modalViewProducto').modal('show');				
+				
+			} // if (objData.estatus)
+			else
+			{
+				swal("Error",objDat.msg,"error");					
+			} // else - if (objData.estatus)
+
 		}
 	} // request.onreadystatechange = function() 
+
 
 	$('#modalViewProducto').modal('show');
 
