@@ -124,29 +124,7 @@
 
 							<hr>
 							<div id="containerImages">
-<!--
-								<div id="div24">
-									<div class="prevImage">
-										<img src="<?= media();  ?>/images/uploads/camiseta.jpg" alt="">
-									</div>
-										<input type="file" name = "foto" id = "img1" class="inputUploadfile" >
-										<label for="img1" class="btnUploadfile"><i class="fas fa-upload"></i></label>
-										<button class="btnDeleteImage" type="button" onclick="fntDelItem('div24')"><i class="fas fa-trash-alt"></i></button>
-
-								</div> <!-- <div id="div24">  
-
-								<div id="div24">
-									<div class="prevImage">
-										<img class="loading" src="<?= media();  ?>/images/loading.svg" alt="">
-									</div>
-										<input type="file" name = "foto" id = "img1" class="inputUploadfile" >
-										<label for="img1" class="btnUploadfile"><i class="fas fa-upload"></i></label>
-										<button class="btnDeleteImage" type="button" onclick="fntDelItem('div24')"><i class="fas fa-trash-alt"></i></button>
-
-								</div> <!-- <div id="div24">  
-
--->
-
+								<!-- Se agregan los recuadros para los gráficos de los productos de forma dinámica creada en JavaScript -->
 							</div> <!-- <div id="containerImages"> -->
 
 						</div> <!-- <div class="form-group col-md-12"> -->

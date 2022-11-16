@@ -132,7 +132,7 @@ window.addEventListener('load',function(){
 
 			if (intCodigo.length < 5)
 			{
-				swal ("Atencion","El Código debe ser mayor que 5 díditoso","error");
+				swal ("Atencion","El Código debe ser mayor que 5 dígito","error");
 				return false;
 			}
 
@@ -190,13 +190,15 @@ window.addEventListener('load',function(){
 	if (document.querySelector(".btnAddImage"))
 	{
 		let btnAddImages = document.querySelector(".btnAddImage");
+
 		// Se agrega el evento click al boton "+"
 		btnAddImages.onclick = function(e)
 		{
 			// Se creara la seccion donde se carga la imagenes en la captura de Productos.
 			let key = Date.now();
 			//alert(key);
-			// Se crea la seccion del "DIV" donde se agrega la imagen 
+
+			// Se crea la seccion del "DIV" donde se agrega la imagen, utilizando "JavaScript" puro
 			let newElement = document.createElement("div");
 			newElement.id = "div"+key;
 			newElement.innerHTML = `<div class="prevImage"></div>
@@ -281,16 +283,21 @@ function fntInputFile()
 	inputUploadfile.forEach(function(inputUploadfile){
 		inputUploadfile.addEventListener('change', function(){
 			let idProducto = document.querySelector ("#idProducto").value;
-			let parentId = this.parentNode.getAttribute("id");
-			let idFile = this.getAttribute("id");
-			let uploadFoto = document.querySelector("#"+idFile).value;
-			let fileimg = document.querySelector("#"+idFile).files;
-			let prevImg = document.querySelector("#"+parentId+" .prevImage");
-			let nav =  window.URL || window.webkitURL;
+			//console.log("idProducto ",idProducto);
+			
+			let parentId = this.parentNode.getAttribute("id"); // Obtiene el "id" del elemento padre, es "div24"
+			let idFile = this.getAttribute("id"); // Es el elemento que se le esta haciendo "Click"
+			let uploadFoto = document.querySelector("#"+idFile).value; 
+			let fileimg = document.querySelector("#"+idFile).files; // Obtiene el id de la etiqueta "File", <input type="file" id="img1" ... Obtiene la foto
+			let prevImg = document.querySelector("#"+parentId+" .prevImage"); // Obtiene el "DIV" donde se encuentra la imagen, <div class="prevImage"> ...
+			let nav =  window.URL || window.webkitURL; // Obtiene la URL, desde JavaScript.
+
+			// Valida si existe una imagen.
 			if (uploadFoto != '')
 			{
-				let type = fileimg[0].type;
-				let name = fileimg[0].name;
+				let type = fileimg[0].type; // Obtiene el tipo archivo.
+				let name = fileimg[0].name; // obtiene el nombre del archivo.
+
 				if (type != 'image/jpeg' && type != 'image/jpg' && type != 'image/png')
 				{
 					prevImg.innerHTML = "Archivo NO válido";
@@ -299,7 +306,10 @@ function fntInputFile()
 				}
 				else
 				{
+					// Pasando la imagen con Ajax.
+					// Crea una URL 
 					let objeto_url = nav.createObjectURL(this.files[0]);
+					// Se esta agregando el "loading.svg".
 					prevImg.innerHTML = `<img class="loading" src="${base_url}/Assets/images/loading.svg" > `;
 
 					// Enviando los datos por Ajax de la imagen que se grabara en la tabla.
@@ -310,7 +320,7 @@ function fntInputFile()
 					// El método utilizado para enviar la informacion es "POST"
 					formData.append('idproducto',idProducto);
 					formData.append("foto",this.files[0]);
-					request.open("POST",ajaxUrl,true);
+					request.open("POST",ajaxUrl,true); // Abre una conexion, de tipo POST de la URL 
 					request.send(formData);
 					request.onreadystatechange = function() 
 					{
@@ -320,6 +330,7 @@ function fntInputFile()
 							let objData = JSON.parse(request.responseText);
 							if (objData.estatus)
 							{
+								// Asignando la imágen 
 								prevImg.innerHTML = `<img src="${objeto_url}">`;
 								document.querySelector("#"+parentId+" .btnDeleteImage").setAttribute("imgname",objData.imgname);
 								document.querySelector("#"+parentId+" .btnUploadfile").classList.add("notblock");
@@ -327,7 +338,7 @@ function fntInputFile()
 							}
 							else
 							{
-								swal("Error", objData,msg,"error")
+								swal("Error", objData.msg,"error")
 							}
 						} // if (request.status == 200)
 						

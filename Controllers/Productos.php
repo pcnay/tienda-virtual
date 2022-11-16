@@ -113,6 +113,7 @@
 
 				} // for ($i= 0; $i<count($arrData);$i++)
 				
+				// Devuelve en formato JSon al archivo "Funcions_productos.js"
 				echo json_encode($arrData,JSON_UNESCAPED_UNICODE);				
 				die(); // Finaliza el proceso.
 
@@ -133,6 +134,10 @@
 
 					if ($_POST)
 					{
+						//dep($_POST); // Obtener el valor de la variable "Global". 					
+						//die();
+						//exit();
+
 						if (empty($_POST['txtNombre']) || empty($_POST['txtCodigo']) || empty($_POST['listCategoria']) || empty($_POST['txtPrecio']) || empty($_POST['listStatus']))
 						{
 							$arrResponse = array("estatus" => false, "msg" => 'Datos Incorrectos');
@@ -202,13 +207,15 @@
 
 		public function setImage()
 		{
-			//dep($_POST);
-			//dep($_FILES);			
+			dep($_POST);
+			//dep($_FILES);	
+			die();
+			exit;		
 			if($_POST)
 			{
 				if (empty($_POST['idproducto']))
 				{
-					$arrResponse = array('estatus' => false, 'msg' => 'Error De Carga');					
+					$arrResponse = array('estatus' => false, 'msg' => 'Error De Carga No existe Id Producto');					
 				}
 				else
 				{
@@ -225,7 +232,7 @@
 					}
 					else
 					{
-						$arrResponse = array('estatus' => false, 'msg' => 'Error De Carga');
+						$arrResponse = array('estatus' => false, 'msg' => 'Error De Carga Imagen ');
 					} // if ($request_image)
 					
 					
