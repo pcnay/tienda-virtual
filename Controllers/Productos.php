@@ -207,10 +207,14 @@
 
 		public function setImage()
 		{
-			dep($_POST);
+			//dep($_POST);
 			//dep($_FILES);	
+			//die();
+			//exit;		
+			$arrrespose = array('estatus' => true,'imgname' => "img_65wqwqaasa.jpg");
+			echo json_encode ($arrrespose,JSON_UNESCAPED_UNICODE);
 			die();
-			exit;		
+
 			if($_POST)
 			{
 				if (empty($_POST['idproducto']))

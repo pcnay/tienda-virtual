@@ -332,7 +332,9 @@ function fntInputFile()
 							{
 								// Asignando la imágen 
 								prevImg.innerHTML = `<img src="${objeto_url}">`;
+								// Se le asigna al boton "btnDeleteImage"
 								document.querySelector("#"+parentId+" .btnDeleteImage").setAttribute("imgname",objData.imgname);
+								
 								document.querySelector("#"+parentId+" .btnUploadfile").classList.add("notblock");
 								document.querySelector("#"+parentId+" .btnDeleteImage").classList.remove("notblock");
 							}
