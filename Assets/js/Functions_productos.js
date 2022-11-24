@@ -376,13 +376,13 @@ function fntViewInfo(idProducto)
 			let objData = JSON.parse(request.responseText);
 			if (objData.estatus)
 			{
-				console.log(objData);
+				//console.log(objData);
 				
 				let objProducto = objData.data;
 				let estadoProducto = objProducto[0].estatus == 1?
 				'<span class="badge badge-success">Activo</span>':
 				'<span class="badge badge-danger">Inactivo</span>';
-				console.log(objProducto);
+				//console.log(objProducto);
 				// console.log(objProducto[0].nombre); Funciona PHP 8 para accesar a un elemento.
 
 				document.querySelector("#celCodigo").innerHTML = objProducto[0].codigo;
@@ -395,16 +395,18 @@ function fntViewInfo(idProducto)
 
 				// Mostrando las imagenes.
 				let htmlImage = "";
+				// Determinando que tenga imagenes.
 				if (objProducto.images.length > 0)
 				{
-					let objProductos = objProducto.images;
+					let objProductos = objProducto.images; // Arreglos de Imagenes
 					for (let p=0;p<objProductos.length;p++)
 					{
-						console.log("htmlImage ", objProductos[0].url_image);				
+						//console.log("htmlImage ", objProductos[0].url_image);				
 						htmlImage += `<img src="${objProductos[p].url_image}"></img>`;
 					} // for (let p=0;p<objProductos.length;p++)
 				} // if (objProducto[0].images.length > 0)
 
+				// Mostrando las imagenes si el producto tiene.
 				document.querySelector("#celFotos").innerHTML = htmlImage;
 				
 
@@ -413,14 +415,62 @@ function fntViewInfo(idProducto)
 			} // if (objData.estatus)
 			else
 			{
-				swal("Error",objDat.msg,"error");					
+				swal("Error",objData.msg,"error");					
 			} // else - if (objData.estatus)
 
 		}
 	} // request.onreadystatechange = function() 
 
+}
 
-	$('#modalViewProducto').modal('show');
+// Para editar el productos.
+function fntEditInfo(element,idProducto)
+{
+	// Se modifica los elementos de la ventana que se utiliza en la captura de Productos, se reutiliza 
+
+	document.querySelector('.modal-header').classList.replace("headerRegister","headerUpdate");
+	// Cambiando la clase de los botones (Colores)
+	document.querySelector('#btnActionForm').classList.replace("btn-primary","btn-info");
+	document.querySelector('#btnText').innerHTML = "Actualizar";
+	document.querySelector('#titleModal').innerHTML = "Actualizar Productos";
+
+	// Obtiene los datos desde la tabla.
+	// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+	let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+	let ajaxUrl = base_url+'/Productos/getProducto/'+idProducto; // Url a donde buscara el archivo, es en el Controlador/Productos.
+	request.open("GET",ajaxUrl,true);
+	request.send();
+
+	request.onreadystatechange = function() 
+	{
+		if (request.readyState == 4 && request.status == 200) // Esta retornando informacion
+		{
+			// Conviertiendo de formato JSon a Objeto.
+			let objData = JSON.parse(request.responseText);
+			if (objData.estatus)
+			{
+				let objProducto = objData.data;
+				//console.log (objProducto);
+				// Asignando valores a la etiquetas de la pantalla de edicion de los productos.
+				document.querySelector("#idProducto").value = objProducto[0].id_producto;
+				document.querySelector("#txtNombre").value = objProducto[0].nombre;
+				document.querySelector("#txtDescripcion").value = objProducto[0].descripcion;
+				document.querySelector("#txtCodigo").value = objProducto[0].codigo;
+				document.querySelector("#txtPrecio").value = objProducto[0].precio;
+				document.querySelector("#txtStock").value = objProducto[0].stock;
+				document.querySelector("#listCategoria").value = objProducto[0].categoriaid;
+				document.querySelector("#listStatus").value = objProducto[0].estatus;
+
+				$('#modalFormProductos').modal('show');				
+			} // if (objData.estatus)
+			else
+			{
+				swal("Error",objData.msg,"error");					
+			} // else - if (objData.estatus)
+
+		}
+
+	} // request.onreadystatechange = function() 
 
 }
 

@@ -1,6 +1,6 @@
 <?php
 	//define ("BASE_URL","https://www.miportalweb.org/tienda-virtual");
-	const BASE_URL = "http://54.218.3.232/Proyectos/tienda-virtual";
+	const BASE_URL = "https://www.miportalweb.org/Proyectos/tienda-virtual";
 	const LIBS = "Libraries/";
 	const VIEWS = "Views/";
 	date_default_timezone_set('America/Tijuana');

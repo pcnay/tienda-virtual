@@ -35,7 +35,7 @@
 				ON p.categoriaid = c.id_categoria
 				WHERE p.estatus != 0";
 			
-			$request = $this->select($sql);
+			$request = $this->select_all($sql);
 			return $request;			
 		}
 

@@ -64,6 +64,7 @@
 			{				
 				$arrData = $this->model->selectProductos();
 				//dep($arrData);
+				//die();
 				//exit;
 
 				// Para colocar en color Verde o Rojo el estatus del Usuario
