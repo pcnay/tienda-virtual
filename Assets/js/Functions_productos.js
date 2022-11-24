@@ -284,7 +284,7 @@ function fntInputFile()
 		inputUploadfile.addEventListener('change', function(){
 			let idProducto = document.querySelector ("#idProducto").value;
 			//console.log("idProducto ",idProducto);
-			
+			// Obtiene los datos de la etiquetas que se utilizan cuando aparece la foto en la pantalla.
 			let parentId = this.parentNode.getAttribute("id"); // Obtiene el "id" del elemento padre, es "div24"
 			let idFile = this.getAttribute("id"); // Es el elemento que se le esta haciendo "Click"
 			let uploadFoto = document.querySelector("#"+idFile).value; 
@@ -295,14 +295,15 @@ function fntInputFile()
 			// Valida si existe una imagen.
 			if (uploadFoto != '')
 			{
-				let type = fileimg[0].type; // Obtiene el tipo archivo.
+				let type = fileimg[0].type; // Input, Obtiene el tipo archivo.
 				let name = fileimg[0].name; // obtiene el nombre del archivo.
 
+				// Valida que tipo de archivos son validos.
 				if (type != 'image/jpeg' && type != 'image/jpg' && type != 'image/png')
 				{
 					prevImg.innerHTML = "Archivo NO válido";
 					uploadFoto.value = "";
-					return false;
+					return false; // Detiene el proceso.
 				}
 				else
 				{
@@ -318,8 +319,10 @@ function fntInputFile()
 					let ajaxUrl = base_url+'/Productos/setImage'; // Url a donde buscara el archivo, es en el Controlador/Productos.
 					let formData = new FormData();
 					// El método utilizado para enviar la informacion es "POST"
+					// Estos dos campos es como se tuvieramos un formulario creado en linea desde JavScript
 					formData.append('idproducto',idProducto);
 					formData.append("foto",this.files[0]);
+
 					request.open("POST",ajaxUrl,true); // Abre una conexion, de tipo POST de la URL 
 					request.send(formData);
 					request.onreadystatechange = function() 
@@ -330,7 +333,7 @@ function fntInputFile()
 							let objData = JSON.parse(request.responseText);
 							if (objData.estatus)
 							{
-								// Asignando la imágen 
+								// Asignando la imágen, enviado por Ajax
 								prevImg.innerHTML = `<img src="${objeto_url}">`;
 								// Se le asigna al boton "btnDeleteImage"
 								document.querySelector("#"+parentId+" .btnDeleteImage").setAttribute("imgname",objData.imgname);
@@ -373,7 +376,8 @@ function fntViewInfo(idProducto)
 			let objData = JSON.parse(request.responseText);
 			if (objData.estatus)
 			{
-				//console.log(objData);
+				console.log(objData);
+				
 				let objProducto = objData.data;
 				let estadoProducto = objProducto[0].estatus == 1?
 				'<span class="badge badge-success">Activo</span>':

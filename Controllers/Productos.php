@@ -211,9 +211,9 @@
 			//dep($_FILES);	
 			//die();
 			//exit;		
-			$arrrespose = array('estatus' => true,'imgname' => "img_65wqwqaasa.jpg");
-			echo json_encode ($arrrespose,JSON_UNESCAPED_UNICODE);
-			die();
+			//$arrrespose = array('estatus' => true,'imgname' => "img_65wqwqaasa.jpg");
+			//echo json_encode ($arrrespose,JSON_UNESCAPED_UNICODE);
+			//die();
 
 			if($_POST)
 			{
@@ -224,10 +224,10 @@
 				else
 				{
 					$idProducto = intval($_POST['idproducto']);
-					$idProducto = 1;
-					$foto = $_FILES['foto'];
-					$imgNombre = 'pro_'.md5(date('d-m-Y H:m:s')).'.jpg';
-					$request_image = $this->model->insertImage($idProducto,$imgNombre);
+					//$idProducto = 7;
+					$foto = $_FILES['foto']; // Accesa a todos los elementos de la imagen.
+					$imgNombre = 'pro_'.md5(date('d-m-Y H:m:s')).'.jpg'; // Asigna el nombre a la Imágen
+					$request_image = $this->model->insertImage($idProducto,$imgNombre); // Graba la imagen en el modelo.
 					
 					if ($request_image)
 					{
@@ -237,16 +237,15 @@
 					else
 					{
 						$arrResponse = array('estatus' => false, 'msg' => 'Error De Carga Imagen ');
-					} // if ($request_image)
-					
+					} // if ($request_image)					
 					
 				} //if (empty($_POST['idproducto']))
 				
 				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+				die();
 
 			} //	if($_POST)
 
-			die();
 			//exit();
 			
 		} // public function setImage()
@@ -268,13 +267,14 @@
 				//dep ($arrData);
 				//die();
 				//exit();	
+
 				if (empty($arrData))
 				{
 					$arrResponse = array('estatus' => false, 'msg' => 'Datos NO Encontrados');
 				}
 				else
 				{
-					// Obtener las imagenes del producto 
+					// Obtener las imagenes del producto, es un arreglo.
 					$arrImg = $this->model->selectImages($idproducto);
 					//dep($arrImg);
 					//die();
@@ -294,13 +294,12 @@
 
 
 				} // if (empty($arrData))			
-
-				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 				//dep($arrResponse);
-				die();
-				//dep($arrData);
 				//die();
-				//exit();
+				//exit;
+				
+				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+				die();
 
 			} // if ($idproducto >0)
 

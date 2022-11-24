@@ -35,7 +35,7 @@
 				ON p.categoriaid = c.id_categoria
 				WHERE p.estatus != 0";
 			
-			$request = $this->select_all($sql);
+			$request = $this->select($sql);
 			return $request;			
 		}
 
@@ -90,7 +90,7 @@
 		{
 			$this->intIdProducto = $idproducto;
 			$sql = "SELECT productoid,img FROM t_Imagen WHERE productoid = $this->intIdProducto";
-			$request = $this->select_all($sql);
+			$request = $this->select_all($sql); // Obtendrá mas de un registro.
 			return $request;
 		}
 
