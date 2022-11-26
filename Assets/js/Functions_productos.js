@@ -460,8 +460,40 @@ function fntEditInfo(element,idProducto)
 				document.querySelector("#txtStock").value = objProducto[0].stock;
 				document.querySelector("#listCategoria").value = objProducto[0].categoriaid;
 				document.querySelector("#listStatus").value = objProducto[0].estatus;
+				
+				// Coloca el contenido del "tinymce" en el producto.
+				tinymce.activeEditor.setContent(objProducto[0].descripcion);
+				// Para colocar en los combo box la opcion seleccionada.
+				//$('#listaRoles').selectpicker('refresh'); Funciona en PHP 8
+				//$('#listCategoria').selectpicker('render');
+				$('#listCategoria').selectpicker('refresh');
+				$('#listStatus').selectpicker('refresh');
+				fntBarcode(); // Para llamar el código de barras.
+				// Se quita la clase "notblock"
+				document.querySelector("#divBarCode").classList.remove("notBlock");
 
+				// Determinando que tenga imagenes.
+				let htmlImage = "";
+				if (objProducto.images.length > 0)
+				{
+					let objProductos = objProducto.images; // Arreglos de Imagenes
+					for (let p=0;p<objProductos.length;p++)
+					{
+						let key = Date.now()+p; // Obtiene la fecha y hora en formato numerico
+						//console.log("htmlImage ", objProductos[0].url_image);				
+						htmlImage += `<div id="div${key}"> 
+							<div class="prevImage">
+							<img src="${objProductos[p].url_image}"></img>
+							</div>
+							<button type="button" class="btnDeleteImage" onclick="fntDelItem('#div${key}')" imgname = "${objProductos[p].img}
+							<i class="fas fa-trash-alt"></i></button></div>`;
+					} // for (let p=0;p<objProductos.length;p++)
+				} // if (objProducto[0].images.length > 0)
+
+				document.querySelector("#containerImages").innerHTML = htmlImage;
+				document.querySelector("#divBarCode").classList.remove("notBlock");
 				$('#modalFormProductos').modal('show');				
+				
 			} // if (objData.estatus)
 			else
 			{
