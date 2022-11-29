@@ -164,7 +164,9 @@
 							}
 							else // Actualizar
 							{
-								$option = 2;								
+								$option = 2;
+								$request_producto = $this->model->updateProducto($idProducto,$strNombre,$strDescripcion,$strCodigo,$intCategoriaId,$intPrecio,$intStock,$intStatus);
+
 							}
 							//dep($request_producto);
 							//die();exit;
@@ -174,12 +176,11 @@
 								if ($option == 1) // Se inserto un registro.
 								{
 									$arrResponse = array('estatus'=> true, 'id_producto'=> $request_producto, 'msg'=> 'Datos Guardados Correctamente');
-
 								} // if ($option == 1)
 								else
-								{
+								{									
 									// Seccion para actualizar el Producto.
-
+									$arrResponse = array('estatus'=> true, 'id_producto'=> $idProducto, 'msg'=> 'Datos Actualizados Correctamente');
 								} //if ($option == 1)
 
 							} // if ($request_producto > 0)

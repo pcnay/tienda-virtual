@@ -50,7 +50,7 @@
 			$this->intStock = $stock;
 			$this->intStatus = $status;
 			$return = 0;
-			$sql = "SELECT * FROM t_Productos WHERE codigo = $this->intCodigo";
+			$sql = "SELECT * FROM t_Productos WHERE codigo = '{$this->intCodigo}'";
 			$request = $this->select_all($sql);
 			
 			if (empty($request))
@@ -62,6 +62,51 @@
 
 				$request_insert = $this->insert($query_insert,$arrData);
 				$return = $request_insert;				
+			}
+			else
+			{
+				$return = "exist";
+			}
+
+			return $return;
+		}
+
+		// Insertar Productos a la tabla de Productos.
+		function updateProducto(int $idproducto, string $nombre, string $descripcion, int $codigo, int $categoriaid, string $precio, int $stock, int $status)		
+		{
+			$this->intIdProducto = $idproducto;
+			$this->strNombre = $nombre;
+			$this->strDescripcion = $descripcion;
+			$this->intCodigo = $codigo;
+			$this->intCategoriaId = $categoriaid;
+			$this->strPrecio = $precio;
+			$this->intStock = $stock;
+			$this->intStatus = $status;
+			$return = 0;
+
+			// Busca el id_producto que no este duplicado.
+			// {'$this->intCodigo'} = Se coloca las llaves y ' porque es alfanumerico.
+			$sql = "SELECT * FROM t_Productos WHERE codigo = '{$this->intCodigo}' AND id_producto != $this->intIdProducto";
+
+			// Para mostrar las consultas en pantalla , "Network" Request			
+			//echo $sql;
+			//exit;
+
+			$request = $this->select_all($sql);
+			
+			if (empty($request))
+			{
+				$query_update = "UPDATE t_Productos SET categoriaid=?,codigo=? ,nombre=?,descripcion=?,precio=?,stock=?,estatus=? WHERE id_producto = $this->intIdProducto";			
+
+				$arrData = array($this->intCategoriaId, $this->intCodigo,$this->strNombre, $this->strDescripcion, $this->strPrecio, $this->intStock, $this->intStatus);
+
+				$request_update = $this->update($query_update,$arrData);				
+				$return = $request_update;
+				
+				// Si se actualiza correctamente retorna True
+				//dep($request_update);
+				//die();
+				//exit;
 			}
 			else
 			{
