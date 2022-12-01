@@ -4,6 +4,7 @@
 document.write(`<script src="${base_url}/Assets/js/plugins/JsBarcode.all.min.js"></script>`);
 
 let tableProductos;
+let rowTable;
 
 // Validar la entrada, solo caracteres permitidos "txtNombre"
 $("#txtNombre").bind('keypress', function(event) {
@@ -123,6 +124,7 @@ window.addEventListener('load',function(){
 			let intCodigo = document.querySelector('#txtCodigo').value;
 			let strPrecio = document.querySelector('#txtPrecio').value;
 			let intStock = document.querySelector('#txtStock').value;
+			let intStatus = document.querySelector('#listStatus').value;
 
 			if (strNombre == '' || intCodigo == '' || strPrecio == '' || intStock == '')
 			{
@@ -162,7 +164,22 @@ window.addEventListener('load',function(){
 						swal("",objData.msg,"success");	
 						// Para agregar las fotos del Producto.
 						document.querySelector("#idProducto").value = objData.id_producto;
-						tableProductos.api().ajax.reload();					
+						if (rowTable == "") // Es un producto nuevo
+						{
+							tableProductos.api().ajax.reload();
+						}
+						else // Actualizar el producto
+						{
+							htmlStatus = intStatus == 1?
+								'<span class="badge badge-success">Activo</span>':
+								'<span class="badge badge-danger">Inactivo</span>';
+							rowTable.cells[1].textContent = intCodigo;
+							rowTable.cells[2].textContent = strNombre;
+							rowTable.cells[3].textContent = intStock;
+							rowTable.cells[4].textContent = smony+strPrecio;
+							rowTable.cells[5].innerHTML = htmlStatus;		// Para que lo agregue como contenido HTML.				
+							rowTable = "";	
+						} // if (rowTable == "")
 					}
 					else
 					{
@@ -427,6 +444,12 @@ function fntViewInfo(idProducto)
 function fntEditInfo(element,idProducto)
 {
 	// Se modifica los elementos de la ventana que se utiliza en la captura de Productos, se reutiliza 
+	
+	rowTable = element.parentNode.parentNode.parentNode;
+	console.log (rowTable);
+
+	// Sube desde "Button" hasta llegar al elemento padre "Renglon"
+	// tr = class="odd" role = "row" contiene al renglon del producto que se quiere editar. 
 
 	document.querySelector('.modal-header').classList.replace("headerRegister","headerUpdate");
 	// Cambiando la clase de los botones (Colores)

@@ -1,6 +1,7 @@
     <script>
 			// Genera una variable en JavaScript desde PHP.
 			const base_url = "<?php echo base_url(); ?>";
+			const smony = "<?= MONEY; ?>";
 		</script>
 
 		<!-- Essential javascripts for application to work-->
