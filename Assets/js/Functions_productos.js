@@ -128,7 +128,7 @@ window.addEventListener('load',function(){
 
 			if (strNombre == '' || intCodigo == '' || strPrecio == '' || intStock == '')
 			{
-				swal ("Atencion","Todos los cmpos son Obligatorio","error");
+				swal ("Atencion","Todos los campos son Obligatorio","error");
 				return false;
 			}
 
