@@ -375,6 +375,31 @@ function fntInputFile()
 
 } //function fntInputFile()
 
+// Funcion para borrar las imagenes de los productos.
+function fntDelItem(element)
+{
+	// element = es el "ID" del DIV.
+	// btnDeleteImage = es la clase del DIV seleccionado en el renglon anterior
+	// getAttribute = Obtiene el nombre de la imagen : pro_65dff65656565df.jpg
+	// nameImg = Obtiene la imagen a borrar.
+	let nameImg = document.querySelector(element+' .btnDeleteImage').getAttribute("imgname");
+	let idProducto = document.querySelector("#idProducto").value; // Obtiene el Id del Producto.
+
+	// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+	let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+	let ajaxUrl = base_url+'/Productos/delFile'; // Url a donde buscara el archivo, es en el Controlador/Productos.
+
+	// Se esta creando un formulario desde JavaScript, se le estan agregando campos.
+	let formData = new FormData();
+	formData.append('idproducto',idProducto);
+	formData.append('file',nameImg);
+	request.open("POST",ajaxUrl,true); // Abre una conexion de tipo POST ala URL 
+	request.send(formData);
+
+
+
+} // function fntDelItem(element)
+
 // Funcion utilizada para mostrar el producto en una ventana modal.
 function fntViewInfo(idProducto)
 {
