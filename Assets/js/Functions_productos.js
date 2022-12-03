@@ -395,7 +395,29 @@ function fntDelItem(element)
 	formData.append('file',nameImg);
 	request.open("POST",ajaxUrl,true); // Abre una conexion de tipo POST ala URL 
 	request.send(formData);
+	request.onreadystatechange = function() {
+		if (request.readyState != 4) return;
+		if (request.status == 200) // Devuelve información correcto de la ejecucion del Ajax
+		{
+			// Convierte a un objeto (arreglo) el Ajax retornado.
+			let objData = JSON.parse(request.responseText);
+			if (objData.estatus)
+			{
+				// Obtiene el elemento que se mando como parametro, Imagen
+				// Obtiene el padre del DIV donde se encuentra alojad la imagen.
+				let itemRemove = document.querySelector(element);
+				// Remueve el elemento hijo del elemento padre DIV que contiene la (La imagen )
+				itemRemove.parentNode.removeChild(itemRemove);
+			} // if (objData.estatus)
+			else
+			{
+				swal ("",objData.msg,"error");
+				
+			}
 
+		} // if (request.status == 200)
+
+	} // onreadystatechange
 
 
 } // function fntDelItem(element)

@@ -159,8 +159,17 @@
 			
 			$request = $this->select_all($sql);
 			return $request;			
-
-
+		}
+		public function deleteImage(int $idproducto, sring $imagen)
+		{
+			$this->intIdProducto = $idproducto;
+			$this->strImagen = $imagen;
+			$query = "DELETE FROM t_Imagen
+								WHERE productoid = $this->intIdProducto
+								AND img = '{$this->strImagen}'";
+			$request_delete = $this->delete($query);
+			return $request_delete;
+			
 		}
 
 	} // class homeModel

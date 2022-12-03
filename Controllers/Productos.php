@@ -307,6 +307,40 @@
 
 		} // public function getProducto($idproducto)
 
+		// Se define la funcion para borrar la imagen.
+		public function delFile()
+		{
+			if ($_POST) // Verifica si se esta reciviendo una peticion tipo "POST"
+			{
+				if (empty($_POST['idproducto']) || empty($_POST['file']))
+				{
+					$arrResponse = array ("estatus" => false, "msg" => 'Datos Incorrectos');
+				} // if (empty($_POST['idproducto']) || empty($_POST['file']))
+				else
+				{
+					// Eliminar de la Base de Datos
+					$idProducto = intval($_POST['idproducto']);
+					$imgNombre = strClean($_POST['file']);
+					$request_image = $this->model->deleteImage($idProducto,$imgNombre);
+					
+					if ($request_image)
+					{
+						$deleteFile = deleteFile($imgNombre);
+						$arrResponse = array('estatus' => true, 'msg' => 'Archivo Eliminado');
+					}
+					else
+					{
+						$arrResponse = array('estatus' => false, 'msg' => 'Archivo NO Eliminado');
+					}
+				}
+				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+
+			} // if ($_POST)
+
+			die();
+
+		}
+
 	} //class Productos extends Controllers
 
 ?>
