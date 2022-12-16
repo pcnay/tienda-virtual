@@ -143,7 +143,10 @@
 	//Se utiliza para borar una foto en el servidor
 	function deleteFile(string $name)
 	{
-		unlink('Assets/images/uploads/'.$name);
+		$nombreArc = trim(strClean($name));
+		//echo $name;
+		unlink('/var/www/html/Proyectos/tienda-virtual/Assets/images/uploads/'.$nombreArc);
+		
 	}
 
 	

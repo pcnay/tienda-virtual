@@ -320,17 +320,20 @@
 				{
 					// Eliminar de la Base de Datos
 					$idProducto = intval($_POST['idproducto']);
-					$imgNombre = strClean($_POST['file']);
+					$imgNombre = strClean($_POST['file']); // strClean($_POST['file']);
+					
 					$request_image = $this->model->deleteImage($idProducto,$imgNombre);
+					//dep($request_image);
 					
 					if ($request_image)
 					{
+						// Esta funcion "deleteFile" se define en el "helpers"						
 						$deleteFile = deleteFile($imgNombre);
 						$arrResponse = array('estatus' => true, 'msg' => 'Archivo Eliminado');
 					}
 					else
 					{
-						$arrResponse = array('estatus' => false, 'msg' => 'Archivo NO Eliminado');
+						$arrResponse = array('estatus' => false, 'msg' => 'Error al Eliminar');
 					}
 				}
 				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);

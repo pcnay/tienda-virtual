@@ -392,7 +392,7 @@ function fntDelItem(element)
 	// Se esta creando un formulario desde JavaScript, se le estan agregando campos.
 	let formData = new FormData();
 	formData.append('idproducto',idProducto);
-	formData.append('file',nameImg);
+	formData.append("file",nameImg);
 	request.open("POST",ajaxUrl,true); // Abre una conexion de tipo POST ala URL 
 	request.send(formData);
 	request.onreadystatechange = function() {
