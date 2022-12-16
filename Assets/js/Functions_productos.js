@@ -576,6 +576,62 @@ function fntEditInfo(element,idProducto)
 
 }
 
+// Borrar un producto
+function fntDelInfo(id_producto)
+{
+	/*
+	let btnDelRol = document.querySelectorAll(".btnDelRol");
+	btnDelRol.forEach(function(btnDelRol){
+		btnDelRol.addEventListener('click',function(){
+	*/
+	
+	// alert(idrol);
+	swal({
+		title:"Eliminar Producto",
+		text:"Realmente quiere eliminar el Producto",
+		type:"warning",
+		showCancelButton:true,
+		confirmButtonText:"Si, eliminar !",
+		cancelButtonText: "No, Cancelar !",
+		closeOnConfirm:false,
+		closeOnCancel:true
+		},function(isConfirm)
+		{
+			// Borrar el Producto, utiliza Ajax para accesar a la Base de datos.
+			if (isConfirm)
+			{
+				let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+				// Se pasan como parametro al método definido en "Roles.php -> Controllers" desde el Ajax
+				let ajaxDelProducto = base_url+'/Productos/delProducto';
+				let strData = "idProducto="+id_producto;
+				request.open("POST",ajaxDelProducto,true);
+				request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+				request.send(strData);
+				request.onreadystatechange = function(){
+					// Se hizo la petición y fue exitoso, llego la información al servidor.
+					if (request.readyState == 4 && request.status == 200)
+					{
+						let objData = JSON.parse(request.responseText);
+						if (objData.estatus)
+						{
+							swal("Eliminar! ",objData.msg,"success");
+							tableProductos.api().ajax.reload(function(){
+								//fntEditRol();
+								//fntDelrol();
+								//fntPermisos();
+							});
+						}
+						else
+						{
+							swal("Error",objData.msg,"error");
+						}
+					}
+				} 			
+			}
+	});		
+} // functio fntDelInfo ...
+
+
 // Funcion para extraer los datos de Categorias
 function fntCategorias()
 {

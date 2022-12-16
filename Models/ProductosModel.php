@@ -174,6 +174,16 @@
 			$request_delete = $this->delete($query);
 			return $request_delete;			
 		}
+
+		// Borrar el producto
+		public function deleteProducto(int $idproducto)
+		{
+			$this->intIdProducto = $idproducto;
+			$sql = "UPDATE t_Productos SET estatus = ? WHERE id_producto = $this->intIdProducto ";
+			$arrData = array(0); // El conteido del arreglo es 0
+			$request = $this->update($sql,$arrData);
+			return $request;
+		}
 		
 	} // class homeModel
 ?>

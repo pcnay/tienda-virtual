@@ -341,8 +341,30 @@
 			} // if ($_POST)
 
 			die();
-
 		}
+
+		// Funcion para borrar un producto.
+		public function delProducto()
+		{
+			if ($_POST)
+			{
+				$intIdproducto = intval($_POST['idProducto']);
+				$requestDelete = $this->model->deleteProducto($intIdproducto);
+				if ($requestDelete)
+				{
+					$arrResponse = array('estatus' => true, 'msg' => 'Se ha Eliminado el Producto');
+				}
+				else
+				{
+					$arrResponse = array('estatus' => false, 'msg' => 'Error al elimiar el Producto');
+				}
+				echo json_encode ($arrResponse,JSON_UNESCAPED_UNICODE);
+
+			} //if ($_POST)
+
+			die();
+			
+		} // public function delProducto()
 
 	} //class Productos extends Controllers
 
