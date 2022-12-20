@@ -177,9 +177,24 @@
 
 		// Borrar el producto
 		public function deleteProducto(int $idproducto)
-		{
+		{	
 			$this->intIdProducto = $idproducto;
+			// Para que se muestre  en la ventana del inspector de elementos.
+			//echo $sql = "UPDATE t_Productos SET estatus = ? WHERE id_producto = $this->intIdProducto ";
+			// En el controlador Productos.php -> 
+			/*
+				public function delProducto()
+				{
+				if ($_POST)
+				{
+					$intIdproducto = intval($_POST['idProducto']);
+					$requestDelete = $this->model->deleteProducto($intIdproducto);
+					dep($requestDelete);
+					die();exit();
+			*/
+
 			$sql = "UPDATE t_Productos SET estatus = ? WHERE id_producto = $this->intIdProducto ";
+		
 			$arrData = array(0); // El conteido del arreglo es 0
 			$request = $this->update($sql,$arrData);
 			return $request;

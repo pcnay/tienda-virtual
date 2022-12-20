@@ -577,7 +577,7 @@ function fntEditInfo(element,idProducto)
 }
 
 // Borrar un producto
-function fntDelInfo(id_producto)
+function fntDelProd(id_Producto)
 {
 	/*
 	let btnDelRol = document.querySelectorAll(".btnDelRol");
@@ -603,7 +603,7 @@ function fntDelInfo(id_producto)
 				let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
 				// Se pasan como parametro al método definido en "Roles.php -> Controllers" desde el Ajax
 				let ajaxDelProducto = base_url+'/Productos/delProducto';
-				let strData = "idProducto="+id_producto;
+				let strData = "idProducto="+id_Producto;
 				request.open("POST",ajaxDelProducto,true);
 				request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 				request.send(strData);
@@ -629,7 +629,7 @@ function fntDelInfo(id_producto)
 				} 			
 			}
 	});		
-} // functio fntDelInfo ...
+} // functio fntDelProd...
 
 
 // Funcion para extraer los datos de Categorias

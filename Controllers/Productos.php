@@ -104,7 +104,7 @@
 					// Con la opcion "Profile"
 					if ($_SESSION['permisosMod']['d'])
 					{
-						$btnDelete = '<button class="btn btn-danger btn-sm btnDelInfo" onClick="fntDelInfo('.$arrData[$i]['id_producto'].')" title="Eliminar Producto"><i class="fas fa-trash-alt"></i></button>';
+						$btnDelete = '<button class="btn btn-danger btn-sm btnDelInfo" onClick="fntDelProd('.$arrData[$i]['id_producto'].')" title="Eliminar Producto"><i class="fas fa-trash-alt"></i></button>';
 
 					} // if ($_SESSION['permisosMod']['d'])
 
@@ -350,7 +350,10 @@
 			{
 				$intIdproducto = intval($_POST['idProducto']);
 				$requestDelete = $this->model->deleteProducto($intIdproducto);
-				if ($requestDelete)
+				//dep($requestDelete);
+				//die();exit();
+
+				if (($requestDelete) || ($requestDelete == 1))
 				{
 					$arrResponse = array('estatus' => true, 'msg' => 'Se ha Eliminado el Producto');
 				}
