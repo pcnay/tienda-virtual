@@ -164,6 +164,12 @@ window.addEventListener('load',function(){
 						swal("",objData.msg,"success");	
 						// Para agregar las fotos del Producto.
 						document.querySelector("#idProducto").value = objData.id_producto;
+
+						// Muetra el boton para subir imagenes.
+						document.querySelector("#containerGallery").classList.remove("notBlock"); 
+						
+						objData.id_producto;
+
 						if (rowTable == "") // Es un producto nuevo
 						{
 							tableProductos.api().ajax.reload();
@@ -221,7 +227,7 @@ window.addEventListener('load',function(){
 			newElement.innerHTML = `<div class="prevImage"></div>
 				<input type="file" name = "foto" id = "img${key}" class="inputUploadfile" >
 				<label for="img${key}" class="btnUploadfile"><i class="fas fa-upload"></i></label>
-				<button class="btnDeleteImage" type="button" onclick="fntDelItem('#div${key}')"><i class="fas fa-trash-alt"></i></button>`;
+				<button class="btnDeleteImage notBlock" type="button" onclick="fntDelItem('#div${key}')"><i class="fas fa-trash-alt"></i></button>`;
 
 			// Se agrega al "DIV" <div id="containerImages">, a la estructura completa, referencia "ModalProductos.php" donde esta donde se crea manualmente el DIV24.
 			document.querySelector("#containerImages").appendChild(newElement);
@@ -355,8 +361,8 @@ function fntInputFile()
 								// Se le asigna al boton "btnDeleteImage"
 								document.querySelector("#"+parentId+" .btnDeleteImage").setAttribute("imgname",objData.imgname);
 								
-								document.querySelector("#"+parentId+" .btnUploadfile").classList.add("notblock");
-								document.querySelector("#"+parentId+" .btnDeleteImage").classList.remove("notblock");
+								document.querySelector("#"+parentId+" .btnUploadfile").classList.add("notBlock");
+								document.querySelector("#"+parentId+" .btnDeleteImage").classList.remove("notBlock");
 							}
 							else
 							{
@@ -492,8 +498,7 @@ function fntEditInfo(element,idProducto)
 {
 	// Se modifica los elementos de la ventana que se utiliza en la captura de Productos, se reutiliza 
 	
-	rowTable = element.parentNode.parentNode.parentNode;
-	console.log (rowTable);
+	rowTable = element.parentNode.parentNode.parentNode;	
 
 	// Sube desde "Button" hasta llegar al elemento padre "Renglon"
 	// tr = class="odd" role = "row" contiene al renglon del producto que se quiere editar. 
@@ -683,6 +688,11 @@ function openModal()
 	document.querySelector('#titleModal').innerHTML = "Nuevo Producto";
 	// Resetear el Formulario, limpia todos los campos.
 	document.querySelector('#formProductos').reset();
+
+	// Para borrar las imagenes cuando se oprima el boton "Nuevo Producto"
+	document.querySelector("#divBarCode").classList.add("notBlock");
+	document.querySelector("#containerGallery").classList.add("notBlock");
+	document.querySelector("#containerImages").innerHTML = ""; // Elimina las imagenes.
 
 	$('#modalFormProductos').modal('show');
 	//removePhoto();

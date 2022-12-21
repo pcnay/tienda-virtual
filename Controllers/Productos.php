@@ -256,54 +256,59 @@
 		// Se suprime "int" del parámetro de la función para que muestre error en tiempo de ejecución.
 		public function getProducto($idproducto)
 		{
-			$idproducto = intval($idproducto);
-			// Estas lineas se colocan para que se muestre en la pantalla del navegador
-
-			//echo $idproducto;
-			//exit;
-
-			if ($idproducto >0)
+			if (empty($_SESSION['permisosMod']['r']))
 			{
-				$arrData = $this->model->selectProducto($idproducto);
-				// Determinar que valores esta retornando.
-				//dep ($arrData);
-				//die();
-				//exit();	
+				$idproducto = intval($idproducto);
+				// Estas lineas se colocan para que se muestre en la pantalla del navegador
 
-				if (empty($arrData))
-				{
-					$arrResponse = array('estatus' => false, 'msg' => 'Datos NO Encontrados');
-				}
-				else
-				{
-					// Obtener las imagenes del producto, es un arreglo.
-					$arrImg = $this->model->selectImages($idproducto);
-					//dep($arrImg);
-					//die();
-					//exit();
-
-					if (count($arrImg) > 0)
-					{
-						// Recupera desde la tabla los nombre de las imágenes.
-						for ($i=0;$i<count($arrImg); $i++)
-						{
-							$arrImg[$i]['url_image'] = media().'/images/uploads/'.$arrImg[$i]['img'];
-						}
-					} //if (count($arrImg) > 0)
-
-					$arrData['images'] = $arrImg;
-					$arrResponse = array('estatus' => true, 'data' => $arrData);
-
-
-				} // if (empty($arrData))			
-				//dep($arrResponse);
-				//die();
+				//echo $idproducto;
 				//exit;
-				
-				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-				die();
 
-			} // if ($idproducto >0)
+				if ($idproducto >0)
+				{
+					$arrData = $this->model->selectProducto($idproducto);
+					// Determinar que valores esta retornando.
+					//dep ($arrData);
+					//die();
+					//exit();	
+
+					if (empty($arrData))
+					{
+						$arrResponse = array('estatus' => false, 'msg' => 'Datos NO Encontrados');
+					}
+					else
+					{
+						// Obtener las imagenes del producto, es un arreglo.
+						$arrImg = $this->model->selectImages($idproducto);
+						//dep($arrImg);
+						//die();
+						//exit();
+
+						if (count($arrImg) > 0)
+						{
+							// Recupera desde la tabla los nombre de las imágenes.
+							for ($i=0;$i<count($arrImg); $i++)
+							{
+								$arrImg[$i]['url_image'] = media().'/images/uploads/'.$arrImg[$i]['img'];
+							}
+						} //if (count($arrImg) > 0)
+
+						$arrData['images'] = $arrImg;
+						$arrResponse = array('estatus' => true, 'data' => $arrData);
+
+
+					} // if (empty($arrData))			
+					//dep($arrResponse);
+					//die();
+					//exit;
+					
+					echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);					
+
+				} // if ($idproducto >0)
+
+			} // if (empty($_SESSION['permisosMod']['r']))
+			
+			die();
 
 		} // public function getProducto($idproducto)
 
