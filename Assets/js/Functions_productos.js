@@ -567,6 +567,7 @@ function fntEditInfo(element,idProducto)
 
 				document.querySelector("#containerImages").innerHTML = htmlImage;
 				document.querySelector("#divBarCode").classList.remove("notBlock");
+				document.querySelector("#containerGallery").classList.remove("notBlock");
 				$('#modalFormProductos').modal('show');				
 				
 			} // if (objData.estatus)

@@ -1,7 +1,11 @@
 <!-- Para que despliegue la informacion en el "TAB" desde el arreglo "$data" -->
 <?php 
 	headerAdmin($data);
-	getModal('ModalProductos',$data);	// Para mostrar el Modal.
+	// Evita que se cargue el ModalProductos desde el inspector del Navegador.
+	//if ($_SESSION['permisosMod']['w'])
+	//{
+		getModal('ModalProductos',$data);	// Para mostrar el Modal.
+	//}
 ?>
 <main class="app-content">
 

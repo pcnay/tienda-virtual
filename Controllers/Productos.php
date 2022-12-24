@@ -59,7 +59,7 @@
 		// Obtiene los "Productos" 
 		public function getProductos()
 		{
-			// Esta condicion se utiliza para que usuarios que no tengan sesion no pueden visualizar las Categorias.
+			// Esta condicion se utiliza para que usuarios que no tengan sesion no pueden visualizar los Productos.
 			if ($_SESSION['permisosMod']['r'])
 			{				
 				$arrData = $this->model->selectProductos();
@@ -155,17 +155,24 @@
 							$intPrecio  = strClean($_POST['txtPrecio']);
 							$intStock  = intval($_POST['txtStock']);
 							$intStatus = intval($_POST['listStatus']); // Conviertiendola a Entero.
-							
+							$request_producto = "";
+
 							if ($idProducto == 0) // Es un nuevo producto
 							{
 								$option = 1;
 								// $request_producto = Es el ID que retorna cuando se inserta en la base de datos.
-								$request_producto = $this->model->insertProducto($strNombre,$strDescripcion,$strCodigo,$intCategoriaId,$intPrecio,$intStock,$intStatus);
+								if ($_SESSION['permisosMod']['w'])
+								{
+									$request_producto = $this->model->insertProducto($strNombre,$strDescripcion,$strCodigo,$intCategoriaId,$intPrecio,$intStock,$intStatus);
+								}
 							}
 							else // Actualizar
 							{
 								$option = 2;
-								$request_producto = $this->model->updateProducto($idProducto,$strNombre,$strDescripcion,$strCodigo,$intCategoriaId,$intPrecio,$intStock,$intStatus);
+								if ($_SESSION['permisosMod']['u'])
+								{
+									$request_producto = $this->model->updateProducto($idProducto,$strNombre,$strDescripcion,$strCodigo,$intCategoriaId,$intPrecio,$intStock,$intStatus);
+								}
 
 							}
 							//dep($request_producto);
@@ -353,20 +360,24 @@
 		{
 			if ($_POST)
 			{
-				$intIdproducto = intval($_POST['idProducto']);
-				$requestDelete = $this->model->deleteProducto($intIdproducto);
-				//dep($requestDelete);
-				//die();exit();
+				if ($_SESSION['permisosMod']['d'])
+				{
+					$intIdproducto = intval($_POST['idProducto']);
+					$requestDelete = $this->model->deleteProducto($intIdproducto);
+					//dep($requestDelete);
+					//die();exit();
 
-				if (($requestDelete) || ($requestDelete == 1))
-				{
-					$arrResponse = array('estatus' => true, 'msg' => 'Se ha Eliminado el Producto');
-				}
-				else
-				{
-					$arrResponse = array('estatus' => false, 'msg' => 'Error al elimiar el Producto');
-				}
-				echo json_encode ($arrResponse,JSON_UNESCAPED_UNICODE);
+					if (($requestDelete) || ($requestDelete == 1))
+					{
+						$arrResponse = array('estatus' => true, 'msg' => 'Se ha Eliminado el Producto');
+					}
+					else
+					{
+						$arrResponse = array('estatus' => false, 'msg' => 'Error al elimiar el Producto');
+					}
+					echo json_encode ($arrResponse,JSON_UNESCAPED_UNICODE);
+
+				} // if ($_SESSION['permisosMod']['w'])
 
 			} //if ($_POST)
 
