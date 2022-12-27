@@ -23,6 +23,19 @@
 		require_once ($view_footer);		
 	}
 
+	// Este arreglo "data" viene desde el "Controllers".
+	// Son los Encabezados y pie de página de la sección de Tienda Virtual
+	function headerTienda($data="")
+	{
+		$view_header = "Views/Template/Header_tienda.php";
+		require_once ($view_header);		
+	}
+	function footerTienda($data="")
+	{
+		$view_footer = "Views/Template/Footer_tienda.php";
+		require_once ($view_footer);		
+	}
+	
 
 	// Para formatear los datos de salida de los arreglos 
 	function dep($data)

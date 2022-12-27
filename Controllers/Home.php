@@ -19,11 +19,11 @@
 			// $this = Es la clase "Home", donde se define.
 			// "home" = la vista a mostrar.
 			// Esta información se puede obtener desde una base de datos, ya que el Controlador se comunica con el Modelo.
-			$data['page_id'] = 1;
-			$data['page_tag'] = "home";
-			$data['page_title'] = "Pagina Principal";
-			$data['page_name'] = "home";
-			$data['page_content'] = "Varios textos de prueba, varios textos de pruebna, nas dan dmans damnds amd, 887393839D masmnd anmds amsnd ad";
+			//$data['page_id'] = 1;
+			$data['page_tag'] = NOMBRE_EMPRESA; 
+			$data['page_title'] = NOMBRE_EMPRESA; 
+			$data['page_name'] = "tienda_virtual";
+			//$data['page_content'] = "Varios textos de prueba, varios textos de pruebna, nas dan dmans damnds amd, 887393839D masmnd anmds amsnd ad";
 
 			$this->views->getView($this,"home",$data);
 
