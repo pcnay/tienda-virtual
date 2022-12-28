@@ -18,5 +18,7 @@
 	const EMAIL_REMITENTE = "no-reply@empresa.com";
 	const NOMBRE_EMPRESA = "TIENDA VIRTUAL";
 	const WEB_EMPRESA = "www.miempresa.com";
-
+	const CAT_SLIDER = "1,2,3"; 
+	const CAT_BANNER = "4,5,6";
+	 
 ?>
