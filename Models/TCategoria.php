@@ -15,7 +15,7 @@
 				// Asignan todas las imagenes que corresponden de la "Categoria"
 				for ($c=0; $c < count($request); $c++)
 				{
-					$request[$c]['portada'] = BASE_URL.'/Assets/images/upload/'.$request[$c]['portada'];
+					$request[$c]['portada'] = BASE_URL.'/Assets/images/uploads/'.$request[$c]['portada'];
 				}
 			}
 			return $request;
