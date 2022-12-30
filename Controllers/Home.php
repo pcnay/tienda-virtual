@@ -1,9 +1,10 @@
 <?php
 	require_once("Models/TCategoria.php");
+	require_once("Models/TProducto.php");
 
 	class Home extends Controllers
 	{
-		use TCategoria;
+		use TCategoria,TProducto;
 
 		public function __construct()
 		{
@@ -28,11 +29,15 @@
 			//dep ($this->getCategoriasT(CAT_SLIDER));
 			//die();exit;
 
+			//dep ($this->selectProductos());
+			//die();exit;
+
 			$data['page_tag'] = NOMBRE_EMPRESA; 
 			$data['page_title'] = NOMBRE_EMPRESA; 
 			$data['page_name'] = "tienda_virtual";
 			$data['slider'] = $this->getCategoriasT(CAT_SLIDER);
 			$data['banner'] = $this->getCategoriasT(CAT_BANNER);
+			$data['productos'] = $this->getProductosT();
 			//dep ($data);
 			//die();exit;
 

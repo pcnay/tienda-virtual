@@ -3,7 +3,7 @@
 
 	trait TCategoria
 	{
-		public $con;
+		private $con;
 		public function getCategoriasT(string $categorias)
 		{
 			// string $categorias = se utiliza para seleccionar la categoria en la Tienda 
