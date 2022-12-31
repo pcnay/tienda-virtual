@@ -68,7 +68,7 @@
 				<nav class="limiter-menu-desktop container">
 					
 					<!-- Logo desktop -->		
-					<a href="#" class="logo">
+					<a href="<?= base_url();?>" class="logo">
 						<img src="<?= media();?>/tienda/images/logo-tienda.png" alt="Tienda Virtual">
 					</a>
 
@@ -89,15 +89,15 @@
 							</li>
 
 							<li>
-								<a href="<?= base_url(); ?>/tienda">Tienda</a>
+								<a href="<?= base_url(); ?>/Tienda">Tienda</a>
 							</li>
 
 							<li>
-								<a href="<?= base_url(); ?>/nosotros">Nosotros</a>
+								<a href="<?= base_url(); ?>/Nosotros">Nosotros</a>
 							</li>
 
 							<li>
-								<a href="<?= base_url(); ?>/contacto">Contacto</a>
+								<a href="<?= base_url(); ?>/Contacto">Contacto</a>
 							</li>
 						</ul>
 					</div>	
@@ -176,15 +176,15 @@
 				</li>
 
 				<li>
-					<a href="<?= base_url(); ?>/tienda">Tienda</a>
+					<a href="<?= base_url(); ?>/Tienda">Tienda</a>
 				</li>
 
 				<li>
-					<a href="<?= base_url(); ?>/nosotros">Nosotros</a>
+					<a href="<?= base_url(); ?>/Nosotros">Nosotros</a>
 				</li>
 
 				<li>
-					<a href="<?= base_url(); ?>/contacto">Contacto</a>
+					<a href="<?= base_url(); ?>/Contacto">Contacto</a>
 				</li>
 			</ul>
 		</div>

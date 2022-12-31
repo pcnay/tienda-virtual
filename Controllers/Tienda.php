@@ -40,7 +40,7 @@
 			//die();exit;
 
 			//$data['page_content'] = "Varios textos de prueba, varios textos de pruebna, nas dan dmans damnds amd, 887393839D masmnd anmds amsnd ad";
-			$this->views->getView($this,"home",$data);
+			$this->views->getView($this,"Tienda",$data);
 		}
 
 		public function categoria($params)
