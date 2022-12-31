@@ -52,12 +52,13 @@
 			else
 			{
 				$categoria = strClean($params);
-				dep($this->getProductosCategoriaT($categoria));
+				// Muestra todas las categorias que se encuentran en los productos.
+				// dep($this->getProductosCategoriaT($categoria));
 				// Evita inyeccion sql (strClean)
-				$data['page_tag'] = $categoria;
+				$data['page_tag'] = NOMBRE_EMPRESA." - ".$categoria; // Renombrar nombre del Tab del navegador.
 				$data['page_title'] = $categoria;
 				$data['page_name'] = "Categoria";
-				//$data['productos'] = $this->getProductosT();
+				$data['productos'] = $this->getProductosCategoriaT($categoria);
 				$this->views->getView($this,"Categoria",$data);
 
 			} //if (empty($params))
