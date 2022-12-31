@@ -51,8 +51,9 @@
 			}
 			else
 			{
-				// Evita inyeccion sql (strClean)
 				$categoria = strClean($params);
+				dep($this->getProductosCategoriaT($categoria));
+				// Evita inyeccion sql (strClean)
 				$data['page_tag'] = $categoria;
 				$data['page_title'] = $categoria;
 				$data['page_name'] = "Categoria";
