@@ -1805,9 +1805,14 @@ button.mfp-close {
 }
 
 input.num-product {
+	/* Para que no se muestre los punta de las flechas cuando se selecciona las cantidades 
   -moz-appearance: textfield;
   appearance: none;
   -webkit-appearance: none;
+	*/
+	-webkit-appearance: textfield !important;
+	margin:0;
+	-moz-appearance: textfield !important;
 }
 
 input.num-product::-webkit-outer-spin-button,

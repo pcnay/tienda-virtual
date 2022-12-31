@@ -65,6 +65,30 @@
 
 		} //public function categoria($params)
 
+		// Se utiliza para el detalle del Producto en la Seccion de "Tienda"
+		public function producto($params)
+		{
+			if (empty($params))
+			{
+				header("Location:".base_url());		// Retorna a la página Principal.		
+			}
+			else
+			{
+				$producto = strClean($params);
+				// Muestra todas los productos
+				// dep($this->getProductosCategoriaT($categoria));
+				// Evita inyeccion sql (strClean)
+				$data['page_tag'] = NOMBRE_EMPRESA." - ".$producto; // Renombrar nombre del Tab del navegador.
+				$data['page_title'] = $producto;
+				$data['page_name'] = "Producto";
+				$data['producto'] = "";
+				//$data['productos'] = $this->getProductosCategoriaT($categoria);
+				// Esta vista se crea en "Views->Tienda->Producto
+				$this->views->getView($this,"Producto",$data);
+			} //if (empty($params))
+
+		}
+
 } // classs home extends Controllers
 
 ?>
