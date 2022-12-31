@@ -8,7 +8,7 @@
 	$arrBanner = $data['banner'];	
 //	dep($arrBanner);
 	$arrProductos = $data['productos'];
-	dep($arrProductos);
+	//dep($arrProductos);
 ?>
 	<!-- Slider -->
 	<section class="section-slide">
