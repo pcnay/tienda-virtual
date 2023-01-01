@@ -2,7 +2,8 @@
 	// Para que agregue los encabezados de la pagina de Tienda (Venta de productos)
 	headerTienda($data);
 	getModal('ModalCarrito',$data);
-
+	dep($data);
+	
 ?>
 <br><br><br>
 <hr>

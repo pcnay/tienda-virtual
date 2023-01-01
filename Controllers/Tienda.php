@@ -75,14 +75,25 @@
 			else
 			{
 				$producto = strClean($params);
+				$arrProducto = $this->getProductoT($producto);
+				//dep($this->getProductosRandom($arrProducto['categoriaid'],2,"r"));
+
+				//dep($this->getProductoT($producto));
+				
 				// Muestra todas los productos
 				// dep($this->getProductosCategoriaT($categoria));
 				// Evita inyeccion sql (strClean)
 				$data['page_tag'] = NOMBRE_EMPRESA." - ".$producto; // Renombrar nombre del Tab del navegador.
 				$data['page_title'] = $producto;
 				$data['page_name'] = "Producto";
-				$data['producto'] = "";
-				//$data['productos'] = $this->getProductosCategoriaT($categoria);
+
+				// Extrae un producto de la Categoria de un producto. 
+				$data['producto'] = $arrProducto;
+
+				// Extrae todos los productos de la Categoría, se pasa omo parámetro.
+				// "r" = Se mostrara en forma aleatoria.
+				$data['productos'] = $this->getProductosRandom($arrProducto['categoriaid'],2,"r");
+				
 				// Esta vista se crea en "Views->Tienda->Producto
 				$this->views->getView($this,"Producto",$data);
 			} //if (empty($params))
