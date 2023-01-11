@@ -102,7 +102,7 @@
 
 						} // if (count($arrImg)>0)
 
-						$request[c]['images'] = $arrImg;
+						$request[$c]['images'] = $arrImg;
 
 					} // for ($c=0;$c$num_reg;$c++)
 
@@ -133,11 +133,11 @@
 				ON p.categoriaid = c.id_categoria
 				WHERE p.estatus != 0 AND p.nombre = '{$this->strProducto}'";
 
-			$request = $this->con->select($sql); // Obtendrá mas de un registro.						
+			$request = $this->con->select($sql); // Obtendrá solo un registro.						
 			//dep($request);
 
-			$num_reg = count($request);
-			if (!empty($num_reg))
+			
+			if (!empty($request))
 			{
 				// Se quita el "for" porque solo es solo una imagen.
 
@@ -198,7 +198,7 @@
 				ON p.categoriaid = c.id_categoria
 				WHERE p.estatus != 0 AND p.categoriaid = $this->intIdcategoria ORDER BY $this->option LIMIT $this->cant";
 
-				//echo $sql;
+				//echo $sql; // Para que se muestre en pantalla el texto de la consulta.
 				//die();
 				//exit();
 
@@ -222,7 +222,7 @@
 
 						} // if (count($arrImg)>0)
 
-						$request[c]['images'] = $arrImg;
+						$request[$c]['images'] = $arrImg;
 
 					} // for ($c=0;$c$num_reg;$c++)
 

@@ -2,6 +2,10 @@
 	// Para que agregue los encabezados de la pagina de Tienda (Venta de productos)
 	headerTienda($data);
 	getModal('ModalCarrito',$data);
+	$arrProducto = $data['producto'];
+	$arrProductos = $data['productos'];
+	$arrImages = $arrProducto['images'];
+
 	dep($data);
 	
 ?>
@@ -11,18 +15,18 @@
 <!-- breadcrumb -->
 	<div class="container">
 		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
-			<a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">
-				Home
+			<a href="<?= base_url();  ?>" class="stext-109 cl8 hov-cl1 trans-04">
+				Inicio
 				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 			</a>
 
-			<a href="product.html" class="stext-109 cl8 hov-cl1 trans-04">
-				Men
+			<a href="<?= base_url().'/tienda/categoria/'.$arrProducto['categoria']; ?>" class="stext-109 cl8 hov-cl1 trans-04">
+				<?= $arrProducto['categoria']; ?>
 				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 			</a>
 
 			<span class="stext-109 cl4">
-				Lightweight Jacket
+				<?= $arrProducto['nombre']; ?>
 			</span>
 		</div>
 	</div>
@@ -39,56 +43,53 @@
 							<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
 
 							<div class="slick3 gallery-lb">
-								<div class="item-slick3" data-thumb="<?= media(); ?>/tienda/images/product-detail-01.jpg">
-									<div class="wrap-pic-w pos-relative">
-										<img src="<?= media(); ?>/tienda/images/product-detail-01.jpg" alt="IMG-PRODUCT">
+								<?php
+									if (!empty($arrImages)) // Si no esta vacia
+									{
+										for ($img=0;$img<count($arrImages);$img++)
+										{
+								?>
 
-										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="<?= media(); ?>/tienda/images/product-detail-01.jpg">
-											<i class="fa fa-expand"></i>
-										</a>
+									<div class="item-slick3" data-thumb="<?= $arrImages[$img]['url_image']; ?>">
+																		
+										<div class="wrap-pic-w pos-relative">
+											<img src="<?= $arrImages[$img]['url_image']; ?>"> alt="<?= $arrProducto['nombre']; ?>">
+
+											<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="<?= $arrImages[$img]['url_image']; ?>">
+												<i class="fa fa-expand"></i>
+											</a>
+										</div>
 									</div>
-								</div>
+								<?php
+										} //  for ($img=0;$img<count($arrImages);$img++)
+										
+									} // if (!empty($arrImages)) // Si no esta vacia
+								?>
 
-								<div class="item-slick3" data-thumb="<?= media(); ?>/tienda/images/product-detail-02.jpg">
-									<div class="wrap-pic-w pos-relative">
-										<img src="<?= media(); ?>/tienda/images/product-detail-02.jpg" alt="IMG-PRODUCT">
+							</div> <!-- <div class="slick3 gallery-lb"> -->
+						
+						</div> <!-- <div class="wrap-slick3 flex-sb flex-w"> --> 
 
-										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="<?= media(); ?>/tienda/images/product-detail-02.jpg">
-											<i class="fa fa-expand"></i>
-										</a>
-									</div>
-								</div>
+					</div> <!-- <div class="p-l-25 p-r-30 p-lr-0-lg"> --> 
 
-								<div class="item-slick3" data-thumb="<?= media(); ?>/tienda/images/product-detail-03.jpg">
-									<div class="wrap-pic-w pos-relative">
-										<img src="<?= media(); ?>/tienda/images/product-detail-03.jpg" alt="IMG-PRODUCT">
-
-										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="<?= media(); ?>/tienda/images/product-detail-03.jpg">
-											<i class="fa fa-expand"></i>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				</div> <!-- <div class="col-md-6 col-lg-7 p-b-30"> --> 
 					
 				<div class="col-md-6 col-lg-5 p-b-30">
 					<div class="p-r-50 p-t-5 p-lr-0-lg">
 						<h4 class="mtext-105 cl2 js-name-detail p-b-14">
-							Lightweight Jacket
+							<?= $arrProducto['nombre']; ?>
 						</h4>
 
 						<span class="mtext-106 cl2">
-							$58.79
+							<?=  MONEY.formatMoney($arrProducto['precio']); ?>
 						</span>
 
-						<p class="stext-102 cl3 p-t-23">
-							Nulla eget sem vitae eros pharetra viverra. Nam vitae luctus ligula. Mauris consequat ornare feugiat.
-						</p>
-						
+						<!-- <p class="stext-102 cl3 p-t-23"></p> -->
+						<?= $arrProducto['descripcion']; ?>
+
 						<!--  -->
 						<div class="p-t-33">
+							<!-- Tamaño
 							<div class="flex-w flex-r-m p-b-10">
 								<div class="size-203 flex-c-m respon6">
 									Size
@@ -107,7 +108,9 @@
 									</div>
 								</div>
 							</div>
+								-->
 
+							<!-- Color
 							<div class="flex-w flex-r-m p-b-10">
 								<div class="size-203 flex-c-m respon6">
 									Color
@@ -126,6 +129,7 @@
 									</div>
 								</div>
 							</div>
+							-->
 
 							<div class="flex-w flex-r-m p-b-10">
 								<div class="size-204 flex-w flex-m respon6-next">
@@ -142,13 +146,13 @@
 									</div>
 
 									<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
-										Add to cart
+										Agregar al Carrito
 									</button>
 								</div>
 							</div>	
 						</div>
 
-						<!--  -->
+						<!-- Redes Sociles -->
 						<div class="flex-w flex-m p-l-100 p-t-40 respon7">
 							<div class="flex-m bor9 p-r-10 m-r-11">
 								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
@@ -364,37 +368,58 @@
 			<!-- Slide2 -->
 			<div class="wrap-slick2">
 				<div class="slick2">
-					<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-						<!-- Block2 -->
-						<div class="block2">
-							<div class="block2-pic hov-img0">
-								<img src="<?= media(); ?>/tienda/images/product-01.jpg" alt="IMG-PRODUCT">
+					<?php
+						if (!empty($arrProductos))
+						{
+							for ($p=0;$p<count($arrProductos); $p++)
+							{
+								if (count($arrProductos[$p]['images']) > 0)
+								{
+									$portada = $arrProductos[$p]['images'][0]['url_image'];
+								}
+								else
+								{
+									$portada = media().'/images/uploads/product.png';
+								}
+							//}
+					?>		
 
-								<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-									Quick View
-								</a>
-							</div>
+						<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
+							<!-- Block2 -->
+							<div class="block2">
+								<div class="block2-pic hov-img0">
+									<img src="<?= $portada; ?>" alt="<?= $arrProductos[$p]['nombre'] ?>">
 
-							<div class="block2-txt flex-w flex-t p-t-14">
-								<div class="block2-txt-child1 flex-col-l ">
-									<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-										Esprit Ruffle Shirt
+									<a href="<?= base_url().'/tienda/producto/'.$arrProductos[$p]['nombre']; ?>" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 ">
+										Ver Producto
 									</a>
-
-									<span class="stext-105 cl3">
-										$16.64
-									</span>
 								</div>
 
-								<div class="block2-txt-child2 flex-r p-t-3">
-									<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-										<img class="icon-heart1 dis-block trans-04" src="<?= media(); ?>/tienda/images/icons/icon-heart-01.png" alt="ICON">
-										<img class="icon-heart2 dis-block trans-04 ab-t-l" src="<?= media(); ?>/tienda/images/icons/icon-heart-02.png" alt="ICON">
-									</a>
+								<div class="block2-txt flex-w flex-t p-t-14">
+									<div class="block2-txt-child1 flex-col-l ">
+										<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+											<?= $arrProductos[$p]['nombre']; ?> 
+										</a>
+
+										<span class="stext-105 cl3">
+											<?=  MONEY.formatMoney($arrProductos[$p]['precio']); ?>										
+										</span>
+									</div>
+
+									<div class="block2-txt-child2 flex-r p-t-3">
+										<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+											<img class="icon-heart1 dis-block trans-04" src="<?= media(); ?>/tienda/images/icons/icon-heart-01.png" alt="ICON">
+											<img class="icon-heart2 dis-block trans-04 ab-t-l" src="<?= media(); ?>/tienda/images/icons/icon-heart-02.png" alt="ICON">
+										</a>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					<?php
+							}
+						}
+					?>
+
 
 					<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
 						<!-- Block2 -->

@@ -76,9 +76,10 @@
 			{
 				$producto = strClean($params);
 				$arrProducto = $this->getProductoT($producto);
-				//dep($this->getProductosRandom($arrProducto['categoriaid'],2,"r"));
 
 				//dep($this->getProductoT($producto));
+				//dep($this->getProductosRandom($arrProducto['categoriaid'],2,"r"));
+
 				
 				// Muestra todas los productos
 				// dep($this->getProductosCategoriaT($categoria));
@@ -91,9 +92,11 @@
 				$data['producto'] = $arrProducto;
 
 				// Extrae todos los productos de la Categoría, se pasa omo parámetro.
-				// "r" = Se mostrara en forma aleatoria.
-				$data['productos'] = $this->getProductosRandom($arrProducto['categoriaid'],2,"r");
-				
+				// "r" = Se mostrara en forma aleatoria.				
+				$data['productos'] = $this->getProductosRandom(intval($arrProducto['categoriaid']),2,"r");
+				//dep($this->getProductosRandom($arrProducto['categoriaid'],2,"r"));
+
+
 				// Esta vista se crea en "Views->Tienda->Producto
 				$this->views->getView($this,"Producto",$data);
 			} //if (empty($params))
