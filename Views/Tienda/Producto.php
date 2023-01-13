@@ -6,7 +6,7 @@
 	$arrProductos = $data['productos'];
 	$arrImages = $arrProducto['images'];
 
-	dep($data);
+	//dep($data);
 	
 ?>
 <br><br><br>
@@ -152,7 +152,7 @@
 							</div>	
 						</div>
 
-						<!-- Redes Sociles -->
+						<!-- Redes Sociales -->
 						<div class="flex-w flex-m p-l-100 p-t-40 respon7">
 							<div class="flex-m bor9 p-r-10 m-r-11">
 								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
@@ -175,22 +175,23 @@
 					</div>
 				</div>
 			</div>
-
+			
+			<!--
 			<div class="bor10 m-t-50 p-t-43 p-b-40">
-				<!-- Tab01 -->
-				<div class="tab01">
+				<!-- Tab01 
+					<div class="tab01">
 
-					<!-- Tab panes -->
+					<!-- Tab panes donde se agrega la descripcion 
 					<div class="tab-content p-t-43">
-						<!-- - -->
+						 
 						<div class="tab-pane fade show active" id="description" role="tabpanel">
 							<div class="how-pos2 p-lr-15-md">
 								<h3>Descripcion</h3>
 								<p class="stext-102 cl6">
 									Aenean sit amet gravida nisi. Nam fermentum est felis, quis feugiat nunc fringilla sit amet. Ut in blandit ipsum. Quisque luctus dui at ante aliquet, in hendrerit lectus interdum. Morbi elementum sapien rhoncus pretium maximus. Nulla lectus enim, cursus et elementum sed, sodales vitae eros. Ut ex quam, porta consequat interdum in, faucibus eu velit. Quisque rhoncus ex ac libero varius molestie. Aenean tempor sit amet orci nec iaculis. Cras sit amet nulla libero. Curabitur dignissim, nunc nec laoreet consequat, purus nunc porta lacus, vel efficitur tellus augue in ipsum. Cras in arcu sed metus rutrum iaculis. Nulla non tempor erat. Duis in egestas nunc.
 								</p>
-							</div> <!-- <div class="how-pos2 p-lr-15-md"> -->
-						</div> <!--<div class="tab-pane fade show active" id="description" role="tabpanel">  -->
+							</div> <!-- <div class="how-pos2 p-lr-15-md"> 
+						</div> <!--<div class="tab-pane fade show active" id="description" role="tabpanel">  
 
 						<!-- Opciones de Peso, Medidas, color
 							<div class="tab-pane fade" id="information" role="tabpanel">
@@ -250,7 +251,7 @@
 									</div>
 								</div>
 							</div>
-						-->
+						
 
 						<!-- - 
 						<div class="tab-pane fade" id="reviews" role="tabpanel">
@@ -334,9 +335,10 @@
 								</div>
 							</div>
 						</div>
-						-->
+						
 
-					</div> <!-- <div class="tab-content p-t-43"> -->
+					</div>  <div class="tab-content p-t-43"> -->
+
 				</div> <!-- <div class="tab01"> -->
 			</div> <!-- <div class="bor10 m-t-50 p-t-43 p-b-40"> -->
 		</div> <!-- <div class="container"> -->
