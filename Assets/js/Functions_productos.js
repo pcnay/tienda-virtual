@@ -1,3 +1,40 @@
+// Se agrega este código en este archivo, ya que solo se requiere en esta parte "Capturas del producto"
+// Su tilizan esta comillas ` `para agregar variables con llaves.
+document.write(`<script src="${base_url}/Assets/js/plugins/JsBarcode.all.min.js"></script>`);
+
+
+let tableProductos;
+let rowTable;
+
+// Validar la entrada, solo caracteres permitidos "txtNombre"
+$("#txtNombre").bind('keypress', function(event) {
+	var regex = new RegExp("^[A-Za-z0-9- ]+$");
+	var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+	if (!regex.test(key)) {
+		event.preventDefault();
+		return false;
+	}
+});
+
+// Validar la entrada, solo caracteres permitidos "txtDescripcion "
+$("#txtDescripcion").bind('keypress', function(event) {
+	var regex = new RegExp("^[A-Za-z0-9- ]+$");
+	var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+	if (!regex.test(key)) {
+		event.preventDefault();
+		return false;
+	}
+});
+
+// Validar la entrada, solo caracteres permitidos "txtDescripcion "
+$("#txtCodigo").bind('keypress', function(event) {
+	var regex = new RegExp("^[A-Za-z0-9-/ ]+$");
+	var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+	if (!regex.test(key)) {
+		event.preventDefault();
+		return false;
+	}
+});
 
 // Script para corregir el error de componentes bloqueados, en "tinymce"
 // Sobreposicionar los modals que tenga el plugins en los modals del proyecto
@@ -24,6 +61,45 @@ tinymce.init({
 		],
 toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",
 });
+
+
+// Valida la longuitud del código de barras.
+if (document.querySelector("#txtCodigo"))
+{
+	let inputCodigo = document.querySelector("#txtCodigo");
+	// Cuando se presione y levante la tecla.
+	inputCodigo.onkeyup = function() 
+	{
+		if (inputCodigo.value.length >= 5)
+		{
+			document.querySelector('#divBarCode').classList.remove("notBlock");
+			fntBarcode();
+		}
+		else
+		{
+			document.querySelector('#divBarCode').classList.add("notBlock");
+		}
+	};
+}
+
+// Se utiliza para desplegar el código de barra
+function fntBarcode()
+{
+	let codigo = document.querySelector("#txtCodigo").value;
+	JsBarcode("#barcode",codigo); // Imprime el código de barras en la etiqueta con el id "barcode"
+}
+
+// Esta funcion se llama desde ModalProductos.php; onclick="fntPrintBarcode"
+// Para imprimir el código de Barras.
+function fntPrintBarcode(area)
+{
+	let elemntArea = document.querySelector(area);
+	let vprint = window.open('','popimpr','height=400,width=600'); //Define el tamaño de la ventana
+	vprint.document.write(elemntArea.innerHTML); // Escribe el código HTML en la ventana
+	vprint.document.close();
+	vprint.print();
+	vprint.close();
+}
 
 
 // Para mostrar la ventana Modal de los Productos

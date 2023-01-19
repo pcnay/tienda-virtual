@@ -1,4 +1,4 @@
-// Se agrega este código en este archivo, ya que solo se requiere en esta parte
+// Se agrega este código en este archivo, ya que solo se requiere en esta parte "Capturas del producto"
 // Su tilizan esta comillas ` `para agregar variables con llaves.
 
 document.write(`<script src="${base_url}/Assets/js/plugins/JsBarcode.all.min.js"></script>`);
