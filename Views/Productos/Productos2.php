@@ -1,6 +1,11 @@
 <!-- Para que despliegue la informacion en el "TAB" desde el arreglo "$data" -->
-<?php headerAdmin($data);
-	getModal('ModalProductos',$data);	// Para mostrar el Modal.
+<?php 
+	headerAdmin($data);
+	// Evita que se cargue el ModalProductos desde el inspector del Navegador.
+	//if ($_SESSION['permisosMod']['w'])
+	//{
+		getModal('ModalProductos',$data);	// Para mostrar el Modal.
+	//}
 ?>
 <main class="app-content">
 
@@ -36,11 +41,11 @@
                   <thead>
                     <tr>
                       <th>ID</th>                      
-                      <th>Codigos</th>
+                      <th>Codigo</th>
                       <th>Nombre</th>
 											<th>Stock</th>
 											<th>Precio</th>
-											<th>Estatus</th>
+											<th>Estado</th>
 											<th>Acciones</th>
                     </tr>
                   </thead>
