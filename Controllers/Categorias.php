@@ -331,7 +331,8 @@
 						$htmlOptions .= '<option value = "'.$arrData[$i]['id_categoria'].'">'.$arrData[$i]['nombre'].'</option>';
 					}
 				}
-			}
+			} // if (count($arrData) > 0)
+			
 			echo $htmlOptions;
 			die();
 

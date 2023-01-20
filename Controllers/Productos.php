@@ -52,7 +52,13 @@
 			// $this = Es equivalente "Usuarios"
 			// Se llama la vista "Usuarios"
 			$this->views->getView($this,"Productos",$data);
-		}
+			
+		} // public function Productos()
+
+
+
+
+
 
 	} // class Categorias extends Controllers
 ?>
