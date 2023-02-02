@@ -79,7 +79,7 @@
 							<div class="row">
 
 								<div class="form-group col-md-6">
-									<label for="listCategoria">Categoria<span class="required">*</span></label>
+									<label for="listaCategoria">Categoria<span class="required">*</span></label>
 									<!-- data-live-search="true" = Se utiliza para buscar en el ComboBox -->
 									<select class="form-control" data-live-search="true" id="listCategoria" name="listCategoria" required=""></select>				
 								</div>

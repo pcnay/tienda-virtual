@@ -328,7 +328,8 @@
 				{
 					if ($arrData[$i]['estatus'] == 1)
 					{
-						$htmlOptions .= '<option value = "'.$arrData[$i]['id_categoria'].'">'.$arrData[$i]['nombre'].'</option>';
+						//$htmlOptions .= '<option value = "'.$arrData[$i]['id_categoria'].'">'.$arrData[$i]['nombre'].'</option>';
+						$htmlOptions .= "<option value = '".$arrData[$i]['id_categoria']."'>".$arrData[$i]['nombre']."</option>";
 					}
 				}
 			} // if (count($arrData) > 0)

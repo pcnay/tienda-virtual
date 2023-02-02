@@ -5,11 +5,181 @@ document.write(`<script src="${base_url}/Assets/js/plugins/JsBarcode.all.min.js"
 let tableProductos;
 let rowTable;
 
-// Al cargar el documento se ejecuta la funcion.
+
+// Es importante colocar este evento para cargar las Categorias, ya que de lo contrario muestra error al cargar los productos.
+window.addEventListener('DOMContentLoaded',function(){
+	//fntInputFile();
+ 	fntCategorias();
+},false);
+
 
 window.addEventListener('load',function(){
 	//fntInputFile();
-	fntCategorias();
+ 	
+
+	tableProductos = $('#tableProductos').dataTable({
+		"aProcessing":true,
+		"aServerside":true,
+		"language": {
+			"url":"//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+		},
+		"ajax":{
+			"url":" "+base_url+"/Productos/getProductos",
+			"dataSrc":""
+		},
+		"columns":[
+			{"data":"id_producto"},
+			{"data":"codigo"},
+			{"data":"nombre"},
+			{"data":"stock"},
+			{"data":"precio"},
+			{"data":"estatus"},
+			{"data":"options"}
+		],
+		"columnDefs":[
+			{'className':"textcenter","targets":[ 3 ]},
+			{'className':"textright","targets":[ 4 ]},
+			{'className':"textcenter","targets":[ 5 ]}
+		],
+		'dom': 'lBfrtip',
+		'buttons': [
+			{
+				"extend": "copyHtml5",
+				"text":"<i class = 'far fa-copy'></i>Copiar",
+				"titleAttr":"Copiar",
+				"className":"btn btn-secondary"
+			},
+			{
+				"extend": "excelHtml5",
+				"text":"<i class = 'far fa-file-excel'></i>Excel",
+				"titleAttr":"Exportar a Excel",
+				"className":"btn btn-success",
+				"exportOptions":{
+					"columns": [0,1,2,3,4,5]
+				}
+			},
+			{
+				"extend": "pdfHtml5",
+				"text":"<i class = 'far fa-file-pdf'></i>PDF",
+				"titleAttr":"Exportar a PDF",
+				"className":"btn btn-danger",
+				"exportOptions":{
+					"columns": [0,1,2,3,4,5]
+				}
+			},
+			{
+				"extend": "csvHtml5",
+				"text":"<i class = 'fas fa-file-csv'></i>CSV",
+				"titleAttr":"Exportar a CSV",
+				"className":"btn btn-info",
+				"exportOptions":{
+					"columns": [0,1,2,3,4,5]
+				}
+			}
+		],
+		"resonsieve":"true",
+		"bDestroy":true,
+		"iDisplayLength":10,
+		"order":[[0,"desc"]]
+	});
+
+		// Cuando se oprime el boton "Guardar" 
+		// Valida si existe la etiqueta 
+		if (document.querySelector("#formProductos"))
+		{
+			let formProducto = document.querySelector("#formProductos");
+			formProducto.onsubmit = function(e)
+			{
+				e.preventDefault(); // Previene que se recargue 
+				let strNombre = document.querySelector('#txtNombre').value;
+				let intCodigo = document.querySelector('#txtCodigo').value;
+				let strPrecio = document.querySelector('#txtPrecio').value;
+				let intStock = document.querySelector('#txtStock').value;
+				let intStatus = document.querySelector('#listStatus').value;
+	
+				if (strNombre == '' || intCodigo == '' || strPrecio == '' || intStock == '')
+				{
+					swal ("Atencion","Todos los campos son Obligatorio","error");
+					return false;
+				}
+	
+				if (intCodigo.length < 5)
+				{
+					swal ("Atencion","El Código debe ser mayor que 5 dígito","error");
+					return false;
+				}
+	
+				divLoading.style.display = "flex";
+				tinyMCE.triggerSave();// Seccion del editor guarda todo al TextArea.
+				// Ya que para  guardar información se extrae los datos de las etiqueta HTML.
+
+				// Realizando la configuracion para el envio de datos por el Ajax
+				// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+				let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+				let ajaxUrl = base_url+'/Productos/setProducto'; // Url a donde buscara el archivo, es en el Controlador/Productos.
+				let formData = new FormData(formProducto);
+				// El método utilizado para enviar la informacion es "POST"
+				request.open("POST",ajaxUrl,true);
+				request.send(formData);
+	
+				// Validando lo que regresa el Ajax
+				request.onreadystatechange = function()
+				{
+					// Valida que este devolviendo informacion.
+					if (request.readyState == 4 && request.status == 200)
+					{							
+						// Parsea el "request", es decir se convierte en Objeto
+						let objData = JSON.parse(request.responseText);
+						if (objData.estatus)
+						{
+							swal("",objData.msg,"success");	
+							// Para agregar las fotos del Producto.
+							document.querySelector("#idProducto").value = objData.id_producto;
+	
+							// Muetra el boton para subir imagenes.
+							document.querySelector("#containerGallery").classList.remove("notBlock"); 
+							
+							objData.id_producto;
+	
+							if (rowTable == "") // Es un producto nuevo
+							{
+								tableProductos.api().ajax.reload();
+							}
+							else // Actualizar el producto
+							{
+								htmlStatus = intStatus == 1?
+									'<span class="badge badge-success">Activo</span>':
+									'<span class="badge badge-danger">Inactivo</span>';
+								rowTable.cells[1].textContent = intCodigo;
+								rowTable.cells[2].textContent = strNombre;
+								rowTable.cells[3].textContent = intStock;
+								rowTable.cells[4].textContent = smony+strPrecio;
+								rowTable.cells[5].innerHTML = htmlStatus;		// Para que lo agregue como contenido HTML.				
+								rowTable = "";	
+							} // if (rowTable == "")
+						}
+						else
+						{
+							swal("Error",objData.msg,"error");						
+						}
+						
+						/*
+						// Agrega el codigo HTML que regresa el Ajax de la consulta (getSelectCategorias)
+						document.querySelector('#listCategoria').innerHTML = request.responseText;
+						// Se muestren las opciones aplicando el buscador.
+						$('#listCategoria').selectpicker('render');
+						*/
+					}
+					divLoading.style.display = "none";
+					return false;
+	
+				} // request.onreadystatechange = function()
+	
+			} // formProductos.onsubmit = function(e)
+	
+		} // if (this.document.querySelector("#formProductos"))
+	
+
 },false);
 
 // Validar la entrada, solo caracteres permitidos "txtNombre"
@@ -67,6 +237,8 @@ tinymce.init({
 		],
 toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",
 });
+
+
 
 
 // Valida la longuitud del código de barras.
@@ -163,6 +335,7 @@ function fntCategorias()
 			// Valida que este devolviendo informacion.
 			if (request.readyState == 4 && request.status == 200)
 			{				
+				console.log(request.responseText);
 				// Agrega el codigo HTML que regresa el Ajax de la consulta (getSelectCategorias)
 				document.querySelector('#listCategoria').innerHTML = request.responseText;
 				// Se muestren las opciones aplicando el buscador.
