@@ -178,8 +178,41 @@ window.addEventListener('load',function(){
 			} // formProductos.onsubmit = function(e)
 	
 		} // if (this.document.querySelector("#formProductos"))
-	
 
+	// Código para cuando se oprime el boton de "agregar"
+	// Valida si existe esta etiqueta.
+	if (document.querySelector(".btnAddImage"))
+	{
+		let btnAddImages = document.querySelector(".btnAddImage");
+
+		// Se agrega el evento click al boton "+"
+		btnAddImages.onclick = function(e)
+		{
+			// Se creara la seccion donde se carga la imagenes en la captura de Productos.
+			let key = Date.now();
+			//alert(key);
+
+			// Se crea la seccion del "DIV" donde se agrega la imagen, utilizando "JavaScript" puro
+			let newElement = document.createElement("div");
+			newElement.id = "div"+key;
+			newElement.innerHTML = `<div class="prevImage"></div>
+				<input type="file" name = "foto" id = "img${key}" class="inputUploadfile" >
+				<label for="img${key}" class="btnUploadfile"><i class="fas fa-upload"></i></label>
+				<button class="btnDeleteImage notBlock" type="button" onclick="fntDelItem('#div${key}')"><i class="fas fa-trash-alt"></i></button>`;
+
+			// Se agrega al "DIV" <div id="containerImages">, a la estructura completa, referencia "ModalProductos.php" donde esta donde se crea manualmente el DIV24.
+			document.querySelector("#containerImages").appendChild(newElement);
+			
+			// Se esta agregando el evento "click" 
+			document.querySelector("#div"+key+" .btnUploadfile").click();
+
+			fntInputFile();			
+
+		} // btnAddImages.onclick = function(e)
+
+	}
+		// 
+	
 },false);
 
 // Validar la entrada, solo caracteres permitidos "txtNombre"
@@ -238,8 +271,88 @@ tinymce.init({
 toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",
 });
 
+//Function para subir el archivo
+function fntInputFile()
+{
+	let inputUploadfile = document.querySelectorAll(".inputUploadfile");
+	inputUploadfile.forEach(function(inputUploadfile){
+		inputUploadfile.addEventListener('change', function(){
+			let idProducto = document.querySelector ("#idProducto").value;
+			//console.log("idProducto ",idProducto);
+			// Obtiene los datos de la etiquetas que se utilizan cuando aparece la foto en la pantalla.
+			let parentId = this.parentNode.getAttribute("id"); // Obtiene el "id" del elemento padre, es "div24"
+			let idFile = this.getAttribute("id"); // Es el elemento que se le esta haciendo "Click"
+			let uploadFoto = document.querySelector("#"+idFile).value; 
+			let fileimg = document.querySelector("#"+idFile).files; // Obtiene el id de la etiqueta "File", <input type="file" id="img1" ... Obtiene la foto
+			let prevImg = document.querySelector("#"+parentId+" .prevImage"); // Obtiene el "DIV" donde se encuentra la imagen, <div class="prevImage"> ...
+			let nav =  window.URL || window.webkitURL; // Obtiene la URL, desde JavaScript.
 
+			// Valida si existe una imagen.
+			if (uploadFoto != '')
+			{
+				let type = fileimg[0].type; // Input, Obtiene el tipo archivo.
+				let name = fileimg[0].name; // obtiene el nombre del archivo.
 
+				// Valida que tipo de archivos son validos.
+				if (type != 'image/jpeg' && type != 'image/jpg' && type != 'image/png')
+				{
+					prevImg.innerHTML = "Archivo NO válido";
+					uploadFoto.value = "";
+					return false; // Detiene el proceso.
+				}
+				else
+				{
+					// Pasando la imagen con Ajax.
+					// Crea una URL 
+					let objeto_url = nav.createObjectURL(this.files[0]);
+					// Se esta agregando el "loading.svg".
+					prevImg.innerHTML = `<img class="loading" src="${base_url}/Assets/images/loading.svg" > `;
+
+					// Enviando los datos por Ajax de la imagen que se grabara en la tabla.
+					// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+					let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+					let ajaxUrl = base_url+'/Productos/setImage'; // Url a donde buscara el archivo, es en el Controlador/Productos.
+					let formData = new FormData();
+					
+					// El método utilizado para enviar la informacion es "POST"
+					// Estos dos campos es como se tuvieramos un formulario pero es creado en linea desde JavScript
+					formData.append('idproducto',idProducto);
+					formData.append("foto",this.files[0]);
+
+					request.open("POST",ajaxUrl,true); // Abre una conexion, de tipo POST de la URL 
+					request.send(formData);
+					request.onreadystatechange = function() 
+					{
+						if (request.readyState != 4) return;
+						if (request.status == 200)
+						{
+							let objData = JSON.parse(request.responseText);
+							if (objData.estatus)
+							{
+								// Asignando la imágen, enviado por Ajax
+								prevImg.innerHTML = `<img src="${objeto_url}">`;
+								// Se le asigna al boton "btnDeleteImage"
+								document.querySelector("#"+parentId+" .btnDeleteImage").setAttribute("imgname",objData.imgname);
+								
+								document.querySelector("#"+parentId+" .btnUploadfile").classList.add("notBlock");
+								document.querySelector("#"+parentId+" .btnDeleteImage").classList.remove("notBlock");
+							}
+							else
+							{
+								swal("Error", objData.msg,"error")
+							}
+						} // if (request.status == 200)
+						
+					} //request.onreadystatechange = funtion() 
+
+				}
+			}
+
+		}); // inputUploadfile.addEventListener('change', function(){
+		
+	}); // inputUploadfile.forEach(function(inputUploadfile){
+
+} //function fntInputFile()
 
 // Valida la longuitud del código de barras.
 if (document.querySelector("#txtCodigo"))

@@ -125,6 +125,52 @@
 
 		} // Public function getProductos()
 
+		// Grabar la imagen en la tabla 
+		public function setImage()
+		{
+			//dep($_POST);
+			//dep($_FILES);	
+			//die();
+			//exit;		
+			//$arrrespose = array('estatus' => true,'imgname' => "img_65wqwqaasa.jpg");
+			//echo json_encode ($arrrespose,JSON_UNESCAPED_UNICODE);
+			//die();
+
+			if($_POST)
+			{
+				if (empty($_POST['idproducto']))
+				{
+					$arrResponse = array('estatus' => false, 'msg' => 'Error De Carga No existe Id Producto');					
+				}
+				else
+				{
+					$idProducto = intval($_POST['idproducto']);
+					//$idProducto = 7;
+					$foto = $_FILES['foto']; // Accesa a todos los elementos de la imagen.
+					$imgNombre = 'pro_'.md5(date('d-m-Y H:m:s')).'.jpg'; // Asigna el nombre a la Imágen
+					$request_image = $this->model->insertImage($idProducto,$imgNombre); // Graba la imagen en el modelo.
+					
+					if ($request_image)
+					{
+						$uploadImage = uploadImage($foto,$imgNombre);
+						$arrResponse = array('estatus' => true, 'imgname' => $imgNombre, 'msg' => 'Archivo cargado ');
+					}
+					else
+					{
+						$arrResponse = array('estatus' => false, 'msg' => 'Error De Carga Imagen ');
+					} // if ($request_image)					
+					
+				} //if (empty($_POST['idproducto']))
+				
+				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+				die();
+
+			} //	if($_POST)
+
+			//exit();
+			
+		} // public function setImage()
+
 		// Se define la funcion para llamar el método que graba información.
 		// Método para asignar Categorias.
 		// Se llama en "Functions_categorias.js", request.open("POST",ajaxUrl,true);

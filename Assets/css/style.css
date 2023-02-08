@@ -164,13 +164,13 @@
 	margin: auto;
 }
 
-/* Seccion para ajustar la foto de los productos */
+/* Seccion para ajustar la foto de las capturas de los productos */
 #containerImages
 {
 	display:flex;
 	justify-content:flex-start;
 	align-items:center;
-	flex-wrap:wrap; /* Cuando no acomoden en la pantalla se ajusta */
+	flex-wrap:wrap; /* Cuando no acomoden en la pantalla se ajusta, se bajen  */
 }
 
 #containerImages > div /* Se aplica a los "DIV" del primer nivel */

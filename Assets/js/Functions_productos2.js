@@ -241,7 +241,7 @@ window.addEventListener('load',function(){
 
 	}
 
-	fntCategorias();
+	//fntCategorias();
 	fntInputFile();
 
 

@@ -116,7 +116,8 @@
 					<!-- =======================================================================  --> 
 					<!-- Seccion donde se mostrara las imagenes en la captura de productos  -->
 					<div class="title-footer">
-
+						
+						<!-- Ocupara el ancho de su contenedor -->
 						<div class="form-group col-md-12">
 							<div id="containerGallery">
 								<span>Agregar foto (440 x 545) </span>
