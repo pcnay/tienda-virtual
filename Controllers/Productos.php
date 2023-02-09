@@ -152,7 +152,8 @@
 					
 					if ($request_image)
 					{
-						$uploadImage = uploadImage($foto,$imgNombre);
+						// Sube la imagen al servidor, esta funcion esta definida en "helpers.php"
+						$uploadImage = uploadImage($foto,$imgNombre); 
 						$arrResponse = array('estatus' => true, 'imgname' => $imgNombre, 'msg' => 'Archivo cargado ');
 					}
 					else

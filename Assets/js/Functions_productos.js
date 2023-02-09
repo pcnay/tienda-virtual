@@ -393,6 +393,7 @@ function fntPrintBarcode(area)
 }
 
 
+
 // Para mostrar la ventana Modal de los Productos
 function openModal()
 {
