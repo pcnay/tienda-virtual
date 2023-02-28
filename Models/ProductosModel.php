@@ -10,8 +10,7 @@
 		private $intStock;
 		private $intStatus;
 		private $strImagen;
-		
-
+				
 		public function __construct()
 		{
 			// Cargar el método constructor de la clase padre "Mysql".
@@ -143,6 +142,8 @@
 		public function selectProducto(int $idproducto)
 		{
 			$this->intIdProducto = $idproducto;
+			
+			
 			$sql = "SELECT p.id_producto,
 				p.codigo,
 				p.nombre,
@@ -157,6 +158,25 @@
 				ON p.categoriaid = c.id_categoria
 				WHERE p.id_producto = $this->intIdProducto AND p.estatus != 0";
 			
+			/*
+			echo $sql = "SELECT p.id_producto,
+			p.codigo,
+			p.nombre,
+			p.descripcion,
+			p.categoriaid,
+			c.nombre AS categoria,
+			p.precio,
+			p.stock,
+			p.estatus
+			FROM t_Productos p
+			INNER JOIN t_Categorias c
+			ON p.categoriaid = c.id_categoria
+			WHERE p.id_producto = $this->intIdProducto AND p.estatus != 0";
+			*/
+			
+			//die();
+			//exit;
+
 			$request = $this->select_all($sql);
 			return $request;			
 		}

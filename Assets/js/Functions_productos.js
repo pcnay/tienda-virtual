@@ -1,22 +1,59 @@
 // Se agrega este código en este archivo, ya que solo se requiere en esta parte "Capturas del producto"
 // Su tilizan esta comillas ` `para agregar variables con llaves.
+
 document.write(`<script src="${base_url}/Assets/js/plugins/JsBarcode.all.min.js"></script>`);
 
 let tableProductos;
 let rowTable;
 
-
 // Es importante colocar este evento para cargar las Categorias, ya que de lo contrario muestra error al cargar los productos.
 window.addEventListener('DOMContentLoaded',function(){
-	//fntInputFile();
+	fntInputFile();
  	fntCategorias();
 },false);
 
 
-window.addEventListener('load',function(){
-	//fntInputFile();
- 	
+// Validar la entrada, solo caracteres permitidos "txtNombre"
+$("#txtNombre").bind('keypress', function(event) {
+	var regex = new RegExp("^[A-Za-z0-9- ]+$");
+	var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+	if (!regex.test(key)) {
+		event.preventDefault();
+		return false;
+	}
+});
 
+// Validar la entrada, solo caracteres permitidos "txtDescripcion "
+$("#txtDescripcion").bind('keypress', function(event) {
+	var regex = new RegExp("^[A-Za-z0-9- ]+$");
+	var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+	if (!regex.test(key)) {
+		event.preventDefault();
+		return false;
+	}
+});
+
+// Validar la entrada, solo caracteres permitidos "txtDescripcion "
+$("#txtCodigo").bind('keypress', function(event) {
+	var regex = new RegExp("^[A-Za-z0-9-/ ]+$");
+	var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+	if (!regex.test(key)) {
+		event.preventDefault();
+		return false;
+	}
+});
+
+// Script para corregir el error de componentes bloqueados
+// Sobreposicionar los modals que tenga el plugins en los modals del proyecto
+$(document).on('focusin',function(e){
+	if ($(e.target).closest(".tox-dialog").length){
+		e.stopImmediatePropagation();
+	}
+});
+
+// Cuando se cargan la pagina de Productos (JavaScript) carga la pagina 
+window.addEventListener('load',function(){
+	
 	tableProductos = $('#tableProductos').dataTable({
 		"aProcessing":true,
 		"aServerside":true,
@@ -79,105 +116,104 @@ window.addEventListener('load',function(){
 		],
 		"resonsieve":"true",
 		"bDestroy":true,
-		"iDisplayLength":10,
+		"iDisplayLength":2,
 		"order":[[0,"desc"]]
 	});
 
-		// Cuando se oprime el boton "Guardar" 
-		// Valida si existe la etiqueta 
-		if (document.querySelector("#formProductos"))
+	// Cuando se oprime el boton "Guardar" 
+	if (document.querySelector("#formProductos"))
+	{
+		let formProducto = document.querySelector("#formProductos");
+		formProducto.onsubmit = function(e)
 		{
-			let formProducto = document.querySelector("#formProductos");
-			formProducto.onsubmit = function(e)
-			{
-				e.preventDefault(); // Previene que se recargue 
-				let strNombre = document.querySelector('#txtNombre').value;
-				let intCodigo = document.querySelector('#txtCodigo').value;
-				let strPrecio = document.querySelector('#txtPrecio').value;
-				let intStock = document.querySelector('#txtStock').value;
-				let intStatus = document.querySelector('#listStatus').value;
-	
-				if (strNombre == '' || intCodigo == '' || strPrecio == '' || intStock == '')
-				{
-					swal ("Atencion","Todos los campos son Obligatorio","error");
-					return false;
-				}
-	
-				if (intCodigo.length < 5)
-				{
-					swal ("Atencion","El Código debe ser mayor que 5 dígito","error");
-					return false;
-				}
-	
-				divLoading.style.display = "flex";
-				tinyMCE.triggerSave();// Seccion del editor guarda todo al TextArea.
-				// Ya que para  guardar información se extrae los datos de las etiqueta HTML.
+			e.preventDefault(); // Previene que se recargue 
+			let strNombre = document.querySelector('#txtNombre').value;
+			let intCodigo = document.querySelector('#txtCodigo').value;
+			let strPrecio = document.querySelector('#txtPrecio').value;
+			let intStock = document.querySelector('#txtStock').value;
+			let intStatus = document.querySelector('#listStatus').value;
 
-				// Realizando la configuracion para el envio de datos por el Ajax
-				// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
-				let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
-				let ajaxUrl = base_url+'/Productos/setProducto'; // Url a donde buscara el archivo, es en el Controlador/Productos.
-				let formData = new FormData(formProducto);
-				// El método utilizado para enviar la informacion es "POST"
-				request.open("POST",ajaxUrl,true);
-				request.send(formData);
-	
-				// Validando lo que regresa el Ajax
-				request.onreadystatechange = function()
-				{
-					// Valida que este devolviendo informacion.
-					if (request.readyState == 4 && request.status == 200)
-					{							
-						// Parsea el "request", es decir se convierte en Objeto
-						let objData = JSON.parse(request.responseText);
-						if (objData.estatus)
-						{
-							swal("",objData.msg,"success");	
-							// Para agregar las fotos del Producto.
-							document.querySelector("#idProducto").value = objData.id_producto;
-	
-							// Muetra el boton para subir imagenes.
-							document.querySelector("#containerGallery").classList.remove("notBlock"); 
-							
-							objData.id_producto;
-	
-							if (rowTable == "") // Es un producto nuevo
-							{
-								tableProductos.api().ajax.reload();
-							}
-							else // Actualizar el producto
-							{
-								htmlStatus = intStatus == 1?
-									'<span class="badge badge-success">Activo</span>':
-									'<span class="badge badge-danger">Inactivo</span>';
-								rowTable.cells[1].textContent = intCodigo;
-								rowTable.cells[2].textContent = strNombre;
-								rowTable.cells[3].textContent = intStock;
-								rowTable.cells[4].textContent = smony+strPrecio;
-								rowTable.cells[5].innerHTML = htmlStatus;		// Para que lo agregue como contenido HTML.				
-								rowTable = "";	
-							} // if (rowTable == "")
-						}
-						else
-						{
-							swal("Error",objData.msg,"error");						
-						}
+			if (strNombre == '' || intCodigo == '' || strPrecio == '' || intStock == '')
+			{
+				swal ("Atencion","Todos los campos son Obligatorio","error");
+				return false;
+			}
+
+			if (intCodigo.length < 5)
+			{
+				swal ("Atencion","El Código debe ser mayor que 5 dígito","error");
+				return false;
+			}
+
+			divLoading.style.display = "flex";
+			tinyMCE.triggerSave();// Seccion del editor guarda todo al TextArea.
+			// Ya que para  guardar información se extrae los datos de las etiqueta HTML.
+
+			// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+			let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+			let ajaxUrl = base_url+'/Productos/setProducto'; // Url a donde buscara el archivo, es en el Controlador/Productos.
+			let formData = new FormData(formProducto);
+			// El método utilizado para enviar la informacion es "POST"
+			request.open("POST",ajaxUrl,true);
+			request.send(formData);
+
+			// Validando lo que regresa el Ajax
+			request.onreadystatechange = function()
+			{
+				// Valida que este devolviendo informacion.
+				if (request.readyState == 4 && request.status == 200)
+				{	
+					//console.log(request.responseText);
+					// Parsea el "request", es decir se convierte en Objeto
+					let objData = JSON.parse(request.responseText);
+					if (objData.estatus)
+					{
+						swal("",objData.msg,"success");	
+						// Para agregar las fotos del Producto.
+						document.querySelector("#idProducto").value = objData.id_producto;
+
+						// Muetra el boton para subir imagenes.
+						document.querySelector("#containerGallery").classList.remove("notBlock"); 
 						
-						/*
-						// Agrega el codigo HTML que regresa el Ajax de la consulta (getSelectCategorias)
-						document.querySelector('#listCategoria').innerHTML = request.responseText;
-						// Se muestren las opciones aplicando el buscador.
-						$('#listCategoria').selectpicker('render');
-						*/
+						objData.id_producto;
+
+						if (rowTable == "") // Es un producto nuevo
+						{
+							tableProductos.api().ajax.reload();
+						}
+						else // Actualizar el producto
+						{
+							htmlStatus = intStatus == 1?
+								'<span class="badge badge-success">Activo</span>':
+								'<span class="badge badge-danger">Inactivo</span>';
+							rowTable.cells[1].textContent = intCodigo;
+							rowTable.cells[2].textContent = strNombre;
+							rowTable.cells[3].textContent = intStock;
+							rowTable.cells[4].textContent = smony+strPrecio;
+							rowTable.cells[5].innerHTML = htmlStatus;		// Para que lo agregue como contenido HTML.				
+							rowTable = "";	
+						} // if (rowTable == "")
 					}
-					divLoading.style.display = "none";
-					return false;
-	
-				} // request.onreadystatechange = function()
-	
-			} // formProductos.onsubmit = function(e)
-	
-		} // if (this.document.querySelector("#formProductos"))
+					else
+					{
+						swal("Error",objData.msg,"error");						
+					}
+					
+					/*
+					// Agrega el codigo HTML que regresa el Ajax de la consulta (getSelectCategorias)
+					document.querySelector('#listCategoria').innerHTML = request.responseText;
+					// Se muestren las opciones aplicando el buscador.
+					$('#listCategoria').selectpicker('render');
+					*/
+				}
+				divLoading.style.display = "none";
+				return false;
+
+			} // request.onreadystatechange = function()
+
+		} // formProductos.onsubmit = function(e)
+
+	} // if (this.document.querySelector("#formProductos"))
 
 	// Código para cuando se oprime el boton de "agregar"
 	// Valida si existe esta etiqueta.
@@ -211,53 +247,33 @@ window.addEventListener('load',function(){
 		} // btnAddImages.onclick = function(e)
 
 	}
-		// 
-	
+
+	//fntCategorias();
+	fntInputFile();
+
+
 },false);
 
-// Validar la entrada, solo caracteres permitidos "txtNombre"
-$("#txtNombre").bind('keypress', function(event) {
-	var regex = new RegExp("^[A-Za-z0-9- ]+$");
-	var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-	if (!regex.test(key)) {
-		event.preventDefault();
-		return false;
-	}
-});
-
-// Validar la entrada, solo caracteres permitidos "txtDescripcion "
-$("#txtDescripcion").bind('keypress', function(event) {
-	var regex = new RegExp("^[A-Za-z0-9- ]+$");
-	var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-	if (!regex.test(key)) {
-		event.preventDefault();
-		return false;
-	}
-});
-
-// Validar la entrada, solo caracteres permitidos "txtDescripcion "
-$("#txtCodigo").bind('keypress', function(event) {
-	var regex = new RegExp("^[A-Za-z0-9-/ ]+$");
-	var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-	if (!regex.test(key)) {
-		event.preventDefault();
-		return false;
-	}
-});
-
-// Script para corregir el error de componentes bloqueados, en "tinymce"
-// Sobreposicionar los modals que tenga el plugins en los modals del proyecto
-$(document).on('focusin',function(e){
-	if ($(e.target).closest(".tox-dialog").length){
-		e.stopImmediatePropagation();
-	}
-});
+// Valida la longuitud del código de barras.
+if (document.querySelector("#txtCodigo"))
+{
+	let inputCodigo = document.querySelector("#txtCodigo");
+	inputCodigo.onkeyup = function() 
+	{
+		if (inputCodigo.value.length >= 5)
+		{
+			document.querySelector('#divBarCode').classList.remove("notBlock");
+			fntBarcode();
+		}
+		else
+		{
+			document.querySelector('#divBarCode').classList.add("notBlock");
+		}
+	};
+}
 
 // Para llamar a la libreria "tinymce"
 // #txtDescripcion = Es la etiqueta que utilizara el "tinymce"
-// width = Ocupa el 100% del contenedor 
-// plugins = Son los plugins que se utilizan en el "Tinymce"
-
 tinymce.init({
 	selector: '#txtDescripcion',
 	width:"100%",
@@ -270,6 +286,26 @@ tinymce.init({
 		],
 toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",
 });
+
+// Se utiliza para desplegar el código de barra
+function fntBarcode()
+{
+	let codigo = document.querySelector("#txtCodigo").value;
+	JsBarcode("#barcode",codigo);
+
+}
+
+// Para imprimir el código de Barras.
+function fntPrintBarcode(area)
+{
+	let elemntArea = document.querySelector(area);
+	let vprint = window.open('','popimpr','height=400,width=600'); //Define el tamaño de la ventana
+	vprint.document.write(elemntArea.innerHTML); // Escribe el código HTML en la ventana
+	vprint.document.close();
+	vprint.print();
+	vprint.close();
+}
+
 
 //Function para subir el archivo
 function fntInputFile()
@@ -313,9 +349,8 @@ function fntInputFile()
 					let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
 					let ajaxUrl = base_url+'/Productos/setImage'; // Url a donde buscara el archivo, es en el Controlador/Productos.
 					let formData = new FormData();
-					
 					// El método utilizado para enviar la informacion es "POST"
-					// Estos dos campos es como se tuvieramos un formulario pero es creado en linea desde JavScript
+					// Estos dos campos es como se tuvieramos un formulario creado en linea desde JavScript
 					formData.append('idproducto',idProducto);
 					formData.append("foto",this.files[0]);
 
@@ -354,45 +389,293 @@ function fntInputFile()
 
 } //function fntInputFile()
 
-// Valida la longuitud del código de barras.
-if (document.querySelector("#txtCodigo"))
+// Funcion para borrar las imagenes de los productos.
+function fntDelItem(element)
 {
-	let inputCodigo = document.querySelector("#txtCodigo");
-	// Cuando se presione y levante la tecla.
-	inputCodigo.onkeyup = function() 
+	// element = es el "ID" del DIV.
+	// btnDeleteImage = es la clase del DIV seleccionado en el renglon anterior
+	// getAttribute = Obtiene el nombre de la imagen : pro_65dff65656565df.jpg
+	// nameImg = Obtiene la imagen a borrar.
+	let nameImg = document.querySelector(element+' .btnDeleteImage').getAttribute("imgname");
+	let idProducto = document.querySelector("#idProducto").value; // Obtiene el Id del Producto.
+
+	// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+	let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+	let ajaxUrl = base_url+'/Productos/delFile'; // Url a donde buscara el archivo, es en el Controlador/Productos.
+
+	// Se esta creando un formulario desde JavaScript, se le estan agregando campos.
+	let formData = new FormData();
+	formData.append('idproducto',idProducto);
+	formData.append("file",nameImg);
+	request.open("POST",ajaxUrl,true); // Abre una conexion de tipo POST ala URL 
+	request.send(formData);
+	request.onreadystatechange = function() {
+		if (request.readyState != 4) return;
+		if (request.status == 200) // Devuelve información correcto de la ejecucion del Ajax
+		{
+			// Convierte a un objeto (arreglo) el Ajax retornado.
+			let objData = JSON.parse(request.responseText);
+			if (objData.estatus)
+			{
+				// Obtiene el elemento que se mando como parametro, Imagen
+				// Obtiene el padre del DIV donde se encuentra alojad la imagen.
+				let itemRemove = document.querySelector(element);
+				// Remueve el elemento hijo del elemento padre DIV que contiene la (La imagen )
+				itemRemove.parentNode.removeChild(itemRemove);
+			} // if (objData.estatus)
+			else
+			{
+				swal ("",objData.msg,"error");
+				
+			}
+
+		} // if (request.status == 200)
+
+	} // onreadystatechange
+
+
+} // function fntDelItem(element)
+
+// Funcion utilizada para mostrar el producto en una ventana modal.
+function fntViewInfo(idProducto)
+{
+	// Obtiene los datos desde la tabla.
+	// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+	let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+	let ajaxUrl = base_url+'/Productos/getProducto/'+idProducto; // Url a donde buscara el archivo, es en el Controlador/Productos.
+	request.open("GET",ajaxUrl,true);
+	request.send();
+
+	request.onreadystatechange = function() 
 	{
-		if (inputCodigo.value.length >= 5)
+		if (request.readyState == 4 && request.status == 200) // Esta retornando informacion
 		{
-			document.querySelector('#divBarCode').classList.remove("notBlock");
-			fntBarcode();
+			// Conviertiendo de formato JSon a Objeto.
+			let objData = JSON.parse(request.responseText);
+			if (objData.estatus)
+			{
+				//console.log(objData);
+				
+				let objProducto = objData.data;
+				let estadoProducto = objProducto[0].estatus == 1?
+				'<span class="badge badge-success">Activo</span>':
+				'<span class="badge badge-danger">Inactivo</span>';
+				//console.log(objProducto);
+				// console.log(objProducto[0].nombre); Funciona PHP 8 para accesar a un elemento.
+
+				document.querySelector("#celCodigo").innerHTML = objProducto[0].codigo;
+				document.querySelector("#celNombre").innerHTML = objProducto[0].nombre;
+				document.querySelector("#celPrecio").innerHTML = objProducto[0].precio;
+				document.querySelector("#celStock").innerHTML = objProducto[0].stock;
+				document.querySelector("#celCategoria").innerHTML = objProducto[0].categoria;
+				document.querySelector("#celStatus").innerHTML = estadoProducto;
+				document.querySelector("#celDescripcion").innerHTML = objProducto[0].descripcion;
+
+				// Mostrando las imagenes.
+				let htmlImage = "";
+				// Determinando que tenga imagenes.
+				if (objProducto.images.length > 0)
+				{
+					let objProductos = objProducto.images; // Arreglos de Imagenes
+					for (let p=0;p<objProductos.length;p++)
+					{
+						//console.log("htmlImage ", objProductos[0].url_image);				
+						htmlImage += `<img src="${objProductos[p].url_image}"></img>`;
+					} // for (let p=0;p<objProductos.length;p++)
+				} // if (objProducto[0].images.length > 0)
+
+				// Mostrando las imagenes si el producto tiene.
+				document.querySelector("#celFotos").innerHTML = htmlImage;
+				
+
+				$('#modalViewProducto').modal('show');				
+				
+			} // if (objData.estatus)
+			else
+			{
+				swal("Error",objData.msg,"error");					
+			} // else - if (objData.estatus)
+
 		}
-		else
+	} // request.onreadystatechange = function() 
+
+}
+
+// Para editar el productos.
+function fntEditInfo(element,idProducto)
+{
+	// Se modifica los elementos de la ventana que se utiliza en la captura de Productos, se reutiliza 
+	
+	rowTable = element.parentNode.parentNode.parentNode;	
+
+	// Sube desde "Button" hasta llegar al elemento padre "Renglon"
+	// tr = class="odd" role = "row" contiene al renglon del producto que se quiere editar. 
+
+	document.querySelector('.modal-header').classList.replace("headerRegister","headerUpdate");
+	// Cambiando la clase de los botones (Colores)
+	document.querySelector('#btnActionForm').classList.replace("btn-primary","btn-info");
+	document.querySelector('#btnText').innerHTML = "Actualizar";
+	document.querySelector('#titleModal').innerHTML = "Actualizar Productos";
+
+	// Obtiene los datos desde la tabla.
+	// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+	let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+	let ajaxUrl = base_url+'/Productos/getProducto/'+idProducto; // Url a donde buscara el archivo, es en el Controlador/Productos.
+	request.open("GET",ajaxUrl,true);
+	request.send();
+
+	request.onreadystatechange = function() 
+	{
+		if (request.readyState == 4 && request.status == 200) // Esta retornando informacion
 		{
-			document.querySelector('#divBarCode').classList.add("notBlock");
+			// Conviertiendo de formato JSon a Objeto.
+			let objData = JSON.parse(request.responseText);
+			if (objData.estatus)
+			{
+				let objProducto = objData.data;
+				//console.log (objProducto);
+				// Asignando valores a la etiquetas de la pantalla de edicion de los productos.
+				document.querySelector("#idProducto").value = objProducto[0].id_producto;
+				document.querySelector("#txtNombre").value = objProducto[0].nombre;
+				document.querySelector("#txtDescripcion").value = objProducto[0].descripcion;
+				document.querySelector("#txtCodigo").value = objProducto[0].codigo;
+				document.querySelector("#txtPrecio").value = objProducto[0].precio;
+				document.querySelector("#txtStock").value = objProducto[0].stock;
+				document.querySelector("#listCategoria").value = objProducto[0].categoriaid;
+				document.querySelector("#listStatus").value = objProducto[0].estatus;
+				
+				// Coloca el contenido del "tinymce" en el producto.
+				tinymce.activeEditor.setContent(objProducto[0].descripcion);
+				// Para colocar en los combo box la opcion seleccionada.
+				//$('#listaRoles').selectpicker('refresh'); Funciona en PHP 8
+				//$('#listCategoria').selectpicker('render');
+				$('#listCategoria').selectpicker('refresh');
+				$('#listStatus').selectpicker('refresh');
+				fntBarcode(); // Para llamar el código de barras.
+				// Se quita la clase "notblock"
+				document.querySelector("#divBarCode").classList.remove("notBlock");
+
+				// Determinando que tenga imagenes.
+				let htmlImage = "";
+				if (objProducto.images.length > 0)
+				{
+					let objProductos = objProducto.images; // Arreglos de Imagenes
+					for (let p=0;p<objProductos.length;p++)
+					{
+						let key = Date.now()+p; // Obtiene la fecha y hora en formato numerico
+						//console.log("htmlImage ", objProductos[0].url_image);				
+						htmlImage += `<div id="div${key}"> 
+							<div class="prevImage">
+							<img src="${objProductos[p].url_image}"></img>
+							</div>
+							<button type="button" class="btnDeleteImage" onclick="fntDelItem('#div${key}')" imgname = "${objProductos[p].img}
+							<i class="fas fa-trash-alt"></i></button></div>`;
+					} // for (let p=0;p<objProductos.length;p++)
+				} // if (objProducto[0].images.length > 0)
+
+				document.querySelector("#containerImages").innerHTML = htmlImage;
+				document.querySelector("#divBarCode").classList.remove("notBlock");
+				document.querySelector("#containerGallery").classList.remove("notBlock");
+				$('#modalFormProductos').modal('show');				
+				
+			} // if (objData.estatus)
+			else
+			{
+				swal("Error",objData.msg,"error");					
+			} // else - if (objData.estatus)
+
 		}
-	};
+
+	} // request.onreadystatechange = function() 
+
 }
 
-// Se utiliza para desplegar el código de barra
-function fntBarcode()
+// Borrar un producto
+function fntDelProd(id_Producto)
 {
-	let codigo = document.querySelector("#txtCodigo").value;
-	JsBarcode("#barcode",codigo); // Imprime el código de barras en la etiqueta con el id "barcode"
-}
+	/*
+	let btnDelRol = document.querySelectorAll(".btnDelRol");
+	btnDelRol.forEach(function(btnDelRol){
+		btnDelRol.addEventListener('click',function(){
+	*/
+	
+	// alert(idrol);
+	swal({
+		title:"Eliminar Producto",
+		text:"Realmente quiere eliminar el Producto",
+		type:"warning",
+		showCancelButton:true,
+		confirmButtonText:"Si, eliminar !",
+		cancelButtonText: "No, Cancelar !",
+		closeOnConfirm:false,
+		closeOnCancel:true
+		},function(isConfirm)
+		{
+			// Borrar el Producto, utiliza Ajax para accesar a la Base de datos.
+			if (isConfirm)
+			{
+				let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+				// Se pasan como parametro al método definido en "Roles.php -> Controllers" desde el Ajax
+				let ajaxDelProducto = base_url+'/Productos/delProducto';
+				let strData = "idProducto="+id_Producto;
+				request.open("POST",ajaxDelProducto,true);
+				request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+				request.send(strData);
+				request.onreadystatechange = function(){
+					// Se hizo la petición y fue exitoso, llego la información al servidor.
+					if (request.readyState == 4 && request.status == 200)
+					{
+						let objData = JSON.parse(request.responseText);
+						if (objData.estatus)
+						{
+							swal("Eliminar! ",objData.msg,"success");
+							tableProductos.api().ajax.reload(function(){
+								//fntEditRol();
+								//fntDelrol();
+								//fntPermisos();
+							});
+						}
+						else
+						{
+							swal("Error",objData.msg,"error");
+						}
+					}
+				} 			
+			}
+	});		
+} // functio fntDelProd...
 
-// Esta funcion se llama desde ModalProductos.php; onclick="fntPrintBarcode"
-// Para imprimir el código de Barras.
-function fntPrintBarcode(area)
+
+// Funcion para extraer los datos de Categorias
+function fntCategorias()
 {
-	let elemntArea = document.querySelector(area);
-	let vprint = window.open('','popimpr','height=400,width=600'); //Define el tamaño de la ventana
-	vprint.document.write(elemntArea.innerHTML); // Escribe el código HTML en la ventana
-	vprint.document.close();
-	vprint.print();
-	vprint.close();
+	if (document.querySelector('#listCategoria'))
+	{
+		let ajaxUrl = base_url+'/Categorias/getSelectCategorias';
+		// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
+		let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+		//let ajaxUrl = base_url+'/Categorias/setCategoria'; // Url a donde buscara el archivo, es en el Controlador/Roles.
+		// El método utilizado para enviar la informacion es "POST"
+		request.open("GET",ajaxUrl,true);
+		request.send();
+		
+		// Validando lo que regresa el Ajax
+		request.onreadystatechange = function()
+		{
+			// Valida que este devolviendo informacion.
+			if (request.readyState == 4 && request.status == 200)
+			{				
+				// Agrega el codigo HTML que regresa el Ajax de la consulta (getSelectCategorias)
+				document.querySelector('#listCategoria').innerHTML = request.responseText;
+				// Se muestren las opciones aplicando el buscador.
+				$('#listCategoria').selectpicker('render');
+
+			}
+		}
+
+	}
+
 }
-
-
 
 // Para mostrar la ventana Modal de los Productos
 function openModal()
@@ -415,49 +698,13 @@ function openModal()
 	// Resetear el Formulario, limpia todos los campos.
 	document.querySelector('#formProductos').reset();
 
-	/*
 	// Para borrar las imagenes cuando se oprima el boton "Nuevo Producto"
 	document.querySelector("#divBarCode").classList.add("notBlock");
 	document.querySelector("#containerGallery").classList.add("notBlock");
 	document.querySelector("#containerImages").innerHTML = ""; // Elimina las imagenes.
-	*/
-	
+
 	$('#modalFormProductos').modal('show');
 	//removePhoto();
 
 }
 
-
-// Funcion para extraer los datos de Categorias, para agregarlo en la captura de productos.
-function fntCategorias()
-{
-	// Si existe la etiqueta 
-	if (document.querySelector('#listCategoria'))
-	{
-		let ajaxUrl = base_url+'/Categorias/getSelectCategorias';
-		// Para hacer uso del Ajax
-		// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
-		let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
-		//let ajaxUrl = base_url+'/Categorias/setCategoria'; // Url a donde buscara el archivo, es en el Controlador/Roles.
-		// El método utilizado para enviar la informacion es "POST"
-		request.open("GET",ajaxUrl,true);
-		request.send();
-		
-		// Validando lo que regresa el Ajax
-		request.onreadystatechange = function()
-		{
-			// Valida que este devolviendo informacion.
-			if (request.readyState == 4 && request.status == 200)
-			{				
-				console.log(request.responseText);
-				// Agrega el codigo HTML que regresa el Ajax de la consulta (getSelectCategorias)
-				document.querySelector('#listCategoria').innerHTML = request.responseText;
-				// Se muestren las opciones aplicando el buscador.
-				$('#listCategoria').selectpicker('render');
-
-			}
-		}
-
-	}
-
-}

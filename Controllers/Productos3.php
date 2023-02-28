@@ -1,5 +1,4 @@
 <?php
-
 	class Productos extends Controllers
 	{
 		public function __construct()
@@ -28,7 +27,7 @@
 
 			// Ejecuta el constructor padre (desde donde se hereda.)
 			// Para que la clase de instancie y ejecute la clase de "Modelo
-			getPermisos(4); // Este el Id que corresponde en la tabla de Modulos; 4 = Productos
+			getPermisos(6); // Este el Id que corresponde en la tabla de Productos; 4 = Productos
 		}
 		
 		// Mandando información a las Vistas.
@@ -36,7 +35,7 @@
 		{
 			//echo "<br>";
 			//echo "Mensaje desde el controlador Home ";
-			// Si no tiene el rol de "Lectura" no se podra mostrar la vista de "Usuarios".
+			// Si no tiene el rol de "Lectura" no se podra mostrar la vista de "Productos".
 			if (empty($_SESSION['permisosMod']['r']))
 			{
 				header('Location: '.base_url().'/Dashboard');	
@@ -53,7 +52,8 @@
 			// $this = Es equivalente "Usuarios"
 			// Se llama la vista "Usuarios"
 			$this->views->getView($this,"Productos",$data);
-		}
+
+		} // public function Productos()
 
 		// Para mostrar los Productos en pantalla.
 		// Obtiene los "Productos" 
@@ -115,12 +115,125 @@
 				} // for ($i= 0; $i<count($arrData);$i++)
 				
 				// Devuelve en formato JSon al archivo "Funcions_productos.js"
+				//dep($arrData);
+				//die();exit;
+				// Devuelve en formato JSon al archivo "Funcions_productos.js"
 				echo json_encode($arrData,JSON_UNESCAPED_UNICODE);				
 				die(); // Finaliza el proceso.
 
 			} // if ($_SESSION['permisosMod']['r'])
 
 		} // Public function getProductos()
+
+
+		// Funcion utilizada para extraer los datos del producto.
+		// Se suprime "int" del parámetro de la función para que muestre error en tiempo de ejecución.
+		public function getProducto($idproducto2)
+		{
+			if (empty($_SESSION['permisosMod']['r']))
+			{
+				$idproducto = intval($idproducto2);
+				// Estas lineas se colocan para que se muestre en la pantalla del navegador
+
+				//echo $idproducto;
+				//exit;
+
+				if ($idproducto >0)
+				{
+					$arrData = $this->model->selectProducto($idproducto);
+					// Determinar que valores esta retornando.
+					dep($arrData);
+					die();
+					exit();	
+
+					if (empty($arrData))
+					{
+						$arrResponse = array('estatus' => false, 'msg' => 'Datos NO Encontrados');
+					}
+					else
+					{
+						// Obtener las imagenes del producto, es un arreglo.
+						$arrImg = $this->model->selectImages($idproducto);
+						//dep($arrImg);
+						//die();
+						//exit();
+
+						if (count($arrImg) > 0)
+						{
+							// Recupera desde la tabla los nombre de las imágenes.
+							// Los agrega al arreglo, los nombres de archivos los toma del disco duro
+							for ($i=0;$i<count($arrImg); $i++)
+							{
+								$arrImg[$i]['url_image'] = media().'/images/uploads/'.$arrImg[$i]['img'];
+							}
+						} //if (count($arrImg) > 0)
+
+						// Agrega toda la ruta de cada imagen en un arreglo.
+						$arrData['images'] = $arrImg;
+						$arrResponse = array('estatus' => true, 'data' => $arrData);
+
+					} // if (empty($arrData))			
+					//dep($arrResponse);
+					//die();
+					//exit;
+					
+					echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);					
+					die();
+
+				} // if ($idproducto >0)
+
+			} // if (empty($_SESSION['permisosMod']['r']))			
+
+		} // public function getProducto($idproducto)
+
+
+		
+		// Grabar la imagen en la tabla 
+		public function setImage()
+		{
+			//dep($_POST);
+			//dep($_FILES);	
+			//die();
+			//exit;		
+			//$arrrespose = array('estatus' => true,'imgname' => "img_65wqwqaasa.jpg");
+			//echo json_encode ($arrrespose,JSON_UNESCAPED_UNICODE);
+			//die();
+
+			if($_POST)
+			{
+				if (empty($_POST['idproducto']))
+				{
+					$arrResponse = array('estatus' => false, 'msg' => 'Error De Carga No existe Id Producto');					
+				}
+				else
+				{
+					$idProducto = intval($_POST['idproducto']);
+					//$idProducto = 7;
+					$foto = $_FILES['foto']; // Accesa a todos los elementos de la imagen.
+					$imgNombre = 'pro_'.md5(date('d-m-Y H:m:s')).'.jpg'; // Asigna el nombre a la Imágen
+					$request_image = $this->model->insertImage($idProducto,$imgNombre); // Graba la imagen en el modelo.
+					
+					if ($request_image)
+					{
+						// Sube la imagen al servidor, esta funcion esta definida en "helpers.php"
+						$uploadImage = uploadImage($foto,$imgNombre); 
+						$arrResponse = array('estatus' => true, 'imgname' => $imgNombre, 'msg' => 'Archivo cargado ');
+					}
+					else
+					{
+						$arrResponse = array('estatus' => false, 'msg' => 'Error De Carga Imagen ');
+					} // if ($request_image)					
+					
+				} //if (empty($_POST['idproducto']))
+				
+				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+				die();
+
+			} //	if($_POST)
+
+			//exit();
+			
+		} // public function setImage()
 
 		// Se define la funcion para llamar el método que graba información.
 		// Método para asignar Categorias.
@@ -177,7 +290,8 @@
 							}
 							//dep($request_producto);
 							//die();exit;
-
+							
+							// Si se inserto un registro 
 							if ($request_producto > 0)
 							{
 								if ($option == 1) // Se inserto un registro.
@@ -214,177 +328,5 @@
 				
 		} // public function setProducto()
 
-		public function setImage()
-		{
-			//dep($_POST);
-			//dep($_FILES);	
-			//die();
-			//exit;		
-			//$arrrespose = array('estatus' => true,'imgname' => "img_65wqwqaasa.jpg");
-			//echo json_encode ($arrrespose,JSON_UNESCAPED_UNICODE);
-			//die();
-
-			if($_POST)
-			{
-				if (empty($_POST['idproducto']))
-				{
-					$arrResponse = array('estatus' => false, 'msg' => 'Error De Carga No existe Id Producto');					
-				}
-				else
-				{
-					$idProducto = intval($_POST['idproducto']);
-					//$idProducto = 7;
-					$foto = $_FILES['foto']; // Accesa a todos los elementos de la imagen.
-					$imgNombre = 'pro_'.md5(date('d-m-Y H:m:s')).'.jpg'; // Asigna el nombre a la Imágen
-					$request_image = $this->model->insertImage($idProducto,$imgNombre); // Graba la imagen en el modelo.
-					
-					if ($request_image)
-					{
-						$uploadImage = uploadImage($foto,$imgNombre);
-						$arrResponse = array('estatus' => true, 'imgname' => $imgNombre, 'msg' => 'Archivo cargado ');
-					}
-					else
-					{
-						$arrResponse = array('estatus' => false, 'msg' => 'Error De Carga Imagen ');
-					} // if ($request_image)					
-					
-				} //if (empty($_POST['idproducto']))
-				
-				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-				die();
-
-			} //	if($_POST)
-
-			//exit();
-			
-		} // public function setImage()
-
-		// Funcion utilizada para extraer los datos del producto.
-		// Se suprime "int" del parámetro de la función para que muestre error en tiempo de ejecución.
-		public function getProducto($idproducto)
-		{
-			if (empty($_SESSION['permisosMod']['r']))
-			{
-				$idproducto = intval($idproducto);
-				// Estas lineas se colocan para que se muestre en la pantalla del navegador
-
-				//echo $idproducto;
-				//exit;
-
-				if ($idproducto >0)
-				{
-					$arrData = $this->model->selectProducto($idproducto);
-					// Determinar que valores esta retornando.
-					//dep ($arrData);
-					//die();
-					//exit();	
-
-					if (empty($arrData))
-					{
-						$arrResponse = array('estatus' => false, 'msg' => 'Datos NO Encontrados');
-					}
-					else
-					{
-						// Obtener las imagenes del producto, es un arreglo.
-						$arrImg = $this->model->selectImages($idproducto);
-						//dep($arrImg);
-						//die();
-						//exit();
-
-						if (count($arrImg) > 0)
-						{
-							// Recupera desde la tabla los nombre de las imágenes.
-							for ($i=0;$i<count($arrImg); $i++)
-							{
-								$arrImg[$i]['url_image'] = media().'/images/uploads/'.$arrImg[$i]['img'];
-							}
-						} //if (count($arrImg) > 0)
-
-						$arrData['images'] = $arrImg;
-						$arrResponse = array('estatus' => true, 'data' => $arrData);
-
-
-					} // if (empty($arrData))			
-					//dep($arrResponse);
-					//die();
-					//exit;
-					
-					echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);					
-
-				} // if ($idproducto >0)
-
-			} // if (empty($_SESSION['permisosMod']['r']))
-			
-			die();
-
-		} // public function getProducto($idproducto)
-
-		// Se define la funcion para borrar la imagen.
-		public function delFile()
-		{
-			if ($_POST) // Verifica si se esta reciviendo una peticion tipo "POST"
-			{
-				if (empty($_POST['idproducto']) || empty($_POST['file']))
-				{
-					$arrResponse = array ("estatus" => false, "msg" => 'Datos Incorrectos');
-				} // if (empty($_POST['idproducto']) || empty($_POST['file']))
-				else
-				{
-					// Eliminar de la Base de Datos
-					$idProducto = intval($_POST['idproducto']);
-					$imgNombre = strClean($_POST['file']); // strClean($_POST['file']);
-					
-					$request_image = $this->model->deleteImage($idProducto,$imgNombre);
-					//dep($request_image);
-					
-					if ($request_image)
-					{
-						// Esta funcion "deleteFile" se define en el "helpers"						
-						$deleteFile = deleteFile($imgNombre);
-						$arrResponse = array('estatus' => true, 'msg' => 'Archivo Eliminado');
-					}
-					else
-					{
-						$arrResponse = array('estatus' => false, 'msg' => 'Error al Eliminar');
-					}
-				}
-				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
-
-			} // if ($_POST)
-
-			die();
-		}
-
-		// Funcion para borrar un producto.
-		public function delProducto()
-		{
-			if ($_POST)
-			{
-				if ($_SESSION['permisosMod']['d'])
-				{
-					$intIdproducto = intval($_POST['idProducto']);
-					$requestDelete = $this->model->deleteProducto($intIdproducto);
-					//dep($requestDelete);
-					//die();exit();
-
-					if (($requestDelete) || ($requestDelete == 1))
-					{
-						$arrResponse = array('estatus' => true, 'msg' => 'Se ha Eliminado el Producto');
-					}
-					else
-					{
-						$arrResponse = array('estatus' => false, 'msg' => 'Error al elimiar el Producto');
-					}
-					echo json_encode ($arrResponse,JSON_UNESCAPED_UNICODE);
-
-				} // if ($_SESSION['permisosMod']['w'])
-
-			} //if ($_POST)
-
-			die();
-			
-		} // public function delProducto()
-
-	} //class Productos extends Controllers
-
+	} // class Categorias extends Controllers
 ?>

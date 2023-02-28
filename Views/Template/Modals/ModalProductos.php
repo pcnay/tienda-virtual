@@ -166,7 +166,7 @@
 
 							<tr>
 								<td>Codigo :</td>
-								<td id= "celCodigo">65656565656565</td>
+								<td id= "celCodigo"></td>
 							</tr>
 							<tr>
 								<td>Nombres:</td>
@@ -196,7 +196,6 @@
 								<td>Foto De Transferencia:</td>
 								<td id= "celFotos"></td>
 							</tr>
-
 
 						</tbody>
 					</table>
