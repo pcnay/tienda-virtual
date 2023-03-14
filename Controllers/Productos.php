@@ -157,13 +157,17 @@
 							$intStatus = intval($_POST['listStatus']); // Conviertiendola a Entero.
 							$request_producto = "";
 
+							// clear_cadena = Es una funcion que se crea para quitar los acentos en los nombres de los productos.
+							$ruta = strtolower(clear_cadena($strNombre));
+							$ruta = str_replace(" ","-",$ruta);
+
 							if ($idProducto == 0) // Es un nuevo producto
 							{
 								$option = 1;
 								// $request_producto = Es el ID que retorna cuando se inserta en la base de datos.
 								if ($_SESSION['permisosMod']['w'])
 								{
-									$request_producto = $this->model->insertProducto($strNombre,$strDescripcion,$strCodigo,$intCategoriaId,$intPrecio,$intStock,$intStatus);
+									$request_producto = $this->model->insertProducto($strNombre,$strDescripcion,$strCodigo,$intCategoriaId,$intPrecio,$intStock,$ruta,$intStatus);
 								}
 							}
 							else // Actualizar
@@ -171,7 +175,7 @@
 								$option = 2;
 								if ($_SESSION['permisosMod']['u'])
 								{
-									$request_producto = $this->model->updateProducto($idProducto,$strNombre,$strDescripcion,$strCodigo,$intCategoriaId,$intPrecio,$intStock,$intStatus);
+									$request_producto = $this->model->updateProducto($idProducto,$strNombre,$strDescripcion,$strCodigo,$intCategoriaId,$intPrecio,$intStock,$ruta,$intStatus);
 								}
 
 							}

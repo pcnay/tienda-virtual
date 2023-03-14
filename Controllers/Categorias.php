@@ -80,6 +80,11 @@
 							$strDescripcion = strClean($_POST['txtDescripcion']);
 							$intStatus = intval($_POST['listStatus']); // Conviertiendola a Entero.
 
+							// clear_cadena = Es una funcion que se crea para quitar los acentos en los nombres de los productos.
+							$ruta = strtolower(clear_cadena($strCategoria));
+							$ruta = str_replace(" ","-",$ruta);
+							
+
 							// Obteniendo los datos de la foto en Categoria
 							$foto = $_FILES['foto'];
 							$nombre_foto = $foto['name'];
@@ -104,7 +109,7 @@
 								// Crear Categoria
 								if ($_SESSION['permisosMod']['w'])
 								{
-									$request_categoria = $this->model->insertCategoria($strCategoria,$strDescripcion,$imgPortada,$intStatus);
+									$request_categoria = $this->model->insertCategoria($strCategoria,$strDescripcion,$imgPortada,$ruta,$intStatus);
 									$option = 1;
 								}
 							}
@@ -122,7 +127,7 @@
 											$imgPortada = $_POST['foto_actual'];
 										}
 									}
-									$request_categoria = $this->model->updateCategoria($intIdcategoria,$strCategoria,$strDescripcion,$imgPortada,$intStatus);
+									$request_categoria = $this->model->updateCategoria($intIdcategoria,$strCategoria,$strDescripcion,$imgPortada,$ruta,$intStatus);
 									$option = 2;
 								}
 							}

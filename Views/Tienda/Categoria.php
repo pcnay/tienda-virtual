@@ -2,6 +2,8 @@
 	// Para que agregue los encabezados de la pagina de Tienda (Venta de productos)
 	headerTienda($data);
 	getModal('ModalCarrito',$data);
+
+	// Es el arreglo que contiene los productos.
 	$arrProductos = $data['productos'];
 	//dep($arrProductos);
 

@@ -66,6 +66,7 @@
 
 			if (!empty($request))
 			{
+				// Consulta para extraer los productos.
 				$this->intIdcategoria = $request['id_categoria'];
 
 				$sql = "SELECT p.id_producto,

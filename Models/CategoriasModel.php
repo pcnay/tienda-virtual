@@ -5,6 +5,7 @@
 		public $strCategoria;
 		public $strDescripcion;
 		public $intStatus;
+		public $strRuta;
 		public $strPortada;
 
 		public function __construct()
@@ -27,12 +28,13 @@
 
 		// Método para insertar un registro en la tabla "t_Rol" 
 		// Se envian los datos del Controller (que proviene desde la vista los datos que se capturaron) y se limpian para enviarse al Modelo.
-		public function insertCategoria(string $nombre, string $descripcion, string $portada, int $status)
+		public function insertCategoria(string $nombre, string $descripcion, string $portada, string $ruta, int $status)
 		{
 			$return = 0;
 			$this->strCategoria = $nombre;
 			$this->strDescripcion = $descripcion;
 			$this->strPortada = $portada;
+			$this->strRuta = $ruta;
 			$this->intStatus = $status;
 
 			// Verificar si existe la Categoria.
@@ -43,8 +45,8 @@
 			if (empty($request))
 			{
 				// "id_rol" no se contempla, porque se definio en la base datos como autoincrementable. 
-				$query_insert = "INSERT INTO t_Categorias(nombre,descripcion,portada,estatus) VALUES (?,?,?,?)";
-				$arrData = array($this->strCategoria,$this->strDescripcion,$this->strPortada,$this->intStatus);
+				$query_insert = "INSERT INTO t_Categorias(nombre,descripcion,portada,ruta,estatus) VALUES (?,?,?,?,?)";
+				$arrData = array($this->strCategoria,$this->strDescripcion,$this->strPortada,$this->strRuta, $this->intStatus);
 
 				// Este método ya se definio en el Framework anteriormente Mysql.
 				$request_insert = $this->insert($query_insert,$arrData);
@@ -85,12 +87,13 @@
 		}
 		
 		// Actualizar una Categoria.
-		public function updateCategoria(int $idCategoria, string $categoria, string $descripcion, string $portada, int $status)
+		public function updateCategoria(int $idCategoria, string $categoria, string $descripcion, string $portada, string $ruta, int $status)
 		{
 			$this->intIdcategoria = $idCategoria;
 			$this->strCategoria = $categoria;
 			$this->strDescripcion = $descripcion;
 			$this->strPortada = $portada;
+			$this->strRuta = $ruta;
 			$this->intStatus = $status;
 
 			// Verificando atraves del "nombre" que no exita						
@@ -100,11 +103,12 @@
 			// Si esta vacio, por lo tanto no esta duplicado el "nombre"
 			if (empty($request))
 			{
-					$sql = "UPDATE t_Categorias SET nombre=?,descripcion=?,portada=?,estatus=? WHERE id_categoria = $this->intIdcategoria";
+					$sql = "UPDATE t_Categorias SET nombre=?,descripcion=?,portada=?,ruta=?,estatus=? WHERE id_categoria = $this->intIdcategoria";
 
 					$arrData = array($this->strCategoria,
 					$this->strDescripcion,
 					$this->strPortada,
+					$this->strRuta,
 					$this->intStatus);
 
 				$request = $this->update($sql,$arrData);

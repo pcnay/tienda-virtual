@@ -8,7 +8,7 @@
 		{
 			// string $categorias = se utiliza para seleccionar la categoria en la Tienda 
 			$this->con = new Mysql();
-			$sql = "SELECT id_categoria,nombre,descripcion,portada FROM t_Categorias WHERE estatus != 0 AND id_categoria IN ($categorias) ";
+			$sql = "SELECT id_categoria,nombre,descripcion,portada,ruta FROM t_Categorias WHERE estatus != 0 AND id_categoria IN ($categorias) ";
 			$request = $this->con->select_all($sql);
 			if (count($request) > 0)
 			{

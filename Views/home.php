@@ -17,6 +17,7 @@
 				<?php 
 					for ($i=0;$i<count($arrSlider);$i++)
 					{
+						$ruta = $arrSlider[$i]['ruta'];
 				?>
 						<div class="item-slick1" style="background-image: url(<?= $arrSlider[$i]['portada'] ?>); ">
 							<div class="container h-full">
@@ -34,9 +35,8 @@
 									</div>
 										
 									<div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1600">
-										<a href="<?= base_url().'/Tienda/Categoria/'.$arrSlider[$i]['nombre']; ?>" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
-											Ir a Tienda
-										</a>
+										<a href="<?= base_url().'/Tienda/Categoria/'.$arrSlider[$i]['id_categoria'].'/'.$ruta; ?>" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+											Ver Productos
 									</div>
 								</div>
 							</div>

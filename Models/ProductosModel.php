@@ -9,6 +9,7 @@
 		private $intPrecio;
 		private $intStock;
 		private $intStatus;
+		private $strRuta;
 		private $strImagen;
 				
 		public function __construct()
@@ -39,7 +40,7 @@
 		}
 
 		// Insertar Productos a la tabla de Productos.
-		function insertProducto(string $nombre, string $descripcion, int $codigo, int $categoriaid, string $precio, int $stock, int $status)		
+		function insertProducto(string $nombre, string $descripcion, int $codigo, int $categoriaid, string $precio, int $stock, string $ruta, int $status)		
 		{
 			$this->strNombre = $nombre;
 			$this->strDescripcion = $descripcion;
@@ -47,6 +48,7 @@
 			$this->intCategoriaId = $categoriaid;
 			$this->strPrecio = $precio;
 			$this->intStock = $stock;
+			$this->strRuta = $ruta;
 			$this->intStatus = $status;
 			$return = 0;
 			$sql = "SELECT * FROM t_Productos WHERE codigo = '{$this->intCodigo}'";
@@ -54,10 +56,10 @@
 			
 			if (empty($request))
 			{
-				$query_insert = "INSERT INTO t_Productos(categoriaid,codigo,nombre,descripcion,precio,stock,estatus)
-				VALUES (?,?,?,?,?,?,?)"; // Evita inyeccion SQL, se utiliza con PDO
+				$query_insert = "INSERT INTO t_Productos(categoriaid,codigo,nombre,descripcion,precio,stock,ruta,estatus)
+				VALUES (?,?,?,?,?,?,?,?)"; // Evita inyeccion SQL, se utiliza con PDO
 
-				$arrData = array($this->intCategoriaId, $this->intCodigo,$this->strNombre, $this->strDescripcion, $this->strPrecio, $this->intStock, $this->intStatus);
+				$arrData = array($this->intCategoriaId, $this->intCodigo,$this->strNombre, $this->strDescripcion, $this->strPrecio, $this->intStock, $this->strRuta, $this->intStatus);
 
 				$request_insert = $this->insert($query_insert,$arrData);
 				$return = $request_insert;				
@@ -70,8 +72,8 @@
 			return $return;
 		}
 
-		// Insertar Productos a la tabla de Productos.
-		function updateProducto(int $idproducto, string $nombre, string $descripcion, int $codigo, int $categoriaid, string $precio, int $stock, int $status)		
+		// Actualizar Productos a la tabla de Productos.
+		function updateProducto(int $idproducto, string $nombre, string $descripcion, int $codigo, int $categoriaid, string $precio, int $stock, string $ruta, int $status)		
 		{
 			$this->intIdProducto = $idproducto;
 			$this->strNombre = $nombre;
@@ -80,6 +82,7 @@
 			$this->intCategoriaId = $categoriaid;
 			$this->strPrecio = $precio;
 			$this->intStock = $stock;
+			$this->strRuta = $ruta;
 			$this->intStatus = $status;
 			$return = 0;
 
@@ -95,9 +98,9 @@
 			
 			if (empty($request))
 			{
-				$query_update = "UPDATE t_Productos SET categoriaid=?,codigo=? ,nombre=?,descripcion=?,precio=?,stock=?,estatus=? WHERE id_producto = $this->intIdProducto";			
+				$query_update = "UPDATE t_Productos SET categoriaid=?,codigo=? ,nombre=?,descripcion=?,precio=?,stock=?,ruta=?,estatus=? WHERE id_producto = $this->intIdProducto";			
 
-				$arrData = array($this->intCategoriaId, $this->intCodigo,$this->strNombre, $this->strDescripcion, $this->strPrecio, $this->intStock, $this->intStatus);
+				$arrData = array($this->intCategoriaId, $this->intCodigo,$this->strNombre, $this->strDescripcion, $this->strPrecio, $this->intStock, $this->strRuta,$this->intStatus);
 
 				$request_update = $this->update($query_update,$arrData);				
 				$return = $request_update;

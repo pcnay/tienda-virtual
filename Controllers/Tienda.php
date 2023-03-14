@@ -35,7 +35,7 @@
 			$data['page_tag'] = NOMBRE_EMPRESA; 
 			$data['page_title'] = NOMBRE_EMPRESA; 
 			$data['page_name'] = "Tienda";
-			$data['productos'] = $this->getProductosT();
+			$data['productos'] = $this->getProductosT(); // Muestra el listado de todos los productos.
 			//dep ($data);
 			//die();exit;
 
@@ -53,7 +53,7 @@
 			{
 				$categoria = strClean($params);
 				// Muestra todas las categorias que se encuentran en los productos.
-				// dep($this->getProductosCategoriaT($categoria));
+				//dep($this->getProductosCategoriaT($categoria));
 				// Evita inyeccion sql (strClean)
 				$data['page_tag'] = NOMBRE_EMPRESA." - ".$categoria; // Renombrar nombre del Tab del navegador.
 				$data['page_title'] = $categoria;
