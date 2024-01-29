@@ -27,7 +27,8 @@
 			}
 
 			// Ejecuta el constructor padre (desde donde se hereda.)
-			// Para que la clase de instancie y ejecute la clase de "Modelo
+			// Para que la clase de instancie y ejecute la clase de "Modelo"
+			// "getPermisos(6)" -> Para extraer los permisos que corresponde al modulo en el momento, para este caso es el 6 (Categorias)
 			getPermisos(6); // Este el Id que corresponde en la tabla de Modulos; 6 = Categorias
 		}
 		
@@ -36,7 +37,7 @@
 		{
 			//echo "<br>";
 			//echo "Mensaje desde el controlador Home ";
-			// Si no tiene el rol de "Lectura" no se podra mostrar la vista de "Usuarios".
+			// Si no tiene el rol de "Lectura" no se podra mostrar la vista de "Categorias".
 			if (empty($_SESSION['permisosMod']['r']))
 			{
 				header('Location: '.base_url().'/Dashboard');	
@@ -51,7 +52,7 @@
 			$data['page_functions_js'] = "Functions_categorias.js";
 
 			// $this = Es equivalente "Usuarios"
-			// Se llama la vista "Usuarios"
+			// Se llama la vista "Categorias"
 			$this->views->getView($this,"Categorias",$data);
 		}
 
@@ -90,8 +91,8 @@
 							$nombre_foto = $foto['name'];
 							$type = $foto['type'];
 							$url_temp = $foto['tmp_name'];
-							//$fecha = date('ymd');
-							//$hora = date('Hms');
+							//$fecha = date('ymd'); // Para obtener la fecha con el formato : Year-Month-Day, utilizado para el nombre de la foto
+							//$hora = date('Hms'); , utilizado para el nombre de la foto
 							$imgPortada = 'portada_categoria.jpg';
 							$request_categoria = "";
 
@@ -120,13 +121,14 @@
 								// Crear Categoria
 								if ($_SESSION['permisosMod']['u'])
 								{
-									if ($nombre_foto == '')
+									if ($nombre_foto == '') // No se esta enviando foto
 									{
-										if (($_POST['foto_actual'] != 'portada_categoria.png') && ($_POST['foto_remove'] == 0))
+										if (($_POST['foto_actual'] != 'portada_categoria.jpg') && ($_POST['foto_remove'] == 0))
 										{
 											$imgPortada = $_POST['foto_actual'];
 										}
 									}
+									// Actualizando la Categoria.
 									$request_categoria = $this->model->updateCategoria($intIdcategoria,$strCategoria,$strDescripcion,$imgPortada,$ruta,$intStatus);
 									$option = 2;
 								}
@@ -140,7 +142,7 @@
 									// Grabar la foto en el servidor.
 									if ($nombre_foto != '')
 									{
-										uploadImage($foto,$imgPortada);
+										uploadImage($foto,$imgPortada); // Sube la foto al servidor.
 									}
 								}
 								else
@@ -149,9 +151,9 @@
 									// Grabar la foto en el servidor.
 									if ($nombre_foto != '')
 									{
-										uploadImage($foto,$imgPortada);
+										uploadImage($foto,$imgPortada); // Sube la foto al servidor
 									}
-									if (($nombre_foto == '' && $_POST['foto_remove'] == 1 && $_POST['foto_actual'] != 'portada_categoria.png') || ($nombre_foto == '' && $_POST['foto_actual'] != 'portada_categoria.png'))
+									if (($nombre_foto == '' && $_POST['foto_remove'] == 1 && $_POST['foto_actual'] != 'portada_categoria.jpg') || ($nombre_foto == '' && $_POST['foto_actual'] != 'portada_categoria.jpg'))
 									{
 										deleteFile($_POST['foto_actual']); // Se crea la funcion en el "Helpers.php"
 									}
@@ -188,11 +190,11 @@
 			if ($_SESSION['permisosMod']['r'])
 			{
 				
-				$arrData = $this->model->selectCategorias();
+				$arrData = $this->model->selectCategorias(); // Obtiene las Categorias.
 				//dep($arrData);
 				//exit;
 
-				// Para colocar en color Verde o Rojo el estatus del Usuario
+				// Para colocar en color Verde o Rojo el estatus de la Categoria
 				for ($i= 0; $i<count($arrData);$i++)
 				{
 					$btnView = '';
@@ -266,7 +268,7 @@
 					//exit;
 
 
-					if (empty($arrData)) // No existe Rol
+					if (empty($arrData)) // No existe Categoria
 					{
 						$arrResponse = array('estatus'=>false,'msg'=>'Datos no encontrados');
 					}
@@ -322,18 +324,20 @@
 			die();
 		}
 
-		// Obtiene las categorias para el combo de la pantalla de captura de los productos
+		// Obtiene las categorias para el combo de la pantalla de captura de los productos,
+		// El que utiliza una funcion de Jquery "selectpicker", esta funcion se llama en "fntCategorias" en "Functions_productos.js"
 		public function getSelectCategorias()
 		{
 			$htmlOptions = "";
-			$arrData = $this->model->selectCategorias(); // Extraer todas las Categorias
+			$arrData = $this->model->selectCategorias(); // Extraer todas las Categorias, desde la tabla t_Categorias
 			if (count($arrData) > 0)
 			{
 				for ($i=0; $i<count($arrData); $i++)
 				{
-					if ($arrData[$i]['estatus'] == 1)
+					if ($arrData[$i]['estatus'] == 1) // Muestra que esten activas las "Categorias"
 					{
 						//$htmlOptions .= '<option value = "'.$arrData[$i]['id_categoria'].'">'.$arrData[$i]['nombre'].'</option>';
+						// Se arma el "Select"
 						$htmlOptions .= "<option value = '".$arrData[$i]['id_categoria']."'>".$arrData[$i]['nombre']."</option>";
 					}
 				}

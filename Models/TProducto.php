@@ -22,6 +22,7 @@
 				c.nombre AS categoria,
 				p.precio,
 				p.stock,
+				p.ruta,
 				p.estatus
 				FROM t_Productos p
 				INNER JOIN t_Categorias c

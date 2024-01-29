@@ -69,7 +69,7 @@
 
     <!-- Essential javascripts for application to work-->
 		<script>
-			// Genera una variable en JavaScript desde PHP.
+			// Genera una variable en JavaScript desde PHP. Es la ruta Raiz del proyecto.
 			const base_url = "<?php echo base_url(); ?>";
 		</script>
 

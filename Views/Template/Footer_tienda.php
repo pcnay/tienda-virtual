@@ -1,10 +1,10 @@
-	<!-- Footer -->
+		<!-- Footer -->
 	<footer class="bg3 p-t-75 p-b-32">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6 col-lg-4 p-b-50">
 					<h4 class="stext-301 cl0 p-b-30">
-						Categories
+						Categorias
 					</h4>
 					<p class="stext-107 cl7 size-201">
 						Mujeres
@@ -69,10 +69,10 @@
 			</div>
 
 			<div class="p-t-40">
-
 				<p class="stext-107 cl6 txt-center">
+					<!-- NO borrar este parrafo, ya que se esta usando la version gratuita.-->
 					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-					Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+					<?= NOMBRE_EMPRESA; ?> | <?= WEB_EMPRESA; ?> | Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
 					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 				</p>
  

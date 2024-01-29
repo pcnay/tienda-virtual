@@ -12,7 +12,7 @@
 				<h1><i class="fas fa-box-tissue"> </i><?php   echo $data['page_title']; ?>
 				
 					<?php if ($_SESSION['permisosMod']['w']) { ?>
-					<!-- Agregando el boton de "Agregar" un Rol al Usuario. Se define "openModal()" en  Assets/js/Functions_roles.js--> 
+					<!-- Agregando el boton de "Agregar" un Rol a la Categoria. Se define "openModal()" en  Assets/js/Functions_roles.js--> 
 					<button class="btn btn-primary" type="button" onclick="openModal();"><i class="fas fa-plus-circle"></i>Nuevo</button>				
 					<?php } ?>
 
@@ -26,7 +26,7 @@
 			</ul>
 		</div>
 
-		<!-- Sección para incrustar el DataTable -->
+		<!-- Sección para incrustar el DataTable, para que muestre las "Categorias". -->
 		<div class="row">
         <div class="col-md-12">
           <div class="tile">

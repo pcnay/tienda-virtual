@@ -1,7 +1,13 @@
 <!-- Para que despliegue la informacion en el "TAB" desde el arreglo "$data" -->
-<?php headerAdmin($data);
-	getModal('ModalProductos',$data);	// Para mostrar el Modal.
+<?php 
+	headerAdmin($data);
+	//if ($_SESSION['permisosMod']['w']) no agregarla afecta a View (cuadno solo lo tienen activado), no se muestra.
+	//{
+		getModal('ModalProductos',$data);	// Para mostrar el Modal. Esta definido en 		"ModalProductos.php"
+	//}
+	
 ?>
+
 <main class="app-content">
 
 	<!-- Se crea el <DIV> donde se colocara el código HTML que se genero en "function_roles.js"  -->
@@ -21,7 +27,7 @@
 
 			<ul class="app-breadcrumb breadcrumb">
 				<li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-				<!-- /Roles = Es el Controlador que buscara -->
+				<!-- /Productos = Es el Controlador que buscara -->
 				<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>/Productos"><?php echo $data['page_title']; ?></a></li>
 			</ul>
 		</div>

@@ -3,19 +3,20 @@ $('.login-content [data-toggle="flip"]').click(function() {
 	return false;
 });
 
-// En este archivo se capturan los campos para Grabar con el Ajax.
-// Cargara todo los eventos que iran dentro de esta funcion.
 
 // Para obtener el "div" donde se muestra la carga del icono.
 var divLoading = document.querySelector("#divLoading");
 
+// En este archivo se capturan los campos para Grabar con el Ajax.
+// Cargara todo los eventos que iran dentro de esta funcion.
 document.addEventListener('DOMContentLoaded',function(){
-	if (document.querySelector("#formLogin"))
+	if (document.querySelector("#formLogin")) // Si existe la etiqueta "formLogin" Form
 	{
 		//console.log("Formulario Login ");
 		let formLogin = (document.querySelector("#formLogin"));
 		formLogin.onsubmit = function(e){
 			e.preventDefault(); // Previene que se recargue la pagina
+
 			// Obtiniendo los valores de las etiquetas
 			let strEmail = document.querySelector("#txtEmail").value;
 			let strPassword = document.querySelector("#txtPassword").value;
@@ -40,20 +41,25 @@ document.addEventListener('DOMContentLoaded',function(){
 				// Se envian los campos del formulario.
 				request.send(formData);
 				
-				//console.log(request);
+				console.log(request);
 
 				request.onreadystatechange = function()
 				{
-					if (request.readyState != 4 ) return; // Si no se cumple no realiza nada
+					if (request.readyState != 4 ) 
+					{
+						return; // Si no se cumple no realiza nada
+					}
+
 					if (request.status == 200) // Fue exitoso el enlace con el servidor
 					{
-						// Convierte a un objeto JSon lo que retorno el Ajax.
+						// Convierte a un objeto el formato JSon que retorno el Ajax.
 						let objData = JSON.parse(request.responseText); 
 						// Viene desde el Ajax "responseText": "\n\n{\"estatus\":true,\"msg\":\"ok\"}"
 
-						// Si hizo "Login" de forma correcta.
+						// Si hizo "Login" de forma correcta. "true"
 						if (objData.estatus)
 						{
+							// Envia al Menu general.
 							window.location = base_url+'/Dashboard';
 						}
 						else
@@ -202,7 +208,7 @@ document.addEventListener('DOMContentLoaded',function(){
 					
 					if (request.status == 200) // El servidor se conecto correctamente
 					{
-						console.log(request.responseText);
+						//console.log(request.responseText);
 						// Convirtiendo a un objeto "arreglo" para JaveScritp
 						let objData = JSON.parse(request.responseText);
 						if (objData.estatus)

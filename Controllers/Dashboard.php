@@ -8,9 +8,7 @@
 			// Se debe llamar desde esta posicion para evitar el problema de algunos "Hosting" que cuando se inicia sesion NO muestra nada en la pantalla
 			// Se soluciona agregando la linea
 
-			// Para que deje la sesion abierta en PHP desde la aplicacion y no desde la configuracion del servidor
-			sessionStart();
-
+			
 			// Ejecuta el constructor padre (desde donde se hereda.)
 			parent::__construct();
 			
@@ -23,11 +21,16 @@
 
 			// Para que deje la sesion abierta en PHP desde la aplicacion y no desde la configuracion del servidor
 			// sessionStart();
+			// Para que deje la sesion abierta en PHP desde la aplicacion y no desde la configuracion del servidor
+			sessionStart();
 
+
+			// Determina si esta iniciada la sesion (Si ya realizo el usuario el Login), de lo contrario lo redirrecciona a la vista "Login"
 			if (empty($_SESSION['login']))
 			{
-				header('Location: '.base_url().'/Login');
+			//	header('Location: '.base_url().'/Login');
 			}
+
 			getPermisos(1);
 			
 		}

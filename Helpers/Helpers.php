@@ -147,9 +147,9 @@
 	{
 		$url_temp = $data['tmp_name'];
 		// Importante que se debe dar los permisos 777 a la carpeta "uploads" de lo contrario
-		// muesra error y no la sube al servidor de la ruta "Assetes/images/uploads"
+		// muestra error y no la sube al servidor de la ruta "Assetes/images/uploads"
 		$destino = 'Assets/images/uploads/'.$name;
-		$move = move_uploaded_file($url_temp,$destino);
+		$move = move_uploaded_file($url_temp,$destino); // Esta es una funcion de PHP para guardar la imagen en el Servidor.
 		return $move;
 	}
 	

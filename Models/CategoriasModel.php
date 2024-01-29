@@ -97,7 +97,7 @@
 			$this->intStatus = $status;
 
 			// Verificando atraves del "nombre" que no exita						
-			$sql = "SELECT * FROM t_Categorias WHERE (nombre = '{$this->strCategoria}' AND id_categoria != '{$this->intIdcategoria}')";
+			$sql = "SELECT id_categoria,nombre FROM t_Categorias WHERE (nombre = '{$this->strCategoria}' AND id_categoria != '{$this->intIdcategoria}')";
 			
 			$request = $this->select_all($sql);
 			// Si esta vacio, por lo tanto no esta duplicado el "nombre"
@@ -127,13 +127,16 @@
 		{
 			// Previene la Integridad Referencial De Los Datos, se revisa que no existe el usuario en la tabla "t_Categorias"
 			$this->intIdcategoria = $idcategoria;
-			$sql = "SELECT * FROM t_Productos WHERE categoriaid = $this->intIdcategoria";
+			$sql = "SELECT categoriaid FROM t_Productos WHERE categoriaid = $this->intIdcategoria";
 			$request = $this->select_all($sql);
+
 			if (empty($request))
 			{
-				$sql = "UPDATE t_Categorias SET estatus = ? WHERE id_categoria = $this->intIdcategoria";
-				$arrData = array(0); // Se asigna valor 0
-				$request = $this->update($sql,$arrData);
+				$sql = "DELETE FROM t_Categorias WHERE id_categoria = $this->intIdcategoria";
+				//$sql = "UPDATE t_Categorias SET estatus = ? WHERE id_categoria = $this->intIdcategoria";
+				//$arrData = array(0); // Se asigna valor 0
+				//$request = $this->update($sql,$arrData);
+				$request = $this->delete($sql);
 				if ($request)
 				{
 					$request = 'ok';

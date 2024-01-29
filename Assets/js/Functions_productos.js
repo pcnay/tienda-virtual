@@ -1,7 +1,10 @@
-// Se agrega este código en este archivo, ya que solo se requiere en esta parte "Capturas del producto"
-// Su tilizan esta comillas ` `para agregar variables con llaves.
+// Se agrega este código en este archivo, ya que solo se requiere en esta parte "Capturas del producto", para evitar que se cargue otra libreria mas al proyecto
+
+// Se utilizan esta comillas ` `para agregar variables con llaves.
+// Agregando codigo de JavaScript 
 
 document.write(`<script src="${base_url}/Assets/js/plugins/JsBarcode.all.min.js"></script>`);
+
 
 let tableProductos;
 let rowTable;
@@ -9,7 +12,7 @@ let rowTable;
 // Es importante colocar este evento para cargar las Categorias, ya que de lo contrario muestra error al cargar los productos.
 window.addEventListener('DOMContentLoaded',function(){
 	fntInputFile();
- 	fntCategorias();
+ 	fntCategorias(); // Para que se cargue el combobox al cargarse la vista de Productos.
 },false);
 
 
@@ -43,13 +46,6 @@ $("#txtCodigo").bind('keypress', function(event) {
 	}
 });
 
-// Script para corregir el error de componentes bloqueados
-// Sobreposicionar los modals que tenga el plugins en los modals del proyecto
-$(document).on('focusin',function(e){
-	if ($(e.target).closest(".tox-dialog").length){
-		e.stopImmediatePropagation();
-	}
-});
 
 // Cuando se cargan la pagina de Productos (JavaScript) carga la pagina 
 window.addEventListener('load',function(){
@@ -73,10 +69,10 @@ window.addEventListener('load',function(){
 			{"data":"estatus"},
 			{"data":"options"}
 		],
-		"columnDefs":[
-			{'className':"textcenter","targets":[ 3 ]},
-			{'className':"textright","targets":[ 4 ]},
-			{'className':"textcenter","targets":[ 5 ]}
+		"columnDefs":[ // Para centrar las columnas de :
+			{'className':"textcenter","targets":[ 3 ]}, // Stock
+			{'className':"textright","targets":[ 4 ]}, // Precio
+			{'className':"textcenter","targets":[ 5 ]} // Estatus
 		],
 		'dom': 'lBfrtip',
 		'buttons': [
@@ -92,7 +88,7 @@ window.addEventListener('load',function(){
 				"titleAttr":"Exportar a Excel",
 				"className":"btn btn-success",
 				"exportOptions":{
-					"columns": [0,1,2,3,4,5]
+					"columns": [0,1,2,3,4,5] // Cuales columnas se exportaran en el archivo de Excel, Id hasta Estatus
 				}
 			},
 			{
@@ -116,17 +112,17 @@ window.addEventListener('load',function(){
 		],
 		"resonsieve":"true",
 		"bDestroy":true,
-		"iDisplayLength":2,
+		"iDisplayLength":10, // Muestra cuantos productos se mostraran por pantalla
 		"order":[[0,"desc"]]
 	});
 
-	// Cuando se oprime el boton "Guardar" 
-	if (document.querySelector("#formProductos"))
+	// Cuando se oprime el boton "Guardar" (submit)
+	if (document.querySelector("#formProductos")) // Si existe el Formulario
 	{
 		let formProducto = document.querySelector("#formProductos");
-		formProducto.onsubmit = function(e)
+		formProducto.onsubmit = function(e) // Se asigna el evento "submit"
 		{
-			e.preventDefault(); // Previene que se recargue 
+			e.preventDefault(); // Previene que se recargue al momento de oprimir el Boton Guardar.
 			let strNombre = document.querySelector('#txtNombre').value;
 			let intCodigo = document.querySelector('#txtCodigo').value;
 			let strPrecio = document.querySelector('#txtPrecio').value;
@@ -139,16 +135,18 @@ window.addEventListener('load',function(){
 				return false;
 			}
 
+			// Validando la longuitud del codigo de barras
 			if (intCodigo.length < 5)
 			{
 				swal ("Atencion","El Código debe ser mayor que 5 dígito","error");
 				return false;
 			}
 
-			divLoading.style.display = "flex";
+			divLoading.style.display = "flex"; // Muestra un icono de Carga (circulo)
 			tinyMCE.triggerSave();// Seccion del editor guarda todo al TextArea.
 			// Ya que para  guardar información se extrae los datos de las etiqueta HTML.
 
+			// Enviando datos por Ajax.
 			// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
 			let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
 			let ajaxUrl = base_url+'/Productos/setProducto'; // Url a donde buscara el archivo, es en el Controlador/Productos.
@@ -172,14 +170,15 @@ window.addEventListener('load',function(){
 						// Para agregar las fotos del Producto.
 						document.querySelector("#idProducto").value = objData.id_producto;
 
-						// Muetra el boton para subir imagenes.
+						// Muetra el boton para subir imagenes. Cuando se oprime el boton de "Nuevo".
+						// Para que muetre el boton "Subir Imagen"
 						document.querySelector("#containerGallery").classList.remove("notBlock"); 
 						
 						objData.id_producto;
 
 						if (rowTable == "") // Es un producto nuevo
 						{
-							tableProductos.api().ajax.reload();
+							tableProductos.api().ajax.reload(); // Recarga el DataTable
 						}
 						else // Actualizar el producto
 						{
@@ -215,7 +214,7 @@ window.addEventListener('load',function(){
 
 	} // if (this.document.querySelector("#formProductos"))
 
-	// Código para cuando se oprime el boton de "agregar"
+	// Código para cuando se oprime el boton de "agregar", subir la imagen al servidor.
 	// Valida si existe esta etiqueta.
 	if (document.querySelector(".btnAddImage"))
 	{
@@ -225,10 +224,11 @@ window.addEventListener('load',function(){
 		btnAddImages.onclick = function(e)
 		{
 			// Se creara la seccion donde se carga la imagenes en la captura de Productos.
-			let key = Date.now();
+			let key = Date.now(); // Retorna la fecha y hora con segundos
 			//alert(key);
 
 			// Se crea la seccion del "DIV" donde se agrega la imagen, utilizando "JavaScript" puro
+			// class="btnDelteImage notBlock" => para que no se muestre al crear un producto.  
 			let newElement = document.createElement("div");
 			newElement.id = "div"+key;
 			newElement.innerHTML = `<div class="prevImage"></div>
@@ -239,10 +239,11 @@ window.addEventListener('load',function(){
 			// Se agrega al "DIV" <div id="containerImages">, a la estructura completa, referencia "ModalProductos.php" donde esta donde se crea manualmente el DIV24.
 			document.querySelector("#containerImages").appendChild(newElement);
 			
-			// Se esta agregando el evento "click" 
+			// Se esta agregando el evento "click" y lo agrega al siguiente campo, para que no lo encime.
+			// Debe llevar espacios " .btnUploadfile", de lo contrario muestra error.
 			document.querySelector("#div"+key+" .btnUploadfile").click();
 
-			fntInputFile();			
+			fntInputFile();			// Se utiliza para enviar la ruta de la imagen a la tabla de "t_Productos"
 
 		} // btnAddImages.onclick = function(e)
 
@@ -251,19 +252,22 @@ window.addEventListener('load',function(){
 	//fntCategorias();
 	fntInputFile();
 
+},false); // window.addEventListener('load',function(){
 
-},false);
-
+// Verifica si existe la etiqueta donde se captura los numeros (Codigo)
 // Valida la longuitud del código de barras.
 if (document.querySelector("#txtCodigo"))
 {
-	let inputCodigo = document.querySelector("#txtCodigo");
+	let inputCodigo = document.querySelector("#txtCodigo"); // Asigna la etiqueta Input donde se captura el codigo.
+
+	// Asigna el evento que cada vez que se oprime una tecla.
 	inputCodigo.onkeyup = function() 
 	{
+		// Si es mayor a 5 le elimina la clase "notBlock".
 		if (inputCodigo.value.length >= 5)
 		{
 			document.querySelector('#divBarCode').classList.remove("notBlock");
-			fntBarcode();
+			fntBarcode(); // Para generar el codigo de barra.
 		}
 		else
 		{
@@ -271,6 +275,14 @@ if (document.querySelector("#txtCodigo"))
 		}
 	};
 }
+
+// Script para corregir el error de componentes bloqueados, para la libreria "tinymce"
+// Sobreposicionar los modals que tenga el plugins en los modals del proyecto
+$(document).on('focusin',function(e){
+	if ($(e.target).closest(".tox-dialog").length){
+		e.stopImmediatePropagation();
+	}
+});
 
 // Para llamar a la libreria "tinymce"
 // #txtDescripcion = Es la etiqueta que utilizara el "tinymce"
@@ -287,33 +299,32 @@ tinymce.init({
 toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",
 });
 
-// Se utiliza para desplegar el código de barra
+// Se utiliza para desplegar el código de barra, en la pantalla de captura de Productos.
 function fntBarcode()
 {
 	let codigo = document.querySelector("#txtCodigo").value;
-	JsBarcode("#barcode",codigo);
-
+	JsBarcode("#barcode",codigo); // Generando el codigo de barras.
 }
 
 // Para imprimir el código de Barras.
 function fntPrintBarcode(area)
 {
-	let elemntArea = document.querySelector(area);
-	let vprint = window.open('','popimpr','height=400,width=600'); //Define el tamaño de la ventana
-	vprint.document.write(elemntArea.innerHTML); // Escribe el código HTML en la ventana
+	let elementArea = document.querySelector(area);
+	let vprint = window.open(' ','popimpr','height=400,width=600'); //Define el tamaño de la ventana
+	vprint.document.write(elementArea.innerHTML); // Escribe el código HTML en la ventana
 	vprint.document.close();
 	vprint.print();
 	vprint.close();
 }
 
 
-//Function para subir el archivo
+//Function para subir el archivo (ruta de la imagen), sube al servidor
 function fntInputFile()
 {
 	let inputUploadfile = document.querySelectorAll(".inputUploadfile");
 	inputUploadfile.forEach(function(inputUploadfile){
 		inputUploadfile.addEventListener('change', function(){
-			let idProducto = document.querySelector ("#idProducto").value;
+			let idProducto = document.querySelector ("#idProducto").value; // Obtiene la "id_producto"
 			//console.log("idProducto ",idProducto);
 			// Obtiene los datos de la etiquetas que se utilizan cuando aparece la foto en la pantalla.
 			let parentId = this.parentNode.getAttribute("id"); // Obtiene el "id" del elemento padre, es "div24"
@@ -353,7 +364,6 @@ function fntInputFile()
 					// Estos dos campos es como se tuvieramos un formulario creado en linea desde JavScript
 					formData.append('idproducto',idProducto);
 					formData.append("foto",this.files[0]);
-
 					request.open("POST",ajaxUrl,true); // Abre una conexion, de tipo POST de la URL 
 					request.send(formData);
 					request.onreadystatechange = function() 
@@ -442,27 +452,28 @@ function fntViewInfo(idProducto)
 	// Obtiene los datos desde la tabla.
 	// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
 	let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
-	let ajaxUrl = base_url+'/Productos/getProducto/'+idProducto; // Url a donde buscara el archivo, es en el Controlador/Productos.
+	let ajaxUrl = base_url+'/Productos/getProducto/'+idProducto; // Url a donde buscara el archivo, es en el Controlador/Productos, es donde se obtiene los registros del ID del producto, en formato Json.
 	request.open("GET",ajaxUrl,true);
 	request.send();
 
 	request.onreadystatechange = function() 
 	{
-		if (request.readyState == 4 && request.status == 200) // Esta retornando informacion
+		if (request.readyState == 4 && request.status == 200) // Esta retornando informacion correctamente desde el navegador
 		{
 			// Conviertiendo de formato JSon a Objeto.
 			let objData = JSON.parse(request.responseText);
 			if (objData.estatus)
 			{
-				//console.log(objData);
-				
-				let objProducto = objData.data;
-				let estadoProducto = objProducto[0].estatus == 1?
+				//console.log(objData);				
+				let objProducto = objData.data; // Accediendo a las propiedades del objeto.
+				let estadoProducto = objProducto[0].estatus == 1? // Boton color Verde si esta activo, en Rojo cuando este Inactivo.
 				'<span class="badge badge-success">Activo</span>':
 				'<span class="badge badge-danger">Inactivo</span>';
-				//console.log(objProducto);
+				console.log(objProducto);
 				// console.log(objProducto[0].nombre); Funciona PHP 8 para accesar a un elemento.
 
+				// Asignando los valores a las etiquetas de la ventana modal.
+				// #celCodigo = Se encuentra en la Ventana Modal "ModalViewProducto", renglon de la tabla id = "celCodigo"
 				document.querySelector("#celCodigo").innerHTML = objProducto[0].codigo;
 				document.querySelector("#celNombre").innerHTML = objProducto[0].nombre;
 				document.querySelector("#celPrecio").innerHTML = objProducto[0].precio;
@@ -476,18 +487,17 @@ function fntViewInfo(idProducto)
 				// Determinando que tenga imagenes.
 				if (objProducto.images.length > 0)
 				{
-					let objProductos = objProducto.images; // Arreglos de Imagenes
-					for (let p=0;p<objProductos.length;p++)
+					let objImagenes = objProducto.images; // Arreglos de Imagenes
+					for (let p=0;p<objImagenes.length;p++)
 					{
 						//console.log("htmlImage ", objProductos[0].url_image);				
-						htmlImage += `<img src="${objProductos[p].url_image}"></img>`;
+						htmlImage += `<img src="${objImagenes[p].url_image}"></img>`;
 					} // for (let p=0;p<objProductos.length;p++)
 				} // if (objProducto[0].images.length > 0)
 
 				// Mostrando las imagenes si el producto tiene.
+				// Asignando las imagenes al <DIV> celFotos que se encuentra en "modalViewProductos"
 				document.querySelector("#celFotos").innerHTML = htmlImage;
-				
-
 				$('#modalViewProducto').modal('show');				
 				
 			} // if (objData.estatus)
@@ -504,8 +514,7 @@ function fntViewInfo(idProducto)
 // Para editar el productos.
 function fntEditInfo(element,idProducto)
 {
-	// Se modifica los elementos de la ventana que se utiliza en la captura de Productos, se reutiliza 
-	
+	// Se modifica los elementos de la ventana que se utiliza en la captura de Productos, se reutiliza 	
 	rowTable = element.parentNode.parentNode.parentNode;	
 
 	// Sube desde "Button" hasta llegar al elemento padre "Renglon"
@@ -535,6 +544,7 @@ function fntEditInfo(element,idProducto)
 				let objProducto = objData.data;
 				//console.log (objProducto);
 				// Asignando valores a la etiquetas de la pantalla de edicion de los productos.
+				//objProducto[0]. = Para poder accesar 
 				document.querySelector("#idProducto").value = objProducto[0].id_producto;
 				document.querySelector("#txtNombre").value = objProducto[0].nombre;
 				document.querySelector("#txtDescripcion").value = objProducto[0].descripcion;
@@ -552,7 +562,7 @@ function fntEditInfo(element,idProducto)
 				$('#listCategoria').selectpicker('refresh');
 				$('#listStatus').selectpicker('refresh');
 				fntBarcode(); // Para llamar el código de barras.
-				// Se quita la clase "notblock"
+				// Se quita la clase "notblock", para que se despliegue el codigo de barra.
 				document.querySelector("#divBarCode").classList.remove("notBlock");
 
 				// Determinando que tenga imagenes.
@@ -562,18 +572,19 @@ function fntEditInfo(element,idProducto)
 					let objProductos = objProducto.images; // Arreglos de Imagenes
 					for (let p=0;p<objProductos.length;p++)
 					{
-						let key = Date.now()+p; // Obtiene la fecha y hora en formato numerico
-						//console.log("htmlImage ", objProductos[0].url_image);				
+						let key = Date.now()+p; // Obtiene la fecha y hora en formato numerico, se utiliza para identificador.
+						//console.log("htmlImage ", objProductos[0].url_image);			
+						// Se esta creando el elemento de la imagen, cuando se carga en el recuadro.	
 						htmlImage += `<div id="div${key}"> 
 							<div class="prevImage">
 							<img src="${objProductos[p].url_image}"></img>
 							</div>
-							<button type="button" class="btnDeleteImage" onclick="fntDelItem('#div${key}')" imgname = "${objProductos[p].img}
+							<button type="button" class="btnDeleteImage" onclick="fntDelItem('#div${key}')" imgname = "${objProductos[p].img}">
 							<i class="fas fa-trash-alt"></i></button></div>`;
 					} // for (let p=0;p<objProductos.length;p++)
 				} // if (objProducto[0].images.length > 0)
 
-				document.querySelector("#containerImages").innerHTML = htmlImage;
+				document.querySelector("#containerImages").innerHTML = htmlImage; // El recuadro de la Imagen
 				document.querySelector("#divBarCode").classList.remove("notBlock");
 				document.querySelector("#containerGallery").classList.remove("notBlock");
 				$('#modalFormProductos').modal('show');				
@@ -584,7 +595,7 @@ function fntEditInfo(element,idProducto)
 				swal("Error",objData.msg,"error");					
 			} // else - if (objData.estatus)
 
-		}
+		} // if (request.readyState == 4 && request.status == 200) // Esta retornando informacion
 
 	} // request.onreadystatechange = function() 
 
@@ -618,7 +629,7 @@ function fntDelProd(id_Producto)
 				// Se pasan como parametro al método definido en "Roles.php -> Controllers" desde el Ajax
 				let ajaxDelProducto = base_url+'/Productos/delProducto';
 				let strData = "idProducto="+id_Producto;
-				request.open("POST",ajaxDelProducto,true);
+				request.open("POST",ajaxDelProducto,true); // Se abre una conexion Ajax de tipo POST
 				request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 				request.send(strData);
 				request.onreadystatechange = function(){
@@ -649,13 +660,14 @@ function fntDelProd(id_Producto)
 // Funcion para extraer los datos de Categorias
 function fntCategorias()
 {
+	// Valida si existe la etiqueta "listCategoria", es el Combox
 	if (document.querySelector('#listCategoria'))
 	{
-		let ajaxUrl = base_url+'/Categorias/getSelectCategorias';
+		let ajaxUrl = base_url+'/Categorias/getSelectCategorias'; // Obtiene las categorias.
 		// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
 		let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
 		//let ajaxUrl = base_url+'/Categorias/setCategoria'; // Url a donde buscara el archivo, es en el Controlador/Roles.
-		// El método utilizado para enviar la informacion es "POST"
+		// El método utilizado para enviar la informacion es "GET"
 		request.open("GET",ajaxUrl,true);
 		request.send();
 		
@@ -666,24 +678,21 @@ function fntCategorias()
 			if (request.readyState == 4 && request.status == 200)
 			{				
 				// Agrega el codigo HTML que regresa el Ajax de la consulta (getSelectCategorias)
-				document.querySelector('#listCategoria').innerHTML = request.responseText;
-				// Se muestren las opciones aplicando el buscador.
+				document.querySelector('#listCategoria').innerHTML = request.responseText; // Asigna lo que se ejecuto en ajaxUrl = base_url+'/Categorias/getSelectCategorias', ya que retorna codigo HTML (cuando se ejecuta el "ajaxURL"), por lo que no se conviertio a objeto JSon
+				// Se muestren las opciones aplicando el buscador. Se renderiza, se utiliza JQuery (selecpicker)
 				$('#listCategoria').selectpicker('render');
-
 			}
 		}
-
 	}
-
-}
+} // function fntCategorias()
 
 // Para mostrar la ventana Modal de los Productos
 function openModal()
 {
-	rowTable = "";
+	rowTable = ""; // Para evitar el error cuando se oprime nuevo producto, y muestra informacion que se haya cargado anteriormente
 
 	//alert("OpenModal");
-	// Se actualizan los datos de la ventana modal a Mostrar, se agregan estos valores para que se pueda actualiar la ventana modal de "Agregar" y "Actualizar" Usuarios.
+	// Se actualizan los datos de la ventana modal a Mostrar, se agregan estos valores para que se pueda actualiar la ventana modal de "Agregar" y "Actualizar" Productos.
 
 	// Estes lineas de definieron en "fntEditUsario()"
 	// Es el Input "hidden" que se encuentra : /Views/Templetes/Modals/ModalUsuarios.php
@@ -699,6 +708,7 @@ function openModal()
 	document.querySelector('#formProductos').reset();
 
 	// Para borrar las imagenes cuando se oprima el boton "Nuevo Producto"
+	// Estos son los <DIV> en la pantallas de cpatura de productos ("/View/Modal/Templeate/ModalProducto.php")
 	document.querySelector("#divBarCode").classList.add("notBlock");
 	document.querySelector("#containerGallery").classList.add("notBlock");
 	document.querySelector("#containerImages").innerHTML = ""; // Elimina las imagenes.

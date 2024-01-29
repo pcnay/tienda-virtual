@@ -10,7 +10,7 @@ class Login extends Controllers
 		
 		if (isset($_SESSION['login']))
 		{
-			header('Location: '.base_url().'/Dashboard');
+			//header('Location: '.base_url().'/Dashboard');
 		}
 
 		// Ejecuta el constructor padre (desde donde se hereda.)
@@ -24,7 +24,7 @@ class Login extends Controllers
 	{
 		
 		$data['page_tag'] = "Login";
-		$data['page_title'] = "Tienda Virtual";
+		$data['page_title'] = "Control De Responsivas";
 		$data['page_name'] = "login";
 		$data['page_functions_js'] = "Functions_login.js";
 
@@ -34,22 +34,29 @@ class Login extends Controllers
 	public function loginUser()
 	{
 		//dep($_POST);
+		//die();
+
 		if ($_POST)
 		{
 			if (empty($_POST['txtEmail']) || empty($_POST['txtPassword']))
 			{
 				$arrResponse = array ('estatus' => false, 'msg' => 'Error De Datos');
 
-			} // if (empty($_POST['txtEmail']) || em
+			} // if (empty($_POST['txtEmail']) || 
 			else
 			{
-				$strUsuario = strtolower(strClean($_POST['txtEmail']));
+				$strUsuario = strtolower(strClean($_POST['txtEmail'])); // Convierte todos los caracteres a minusculas.
 
+				// Encripta la clave que se tecleo en "txtPassword", ya que en la base de datos esta encriptado.
 				$strPassword = hash("SHA256",$_POST['txtPassword']);
 				//$strPassword = strClean($_POST['txtPassword']);
-				// Se crea esta funcion en Models, para buscar el correo electronico
+
+				// Se crea esta funcion en Models, para buscar en la Base de datos el correo electronico
+				// Se tiene que revisar 
 				$requestUser = $this->model->loginUser($strUsuario,$strPassword);
 				//dep($requestUser);
+				//exit;
+				
 
 				if (empty($requestUser))
 				{
@@ -57,24 +64,33 @@ class Login extends Controllers
 				}
 				else
 				{
+				//dep($requestUser);
+				//die();
+				//return false;
+
 					$arrData = $requestUser;
 					if ($arrData['estatus'] == 1)
 					{
+						//var_dump($arrData['estatus']);
+						//exit;
+
 						// Iniciar sesion del usuario.
 						$_SESSION['idUser'] = $arrData['id_persona'];
 						$_SESSION['login'] = true;
 						
-						// Se utilizan para comprar los tiempo en que tiene permitido el usuario el uso del sistema
+						// Se utilizan para comparar los tiempo en que tiene permitido el usuario el uso del sistema
 						$_SESSION['timeout'] = true;
 						$_SESSION['inicio'] = time(); // Es expresado en segundos.
 
 						// Obtener todos los datos del usuario.
 						$arrData = $this->model->sessionLogin($_SESSION['idUser']);
+						//var_dump($arrData);
+						//exit;
+
 						//$_SESSION['userData'] = $arrData;
 
 						// Se agrega la funcion en el Helpers.php, que a su vez se llama desde el modelo "LoginModel.php", son de asigna el valor de la consulta a la variable de sesion $_SESSION['idUser'].
-						sessionUser($_SESSION['idUser']);  
-						
+						sessionUser($_SESSION['idUser']);  						
 						$arrResponse = array('estatus' => true, 'msg' =>'ok');
 					}
 					else

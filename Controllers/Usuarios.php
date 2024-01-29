@@ -10,20 +10,20 @@
 
 			// Para que deje la sesion abierta en PHP desde la aplicacion y no desde la configuracion del servidor
 			sessionStart();
-			session_regenerate_id(true); // Regenere el Id de la sesion es para mayor seguridad.
-
-			parent::__construct();
-			// Verifica si la variable de SESSION["login"] esta en Verdadero, sigfica que esta una sesion iniciada.
-			//session_start();
-
 			// Evitar que ingresen en otro navegador utilizando el PHPSESSID
 			// Elimina las ID Anteriores.
 			//session_regenerate_id(true);
+			session_regenerate_id(true); // Regenere el Id de la sesion es para mayor seguridad.
 			
+			// Verifica si la variable de SESSION["login"] esta en Verdadero, sigfica que esta una sesion iniciada.
+			//session_start();
+			// Evita la entrada a usuarios que no estan "Logueados"		
 			if (empty($_SESSION['login']))
 			{
 				header('Location: '.base_url().'/Login');
 			}
+			parent::__construct(); // Constructor.
+
 
 			// Ejecuta el constructor padre (desde donde se hereda.)
 			// Para que la clase de instancie y ejecute la clase de "Modelo
@@ -86,6 +86,7 @@
 					{
 						$option = 1;
 						// hash("SHA256",passGenerator())); Encripta la contraseña.
+						// passGenerator = Esta definida en "Helpers.php"
 						$strPassword = empty($_POST['txtPassword'])?hash("SHA256",passGenerator()):hash("SHA256",$_POST['txtPassword']);
 
 						// Valida que solo inserte un nuevo usuario si tiene el permiso de Grabar Usuario.

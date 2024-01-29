@@ -85,7 +85,7 @@
 					if ($_SESSION['permisosMod']['u'])
 					{
 						$btnView = '<button class="btn btn-secondary btn-sm btnPermisosRol" onClick="fntPermisos('.$arrData[$i]['id_rol'].')" title="Permisos"><i class="fas fa-key"></i></button>';
-						$btnEdit = '<button class="btn btn-primary btn-sm btnEditRol" onClick="fntEditRol('.$arrData[$i]['id_rol'].')" title="Editar"><i class="fas fa-pencil-alt"></i></button>';
+						$btnEdit = '<button class="btn btn-primary btn-sm btnEditRol" onClick="fntEditRol('.$arrData[$i]['id_rol'].')" rl = "'.$arrData[$i]['id_rol'].'" title="Editar"><i class="fas fa-pencil-alt"></i></button>';
 					}
 
 					if ($_SESSION['permisosMod']['d'])
@@ -115,7 +115,8 @@
 			// Validando que no pueda ver los roles, sin Permisos.
 			if ($_SESSION['permisosMod']['r'])
 			{				
-				$intIdrol = intval(strClean($idrol)); // Convertilo a Entero, pero antes limpiar la variable.
+				// Convertilo a Entero, pero antes limpiar la variable. Para evitar inyeccion de SQL.
+				$intIdrol = intval(strClean($idrol)); 
 
 				//dep($intIdrol);
 				//die;
@@ -123,7 +124,7 @@
 				// Si existe el idRol
 				if ($intIdrol > 0)
 				{
-					$arrData = $this->model->selectRol($intIdrol); // Extraer un Rol
+					$arrData = $this->model->selectRol($intIdrol); // Extraer un Rol desde la tabla.
 					if (empty($arrData)) // No existe Rol
 					{
 						$arrResponse = array('status'=>false,'msg'=>'Datos no encontrados');
@@ -212,7 +213,7 @@
 				{
 					$intIdrol = intval($_POST['idrol']);
 
-					// Este objeto se define en el Modleo "Rol".
+					// Este objeto se define en el Modelo "Rol".
 					$requestDelete = $this->model->deleteRol($intIdrol);
 
 					if($requestDelete == "ok")

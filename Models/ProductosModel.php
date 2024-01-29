@@ -40,18 +40,18 @@
 		}
 
 		// Insertar Productos a la tabla de Productos.
-		function insertProducto(string $nombre, string $descripcion, int $codigo, int $categoriaid, string $precio, int $stock, string $ruta, int $status)		
+		function insertProducto(string $nombre, string $descripcion, string $codigo, int $categoriaid, string $precio, int $stock, string $ruta, int $status)		
 		{
 			$this->strNombre = $nombre;
 			$this->strDescripcion = $descripcion;
-			$this->intCodigo = $codigo;
+			$this->strCodigo = $codigo;
 			$this->intCategoriaId = $categoriaid;
 			$this->strPrecio = $precio;
 			$this->intStock = $stock;
 			$this->strRuta = $ruta;
 			$this->intStatus = $status;
 			$return = 0;
-			$sql = "SELECT * FROM t_Productos WHERE codigo = '{$this->intCodigo}'";
+			$sql = "SELECT codigo FROM t_Productos WHERE codigo = '{$this->strCodigo}'";
 			$request = $this->select_all($sql);
 			
 			if (empty($request))
@@ -59,7 +59,7 @@
 				$query_insert = "INSERT INTO t_Productos(categoriaid,codigo,nombre,descripcion,precio,stock,ruta,estatus)
 				VALUES (?,?,?,?,?,?,?,?)"; // Evita inyeccion SQL, se utiliza con PDO
 
-				$arrData = array($this->intCategoriaId, $this->intCodigo,$this->strNombre, $this->strDescripcion, $this->strPrecio, $this->intStock, $this->strRuta, $this->intStatus);
+				$arrData = array($this->intCategoriaId, $this->strCodigo,$this->strNombre, $this->strDescripcion, $this->strPrecio, $this->intStock, $this->strRuta, $this->intStatus);
 
 				$request_insert = $this->insert($query_insert,$arrData);
 				$return = $request_insert;				
@@ -73,12 +73,12 @@
 		}
 
 		// Actualizar Productos a la tabla de Productos.
-		function updateProducto(int $idproducto, string $nombre, string $descripcion, int $codigo, int $categoriaid, string $precio, int $stock, string $ruta, int $status)		
+		function updateProducto(int $idproducto, string $nombre, string $descripcion, string $codigo, int $categoriaid, string $precio, int $stock, string $ruta, int $status)		
 		{
 			$this->intIdProducto = $idproducto;
 			$this->strNombre = $nombre;
 			$this->strDescripcion = $descripcion;
-			$this->intCodigo = $codigo;
+			$this->strCodigo = $codigo;
 			$this->intCategoriaId = $categoriaid;
 			$this->strPrecio = $precio;
 			$this->intStock = $stock;
@@ -88,9 +88,9 @@
 
 			// Busca el id_producto que no este duplicado.
 			// {'$this->intCodigo'} = Se coloca las llaves y ' porque es alfanumerico.
-			$sql = "SELECT * FROM t_Productos WHERE codigo = '{$this->intCodigo}' AND id_producto != $this->intIdProducto";
+			$sql = "SELECT id_producto,codigo FROM t_Productos WHERE codigo = '{$this->strCodigo}' AND id_producto != $this->intIdProducto";
 
-			// Para mostrar las consultas en pantalla , "Network" Request			
+			// Para mostrar las consultas en pantalla , "Network" Request	, en el navegador hacer click derecho; "inspeccionar elementos"	
 			//echo $sql;
 			//exit;
 
@@ -100,12 +100,12 @@
 			{
 				$query_update = "UPDATE t_Productos SET categoriaid=?,codigo=? ,nombre=?,descripcion=?,precio=?,stock=?,ruta=?,estatus=? WHERE id_producto = $this->intIdProducto";			
 
-				$arrData = array($this->intCategoriaId, $this->intCodigo,$this->strNombre, $this->strDescripcion, $this->strPrecio, $this->intStock, $this->strRuta,$this->intStatus);
+				$arrData = array($this->intCategoriaId, $this->strCodigo,$this->strNombre, $this->strDescripcion, $this->strPrecio, $this->intStock, $this->strRuta,$this->intStatus);
 
 				$request_update = $this->update($query_update,$arrData);				
 				$return = $request_update;
 				
-				// Si se actualiza correctamente retorna True
+				// Si se actualiza correctamente retorna True, "Network" Request	, en el navegador hacer click derecho; "inspeccionar elementos"	
 				//dep($request_update);
 				//die();
 				//exit;
@@ -144,9 +144,7 @@
 		// Funcion utilizada para obtener el producto de la tabla "t_Productos"
 		public function selectProducto(int $idproducto)
 		{
-			$this->intIdProducto = $idproducto;
-			
-			
+			$this->intIdProducto = $idproducto;			
 			$sql = "SELECT p.id_producto,
 				p.codigo,
 				p.nombre,
@@ -218,7 +216,7 @@
 
 			$sql = "UPDATE t_Productos SET estatus = ? WHERE id_producto = $this->intIdProducto ";
 		
-			$arrData = array(0); // El conteido del arreglo es 0
+			$arrData = array(0); // El contenido del arreglo es 0
 			$request = $this->update($sql,$arrData);
 			return $request;
 		}

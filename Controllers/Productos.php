@@ -27,8 +27,9 @@
 			}
 
 			// Ejecuta el constructor padre (desde donde se hereda.)
-			// Para que la clase de instancie y ejecute la clase de "Modelo
-			getPermisos(4); // Este el Id que corresponde en la tabla de Modulos; 4 = Productos
+			// Para que la clase de instancie y ejecute la clase de "Modelo"
+			// Este ID (tabla Modulos) solo debe modificar desde codigo fuente
+			getPermisos(4); // Este el Id que corresponde en la tabla(es el ID) de Modulos; 4 = Productos
 		}
 		
 		// Mandando información a las Vistas.
@@ -36,9 +37,9 @@
 		{
 			//echo "<br>";
 			//echo "Mensaje desde el controlador Home ";
-			// Si no tiene el rol de "Lectura" no se podra mostrar la vista de "Usuarios".
+			// Si no tiene el rol de "Lectura" no se podra mostrar la vista de "Productos".
 			if (empty($_SESSION['permisosMod']['r']))
-			{
+ 			{
 				header('Location: '.base_url().'/Dashboard');	
 			}
 
@@ -51,11 +52,11 @@
 			$data['page_functions_js'] = "Functions_productos.js";
 
 			// $this = Es equivalente "Usuarios"
-			// Se llama la vista "Usuarios"
+			// Se llama la vista "Productos"
 			$this->views->getView($this,"Productos",$data);
 		}
 
-		// Para mostrar los Productos en pantalla.
+		// Para mostrar los Productos en pantalla, Vista de Productos
 		// Obtiene los "Productos" 
 		public function getProductos()
 		{
@@ -75,7 +76,7 @@
 					$btnDelete = '';
 
 					// Cambiando el valor del "Estatus" a Colores
-					if ($arrData[$i]['estatus'] == 1)
+					if ($arrData[$i]['estatus'] == 1)  // Esta activo el producto.
 					{
 						$arrData[$i]['estatus'] = '<span class="badge badge-success">Activo</span>';
 					}
@@ -163,7 +164,7 @@
 
 							if ($idProducto == 0) // Es un nuevo producto
 							{
-								$option = 1;
+								$option = 1; // Insertar un registro.
 								// $request_producto = Es el ID que retorna cuando se inserta en la base de datos.
 								if ($_SESSION['permisosMod']['w'])
 								{
@@ -179,10 +180,12 @@
 								}
 
 							}
+							
+							//"Network" Request	, en el navegador hacer click derecho; "inspeccionar elementos"	
 							//dep($request_producto);
 							//die();exit;
 
-							if ($request_producto > 0)
+							if ($request_producto > 0) // Se actualizo el registro.
 							{
 								if ($option == 1) // Se inserto un registro.
 								{
@@ -218,6 +221,8 @@
 				
 		} // public function setProducto()
 
+
+		// Grabar la imagen en el servidor.
 		public function setImage()
 		{
 			//dep($_POST);
@@ -239,12 +244,12 @@
 					$idProducto = intval($_POST['idproducto']);
 					//$idProducto = 7;
 					$foto = $_FILES['foto']; // Accesa a todos los elementos de la imagen.
-					$imgNombre = 'pro_'.md5(date('d-m-Y H:m:s')).'.jpg'; // Asigna el nombre a la Imágen
-					$request_image = $this->model->insertImage($idProducto,$imgNombre); // Graba la imagen en el modelo.
+					$imgNombre = 'pro_'.md5(date('d-m-Y H:m:s')).'.jpg'; // Asigna el nombre a la Imágen, encripta con la fecha y hora que sea unico el nombre del archivo
+					$request_image = $this->model->insertImage($idProducto,$imgNombre); // Graba la imagen en la tabla.
 					
-					if ($request_image)
+					if ($request_image) // Verifica si se guardo la foto en el servidor.
 					{
-						$uploadImage = uploadImage($foto,$imgNombre);
+						$uploadImage = uploadImage($foto,$imgNombre); // Esta funcion se crea en "/Helpers/Helpers.php"
 						$arrResponse = array('estatus' => true, 'imgname' => $imgNombre, 'msg' => 'Archivo cargado ');
 					}
 					else
@@ -253,8 +258,9 @@
 					} // if ($request_image)					
 					
 				} //if (empty($_POST['idproducto']))
-				
-				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
+
+				//sleep(3) ; retrasa la respuesta al archivo Js
+				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE); // Convierte a formato JSon
 				die();
 
 			} //	if($_POST)
@@ -263,12 +269,12 @@
 			
 		} // public function setImage()
 
-		// Funcion utilizada para extraer los datos del producto.
+		// Funcion utilizada para extraer los datos de un producto.
 		// Se suprime "int" del parámetro de la función para que muestre error en tiempo de ejecución.
 		public function getProducto($idproducto)
 		{
-		//	if (empty($_SESSION['permisosMod']['r']))
-		//	{
+			//if (empty($_SESSION['permisosMod']['u']))
+			//{
 				$idproducto = intval($idproducto);
 				// Estas lineas se colocan para que se muestre en la pantalla del navegador
 
@@ -279,6 +285,7 @@
 				{
 					$arrData = $this->model->selectProducto($idproducto);
 					// Determinar que valores esta retornando.
+					// Se escribe en la URL : https://www.miportalweb.org/Proyectos/tienda-virtual/Productos/getProducto/27
 					//dep ($arrData);
 					//die();
 					//exit();	
@@ -300,6 +307,7 @@
 							// Recupera desde la tabla los nombre de las imágenes.
 							for ($i=0;$i<count($arrImg); $i++)
 							{
+								// Obtiene el nombre de la imagen y lo asigna al arreglo. (Los datos se muestran en el "dep($arrImg)"
 								$arrImg[$i]['url_image'] = media().'/images/uploads/'.$arrImg[$i]['img'];
 							}
 						} //if (count($arrImg) > 0)
@@ -381,7 +389,7 @@
 					}
 					echo json_encode ($arrResponse,JSON_UNESCAPED_UNICODE);
 
-				} // if ($_SESSION['permisosMod']['w'])
+				} // if ($_SESSION['permisosMod']['d'])
 
 			} //if ($_POST)
 

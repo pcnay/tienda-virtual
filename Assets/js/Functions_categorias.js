@@ -95,13 +95,11 @@ document.addEventListener('DOMContentLoaded',function()
 			],
 			"resonsieve":"true",
 			"bDestroy":true,
-			"iDisplayLength":2,
+			"iDisplayLength":10,
 			"order":[[0,"desc"]]
 		});
 	
-
-
-	// Se utiliza para la carga de la foto en "Categorías"
+	// Se utiliza para que visualize la foto en el recuadro en "Categorías". Tamano : 570(Largo)x380(Ancho)
 	if(document.querySelector("#foto"))
 	{
     let foto = document.querySelector("#foto");
@@ -110,7 +108,7 @@ document.addEventListener('DOMContentLoaded',function()
 			let uploadFoto = document.querySelector("#foto").value;
 			let fileimg = document.querySelector("#foto").files;
 			let nav = window.URL || window.webkitURL;
-			let contactAlert = document.querySelector('#form_alert');
+			let contactAlert = document.querySelector('#form_alert'); // Lo muestra en el DIV con el ID "form_alert" en la Vista.
 			if(uploadFoto !='')
 			{
 				let type = fileimg[0].type;
@@ -122,9 +120,11 @@ document.addEventListener('DOMContentLoaded',function()
 						{
 								document.querySelector('#img').remove();
 						}
+
+						// Oculta la X del recuadro de la Imagen.
 						document.querySelector('.delPhoto').classList.add("notBlock");
 						foto.value="";
-						return false;
+						return false; // Se para la ejecucion del programa.
 				}
 				else
 				{  
@@ -134,7 +134,8 @@ document.addEventListener('DOMContentLoaded',function()
 							document.querySelector('#img').remove();
 					}
 					document.querySelector('.delPhoto').classList.remove("notBlock"); // Para mostrar la X en la foto
-					let objeto_url = nav.createObjectURL(this.files[0]);
+					let objeto_url = nav.createObjectURL(this.files[0]); // Crea un objeto y extrae la ruta donde esta ubicado el archivo.
+					// Se crea el nodo para agregar la imagen.
 					document.querySelector('.prevPhoto div').innerHTML = "<img id='img' src="+objeto_url+">";
 				
 				} // if(type != 'image/jpeg' && type != 'image/jpg' && type != 'image/png')
@@ -154,6 +155,7 @@ document.addEventListener('DOMContentLoaded',function()
 
 	} //if(document.querySelector("#foto"))
 
+	// Para eliminar la imagen Previo de la Foto en el Recuadro.
 	if(document.querySelector(".delPhoto"))
 	{
 		let delPhoto = document.querySelector(".delPhoto");
@@ -165,12 +167,15 @@ document.addEventListener('DOMContentLoaded',function()
 		}
 	}
 
-	// Seccion para enviar los datos a la tablas por medio de Ajax
+	// =======================================================================
+	// SECCION PARA ENVIAR LOS DATOS A LA TABLAS POR MEDIO DE AJAX 
+	// =======================================================================
+
 	// Tambien se utiliza para editar una categoria.
-	// En esta parte se inici con el Ajax para grabar la información.
+	// En esta parte se inicia con el Ajax para grabar la información.
 	// Capturar los datos del formulario de "Nuevo Categoria"
 	// Seleccionan el id del formulario de Categoria
-	let formCategoria = document.querySelector("#formCategoria");
+	let formCategoria = document.querySelector("#formCategoria"); // 
 	//console.log (formaRol);
 	formCategoria.onsubmit = function(e){
 		e.preventDefault();
@@ -188,22 +193,24 @@ document.addEventListener('DOMContentLoaded',function()
 			return false; // Detiene el proceso.
 		}
 
+		divLoading.style.display = "flex";
 		// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
 		let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
 		let ajaxUrl = base_url+'/Categorias/setCategoria'; // Url a donde buscara el archivo, es en el Controlador/Roles.
 		
-		var formData = new FormData(formCategoria);
+		var formData = new FormData(formCategoria); // Obtiene la etiqueta del formulario.
 		// El método utilizado para enviar la informacion es "POST"
 		request.open("POST",ajaxUrl,true);
 		request.send(formData);
 		request.onreadystatechange = function(){
-			if (request.readyState == 4 && request.status == 200) // Verifica que si llego la información.
+			if (request.readyState == 4 && request.status == 200) // Verifica que si llego la información al navegador
 			{
-				// console.log(request.responseText); // Determinar el contenido de lo que reotorno(Roles/seRol)
-				// La información que viene desde el método "setRol" del Controllers "Roles"
+				// console.log(request.responseText); // Determinar el contenido de lo que retorno(Categorias/setCategoria)
+				// La información que viene desde el método "setCategoria" del Controllers "Categorias"
 				let objData = JSON.parse(request.responseText);
+				divLoading.style.display = null;
 
-				// Accesando a los elementos del Arreglo asociativo, del valor retornado de "setRol"
+				// Accesando a los elementos del Arreglo asociativo, del valor retornado de "setCategoria"
 				if (objData.estatus)
 				{
 					if (rowTable == "")
@@ -216,25 +223,27 @@ document.addEventListener('DOMContentLoaded',function()
 					}
 					else
 					{
+						// Actualizando los registros
 						htmlStatus = intStatus == 1 ?
 						'<span class="badge badge-success">Activo</span>':
 						'<span class="badge badge-danger">Inactivo</span>';
 
+						// No recargara toda la tabla.
 						rowTable.cells[1].textContent = strNombre;
 						rowTable.cells[2].textContent = strDescripcion;
-						rowTable.cells[3].innerHTML = htmlStatus; // Es por que se asigna código HTML
+						rowTable.cells[3].innerHTML = htmlStatus; // Es por que se asigna código HTML (innerHTML)
 						rowTable = "";
 					}
 					$('#modalFormCategorias').modal("hide");
 					formCategoria.reset();
 					swal("Categorias ",objData.msg,"success");
-					removePhoto();
-					// Recarga el DataTable
+					removePhoto();					
 				}
-				else
+				else //if (objData.estatus)
 				{
 					swal("Error",objData.msg,"error");
-				}
+				} // if (objData.estatus)
+				
 			}
 			//console.log(request);
 			return false;
@@ -293,15 +302,17 @@ function fntViewInfo(idcategoria)
 	{
 		if (request.status == 200 && request.readyState == 4)
 		{
-			// Retorna a un objeto lo que se retorna en "getUsuario"
+			// Retorna a un objeto lo que se retorna en "getCategoria"
 
+			// Convierte a formato JSon lo que viene como objeto de la consulta.
 			let objData = JSON.parse(request.responseText);
 			if (objData.estatus)
 			{	
 				let estado = objData.data.estatus == 1 ?
 				'<span class="badge badge-success">Activo</span>':
 				'<span class="badge badge-danger">Inactivo</span>';
-				
+
+				// Asigna el valor a todas las etiquetas de la ventana Modal.
 				document.querySelector("#celId").innerHTML = objData.data.id_categoria;	
 				document.querySelector("#celNombre").innerHTML = objData.data.nombre;
 				document.querySelector("#celDescripcion").innerHTML = objData.data.descripcion;
@@ -326,6 +337,8 @@ function fntViewInfo(idcategoria)
 function fntEditInfo(element,idcategoria)
 {
 	//$('#modalViewCliente').modal('show');
+	// Obtener el elemento padre de "element" que se esta mandando en el momento de la ejecucion de la funcion.
+	// cada "parentNode" corresponde a cada una de las etiquetas hasta llegar al principal.
 	rowTable = element.parentNode.parentNode.parentNode;
 	// console.log(rowTable);
 	//rowTable.cells[1].textContent = "sdfeds";
@@ -359,7 +372,7 @@ function fntEditInfo(element,idcategoria)
 	// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
 	let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
 
-	// Se pasan como parametro al método definido en "Usuarios.php -> Controllers" desde el Ajax
+	// Se pasan como parametro al método definido en "Categoria.php -> Controllers" desde el Ajax
 	// Va obtener los datos del usuarios usando "Ajax"
 	let ajaxUrl = base_url+'/Categorias/getCategoria/'+id_categoria; 
 	request.open("GET",ajaxUrl,true);
@@ -389,6 +402,7 @@ function fntEditInfo(element,idcategoria)
 				}
 
 				// Para que se seleccione la opcion que esta grabada en la tabla
+				// "selectpicker" = Es una libreria.
 				$('#listStatus').selectpicker('render');
 				
 				// Mostrar la portada de la imagen
@@ -450,14 +464,14 @@ function fntDelInfo(id_Categoria)
 		closeOnCancel:true
 		},function(isConfirm)
 		{
-			// Borrar el Cliente, utiliza Ajax para accesar a la Base de datos.
+			// Borrar la "Categoria", utiliza Ajax para accesar a la Base de datos.
 			if (isConfirm)
 			{
 				let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
 				// Se pasan como parametro al método definido en "Roles.php -> Controllers" desde el Ajax
-				let ajaxDelCliente = base_url+'/Categorias/delCategoria';
+				let ajaxDelCategoria = base_url+'/Categorias/delCategoria';
 				let strData = "idCategoria="+idCategoria;
-				request.open("POST",ajaxDelCliente,true);
+				request.open("POST",ajaxDelCategoria,true);
 				request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 				request.send(strData);
 				request.onreadystatechange = function(){
@@ -485,7 +499,7 @@ function fntDelInfo(id_Categoria)
 } // functio fntDelUsuario...
 
 
-// Para mostrar la ventana Modal de Clientes.
+// Para mostrar la ventana Modal de Categorias.
 function openModal()
 {
 	rowTable = "";

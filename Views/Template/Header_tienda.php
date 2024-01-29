@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
+<!-- Es el icono del TAB -->
 	<link rel="icon" type="image/png" href="<?= media();?>/tienda/images/favicon.ico"/>
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="<?= media();?>/tienda/vendor/bootstrap/css/bootstrap.min.css">
@@ -90,19 +91,22 @@
 
 							<li>
 								<a href="<?= base_url(); ?>/Tienda">Tienda</a>
+								<!-- /Tienda = Se va ha crear un "Controlador" -->
 							</li>
 
 							<li>
 								<a href="<?= base_url(); ?>/Nosotros">Nosotros</a>
+								<!-- /Nosotros = Se va ha crear un "Controlador" -->
 							</li>
 
 							<li>
 								<a href="<?= base_url(); ?>/Contacto">Contacto</a>
+								<!-- /Contacto = Se va ha crear un "Controlador" -->
 							</li>
 						</ul>
 					</div>	
 
-					<!-- Icon header -->
+					<!-- Icon header , Buscador, Carrito de Compras -->
 					<div class="wrap-icon-header flex-w flex-r-m">
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
 							<i class="zmdi zmdi-search"></i>

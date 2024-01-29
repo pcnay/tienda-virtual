@@ -51,6 +51,8 @@
 			}
 			else
 			{
+				echo $params;
+				exit;
 				$categoria = strClean($params);
 				// Muestra todas las categorias que se encuentran en los productos.
 				//dep($this->getProductosCategoriaT($categoria));

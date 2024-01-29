@@ -15,39 +15,43 @@
 			//echo "Mensaje desde el *Capa Modelo* Home ";
 		}
 
+		// Busca el "correo electronico" cuando se realiza el Login del Usuario.
 		public function loginUser(string $usuario, string $password)
 		{
 			$this->strUsuario = $usuario;
 			$this->strPassword = $password;
-			/*
-			Para que se despliege en Network -> Request el contenido de la Consula.
-			echo $sql = "SELECT id_persona,estatus FROM t_Personas WHERE email_user = '$this->strUsuario' AND passwords = '$this->strPassword' AND estatus != 0";
-			exit;
-			*/
-			$sql = "SELECT id_persona,estatus FROM t_Personas WHERE email_user = '$this->strUsuario' AND passwords = '$this->strPassword' AND estatus != 0";
+			
+			//Para que se despliege en Network -> Request el contenido de la Consula.
+			//echo $sql = "SELECT id_persona,estatus FROM t_Personas WHERE correo_electronico = '$this->strUsuario' AND passwords = '$this->strPassword' AND estatus != 0";
+			//exit;
+			
+
+
+			$sql = "SELECT id_persona,estatus FROM t_Personas WHERE correo_electronico = '$this->strUsuario' AND passwords = '$this->strPassword' AND estatus != 0";
 			$request = $this->select($sql);
+			//var_dump($request);
+			//exit;
+
 						
 			return $request;
 		}
 		
 		// Obtiene los datos de un usuario.
 		public function sessionLogin(int $iduser)
-		{
+		{			
 			$this->intIdUsuario = $iduser;
+			// Buscar un "Role" para que se coloque en la pagina del Dashboard lado superior derecha, donde
+			// Muestra Nombre Usuario y que ROL.
 			$sql = "SELECT p.id_persona,
-											p.identificacion,
-											p.nombres,
-											p.apellidos,
+											p.ntid,
+											p.nombre_completo,											
 											p.telefono,
-											p.email_user,
-											p.nit,
-											p.nombrefiscal,
-											p.direccionfiscal,
+											p.correo_electronico,																						
 											r.id_rol,r.nombrerol,
 											p.estatus
 							FROM t_Personas p
 							INNER JOIN t_Rol r
-							ON p.rolid = r.id_rol
+							ON p.id_rol = r.id_rol
 							WHERE p.id_persona = $this->intIdUsuario";
 				$request = $this->select($sql);
 				$_SESSION['userData'] = $request;

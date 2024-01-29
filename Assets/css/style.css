@@ -91,12 +91,12 @@
 .prevPhoto {
     display: flex;
     justify-content: space-between;
-    width: 300px;
+    width: 160px; /* 300px;*/
     height: 200px;
     border: 1px solid #CCC;
     position: relative;
     cursor: pointer;
-    background: url(../images/uploads/portada_categoria.png);
+    background: url(../images/portada_categoria.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -164,7 +164,8 @@
 	margin: auto;
 }
 
-/* Seccion para ajustar la foto de las capturas de los productos */
+/* Subir fotos de Productos.
+Seccion para ajustar la foto de las capturas de los productos */
 #containerImages
 {
 	display:flex;
@@ -197,7 +198,6 @@
 {
 	display:none;
 }
-
 
 /* Para ajustar los botones que van debajo de las fotos de los productos */ 
 .btnUploadfile, .btnDeleteImage
