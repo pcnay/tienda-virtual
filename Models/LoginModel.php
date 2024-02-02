@@ -24,15 +24,10 @@
 			//Para que se despliege en Network -> Request el contenido de la Consula.
 			//echo $sql = "SELECT id_persona,estatus FROM t_Personas WHERE correo_electronico = '$this->strUsuario' AND passwords = '$this->strPassword' AND estatus != 0";
 			//exit;
-			
-
-
 			$sql = "SELECT id_persona,estatus FROM t_Personas WHERE correo_electronico = '$this->strUsuario' AND passwords = '$this->strPassword' AND estatus != 0";
 			$request = $this->select($sql);
 			//var_dump($request);
-			//exit;
-
-						
+			//exit;				
 			return $request;
 		}
 		

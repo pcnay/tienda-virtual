@@ -92,7 +92,7 @@
 	{
 		require_once("Models/PermisosModel.php");
 		$objPermisos = new PermisosModel();
-		$idrol = intval($_SESSION['userData']['id_rol']);
+		$idrol = intval($_SESSION['userData']['id_rol']); // ID del usuario que esta logueado.
 
 		// Obtiene los permisos que tiene guardado en la tabla
 		$arrPermisos = $objPermisos->permisosModulo($idrol);	

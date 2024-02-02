@@ -112,7 +112,7 @@
 		{
 			// Previene la Integridad Referencial De Los Datos, se revisa que no existe el usuario en la tabla "t_Personas"
 			$this->intIdrol = $idrol;
-			$sql = "SELECT rolid FROM t_Personas WHERE rolid = $this->intIdrol";
+			$sql = "SELECT id_rol FROM t_Personas WHERE id_rol = $this->intIdrol";
 			$request = $this->select_all($sql);
 			if (empty($request))
 			{

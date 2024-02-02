@@ -28,6 +28,7 @@
 
 			// Ejecuta el constructor padre (desde donde se hereda.)
 			// Para que la clase de instancie y ejecute la clase de "Modelo"
+			
 			// "getPermisos(6)" -> Para extraer los permisos que corresponde al modulo en el momento, para este caso es el 6 (Categorias)
 			getPermisos(6); // Este el Id que corresponde en la tabla de Modulos; 6 = Categorias
 		}

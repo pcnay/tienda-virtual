@@ -29,7 +29,7 @@
 		</div>
 
     <!-- Navbar-->
-    <header class="app-header"><a class="app-header__logo" href="<?php echo base_url(); ?>/Dashboard">Tienda Virtual</a>
+    <header class="app-header"><a class="app-header__logo" href="<?php echo base_url(); ?>/Dashboard">Control Responsivas</a>
       <!-- Sidebar toggle button-->
 			<!-- NO se requiere agregar : <i class="fas fa-bars"></i> -->
 			<a class="app-sidebar__toggle" href="#" 

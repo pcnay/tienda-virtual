@@ -3,7 +3,7 @@
     <aside class="app-sidebar">
       <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="<?php echo media(); ?>/images/avatar.png" alt="User Image">
         <div>
-          <p class="app-sidebar__user-name"><?=$_SESSION['userData']['nombres']; ?></p>
+          <p class="app-sidebar__user-name"><?=$_SESSION['userData']['nombre_completo']; ?></p>
           <p class="app-sidebar__user-designation"><?=$_SESSION['userData']['nombrerol']; ?></p>
         </div>
       </div>
@@ -13,7 +13,20 @@
 					<li><a class="app-menu__item" href="<?php echo base_url(); ?>/Dashboard"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a></li>
 				<?php } ?>
 
-				<!-- Es el ID que le corresponde en la tabla "t_Roles" para "Usuarios" -->			
+				<!-- Es el ID que le corresponde en la tabla "t_Modulos" para "Modulos" -->			
+				<?php if (!empty($_SESSION['permisos'][5]['r'])){ ?>
+					<li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview">
+						<!-- <i class="app-menu__icon fa 				fa-laptop"></i> Cuando se agrege otro icono debe ser de esta manera --> 
+						<i class="app-menu__icon fa fa-users" aria-hidden="true"></i>
+						<span class="app-menu__label">Modulos</span><i class="treeview-indicator fa 	fa-angle-right"></i></a>
+						<ul class="treeview-menu">
+							<li><a class="treeview-item" href="<?php echo base_url(); ?>/Modulos"><i class="icon fa fa-circle-o"></i>Modulos</a></li>
+							<li><a class="treeview-item" href="<?php echo base_url(); ?>/Roles"><i class="icon fa fa-circle-o"></i>Roles</a></li>
+						</ul>
+					</li>          
+				<?php } ?>	
+
+				<!-- Es el ID que le corresponde en la tabla "t_Modulos" para "Usuarios" -->			
 				<?php if (!empty($_SESSION['permisos'][2]['r'])){ ?>
 					<li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview">
 						<!-- <i class="app-menu__icon fa 				fa-laptop"></i> Cuando se agrege otro icono debe ser de esta manera --> 
@@ -21,12 +34,12 @@
 						<span class="app-menu__label">Usuarios</span><i class="treeview-indicator fa 	fa-angle-right"></i></a>
 						<ul class="treeview-menu">
 							<li><a class="treeview-item" href="<?php echo base_url(); ?>/Usuarios"><i class="icon fa fa-circle-o"></i>Usuarios</a></li>
-							<li><a class="treeview-item" href="<?php echo base_url(); ?>/Roles"><i class="icon fa fa-circle-o"></i>Roles</a></li>
+							<!-- <li><a class="treeview-item" href="<?php echo base_url(); ?>/Roles"><i class="icon fa fa-circle-o"></i>Roles</a></li> -->
 						</ul>
 					</li>          
 				<?php } ?>	
 
-				<!-- Es el ID que le corresponde en la tabla "t_Roles" para "Clientes" -->
+				<!-- Es el ID que le corresponde en la tabla "t_Modulos" para "Clientes" -->
 				<?php if (!empty($_SESSION['permisos'][3]['r'])){ ?>		
         <li>
 					<a class="app-menu__item" href="<?php echo base_url(); ?>/Clientes">
