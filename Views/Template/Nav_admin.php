@@ -50,18 +50,24 @@
 				<?php } ?>
 
 				<!-- Es el ID que le corresponde en la tabla "t_Roles" para "Dashboard" -->	
-				<!-- permiso[4] = Tienda; permiso[6] = Categorias --> 		
+				<!-- permiso[4] = Producto; permiso[6] = Categorias --> 		
 				<?php if ((!empty($_SESSION['permisos'][4]['r'])) || (!empty($_SESSION['permisos'][6]['r']))) { ?>
 					<li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview">
 						<!-- <i class="app-menu__icon fa 				fa-laptop"></i> Cuando se agrege otro icono debe ser de esta manera --> 
 						<i class="app-menu__icon fa fa-archive" aria-hidden="true"></i>
-						<span class="app-menu__label">Tienda</span><i class="treeview-indicator fa 									fa-angle-right"></i></a>
+						<span class="app-menu__label">Productos</span><i class="treeview-indicator fa fa-angle-right"></i></a>
 						<ul class="treeview-menu">
 
 							<!-- permisos[4] = Productos; -->
 							<?php if (!empty($_SESSION['permisos'][4]['r'])) { ?>
 								<li><a class="treeview-item" href="<?php echo base_url(); ?>/Productos"><i class="icon fa fa-circle-o"></i>Productos</a></li>
 							<?php } ?>	
+
+							<!-- permisos[9] = Marcas -->
+							<?php if (!empty($_SESSION['permisos'][9]['r'])) { ?>
+								<li><a class="treeview-item" href="<?php echo base_url(); ?>/Modelos"><i class="icon fa fa-circle-o"></i>Modelos</a></li>
+							<?php } ?>	
+
 
 							<!-- permisos[6] = Categorias -->
 							<?php if (!empty($_SESSION['permisos'][6]['r'])) { ?>
