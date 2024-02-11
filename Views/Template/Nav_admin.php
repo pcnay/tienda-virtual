@@ -53,7 +53,7 @@
 				<!-- permiso[4] = Producto; permiso[6] = Categorias --> 		
 				<?php if ((!empty($_SESSION['permisos'][4]['r'])) || (!empty($_SESSION['permisos'][6]['r']))) { ?>
 					<li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview">
-						<!-- <i class="app-menu__icon fa 				fa-laptop"></i> Cuando se agrege otro icono debe ser de esta manera --> 
+						<!-- <i class="app-menu__icon fa fa-laptop"></i> Cuando se agrege otro icono debe ser de esta manera --> 
 						<i class="app-menu__icon fa fa-archive" aria-hidden="true"></i>
 						<span class="app-menu__label">Productos</span><i class="treeview-indicator fa fa-angle-right"></i></a>
 						<ul class="treeview-menu">
@@ -79,14 +79,17 @@
 					
 				<?php } ?>
 
-				<?php if (!empty($_SESSION['permisos'][5]['r'])){ ?>
-        <li>
-					<a class="app-menu__item" href="<?php echo base_url(); ?>/Pedidos">
-						<i class="app-menu__icon fa fa-shopping-cart" aria-hidden="true"></i>
-							<span class="app-menu__label">Pedidos</span>
-					</a>
-				</li>
-				<?php } ?>
+				<!-- Es el ID que le corresponde en la tabla "t_Modulos" para "Notas" -->			
+				<?php if (!empty($_SESSION['permisos'][10]['r'])){ ?>
+					<li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview">
+						<!-- <i class="app-menu__icon fa 				fa-laptop"></i> Cuando se agrege otro icono debe ser de esta manera --> 
+						<i class="app-menu__icon fa fa-users" aria-hidden="true"></i>
+						<span class="app-menu__label">Pendientes</span><i class="treeview-indicator fa 	fa-angle-right"></i></a>
+						<ul class="treeview-menu">
+							<li><a class="treeview-item" href="<?php echo base_url(); ?>/Notas"><i class="icon fa fa-circle-o"></i>Notas</a></li>
+						</ul>
+					</li>          
+				<?php } ?>	
 
         <li>
 					<a class="app-menu__item" href="<?php echo base_url(); ?>/Logout">

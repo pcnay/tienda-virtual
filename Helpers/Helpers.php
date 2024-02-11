@@ -127,7 +127,7 @@
 	function sessionStart()
 	{
 		session_start();
-		$inactive = 10800; // Son expresados en Segundos, cuanto permanecera la sesion activo, 3 Hrs; 1 hr = 3600 seg
+		$inactive = 10800; // Son expresados en Segundos, cuanto permanecera la sesion activo, 3 Hrs; 1 hr = 3600 seg, 10,800 seg = 3 Hrs.
 		if (isset($_SESSION['timeout']))
 		{
 			$session_in = time() - $_SESSION['inicio']; // Valores en Segundos.
