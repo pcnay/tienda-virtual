@@ -78,7 +78,7 @@
 
 							<div class="row"> <!-- Define una fila -->								
 								<div class="form-group col-md-8">
-										<!-- Select - Combobox -->
+										
 										<div class="form-group">
 											<label for="fecha_nota">Fecha Nota<span class = "required">*</span></label>
 											<input class="form-control" id="txtFecha_Nota" name="txtFecha_Nota" type="date" required= "">

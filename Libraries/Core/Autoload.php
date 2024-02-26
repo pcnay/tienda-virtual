@@ -1,6 +1,6 @@
 <?php
 	// Cargar las clases de forma automatica.
-	// $class = Es la calse que se cargara de forma automática 
+	// $class = Es la clase que se cargara de forma automática 
 	spl_autoload_register(function($class)
 	{
 		if (file_exists("Libraries/".'Core/'.$class.".php"))

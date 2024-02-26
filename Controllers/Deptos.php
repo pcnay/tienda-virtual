@@ -1,6 +1,6 @@
 <?php
 
-	class Notas extends Controllers
+	class Deptos extends Controllers
 	{
 		public function __construct()
 		{
@@ -11,15 +11,15 @@
 
 			// Para que deje la sesion abierta en PHP desde la aplicacion y no desde la configuracion del servidor
 			sessionStart();
-
-			// Evitar que ingresen en otro navegador utilizando el PHPSESSID
-			// Elimina las ID Anteriores.
-			//session_regenerate_id(true);
 			session_regenerate_id(true); // Regenere el Id de la sesion es para mayor seguridad. NO puede usar la ID se la sesion y ingresen al sistema.
  
 			parent::__construct();
 			// Verifica si la variable de SESSION["login"] esta en Verdadero, sigfica que esta una sesion iniciada.
 			//session_start();
+
+			// Evitar que ingresen en otro navegador utilizando el PHPSESSID
+			// Elimina las ID Anteriores.
+			//session_regenerate_id(true);
 			
 			if (empty($_SESSION['login']))
 			{
@@ -29,16 +29,16 @@
 			// Ejecuta el constructor padre (desde donde se hereda.)
 			// Para que la clase de instancie y ejecute la clase de "Modelo"
 			
-			// "getPermisos(6)" -> Para extraer los permisos que corresponde al modulo en el momento, para este caso es el 10 (Notas)
-			getPermisos(10); // Este el Id que corresponde en la tabla de Modulos; 10 = Notas
+			// "getPermisos(6)" -> Para extraer los permisos que corresponde al modulo en el momento, para este caso es el 6 (Categorias)
+			getPermisos(12); // Este el Id que corresponde en la tabla de Modulos; 12 = Deptos
 		}
 		
 		// Mandando información a las Vistas.
-		public function Notas()
+		public function Deptos()
 		{
 			//echo "<br>";
 			//echo "Mensaje desde el controlador Home ";
-			// Si no tiene el rol de "Lectura" no se podra mostrar la vista de "Modulos".
+			// Si no tiene el rol de "Lectura" no se podra mostrar la vista de "Categorias".
 			if (empty($_SESSION['permisosMod']['r']))
 			{
 				header('Location: '.base_url().'/Dashboard');	
@@ -47,30 +47,29 @@
 			// $this = Es la clase "Home", donde se define.
 			// "home" = la vista a mostrar.
 			// Esta información se puede obtener desde una base de datos, ya que el Controlador se comunica con el Modelo.			
-			$data['page_tag'] = "Notas";
-			$data['page_title'] = "NOTAS <small>Control Responsivas</small>";
-			$data['page_name'] = "Notas";
-			$data['page_functions_js'] = "Functions_notas.js";
+			$data['page_tag'] = "Departamentos";
+			$data['page_title'] = "DEPARTAMENTOS <small>Control Responsivas</small>";
+			$data['page_name'] = "Departamentos";
+			$data['page_functions_js'] = "Functions_deptos.js";
 
-			// $this = Es equivalente "Notas"
-			// Se llama la vista "Notas"
-			$this->views->getView($this,"Notas",$data);
+			// $this = Es equivalente "Usuarios"
+			// Se llama la vista "Categorias"
+			$this->views->getView($this,"Deptos",$data);
 		}
 
-		// Método para asignar Notas.
-		// Se llama en "Functions_notas.js", request.open("POST",ajaxUrl,true);
-		public function setNota()
+		// Método para asignar Deptos.
+		// Se llama en "Functions_deptos.js", request.open("POST",ajaxUrl,true);
+		public function setDepto()
 		{
 			if ($_SESSION['permisosMod']['w'])
 				{
 					//dep($_POST); // Obtener el valor de la variable "Global". 
 					//dep($_FILES);
-					//die();
 					//exit();
 
 					if ($_POST)
 					{
-						if (empty($_POST['txtTitulo']) || empty($_POST['txtDescripcion']) || empty($_POST['txtDuracion']) || empty($_POST['listStatus']) || empty($_POST['listPersonas']) || empty($_POST['txtFecha_Nota']))
+						if (empty($_POST['txtDescripcion']))
 						{
 							$arrResponse = array("estatus" => false, "msg" => 'Datos Incorrectos');
 						}
@@ -78,46 +77,34 @@
 						{
 							// Obtener los datos que se estan enviando por Ajax 
 							// "strClean" = Esta definida en "Helpers", para limpiar las cadenas.
-							$intIdnota = intval($_POST['idNota']); // Convertir a Entero, como no se envia la convierte a "0"
-							$strTitulo = strClean($_POST['txtTitulo']);
+							$intIddepto= intval($_POST['idDepto']); // Convertir a Entero.							
+							// clear_cadena = Es una funcion que se crea para quitar los acentos en los nombres de los productos.							
 							$strDescripcion = strClean($_POST['txtDescripcion']);
-							$intStatus = intval($_POST['listStatus']); // Conviertiendola a Entero.
-							$intDuracion = intval($_POST['txtDuracion']); // Conviertiendola a Entero.
-							// Para poder grabarlo a la tabla de la base de datos.
-							$strFecha_Nota = date("Y-m-d",strtotime($_POST['txtFecha_Nota'])); 							 
-							$intlistPersona = intval($_POST['listPersonas']); // Conviertiendola a Entero.
-							$intId_Persona = intval($_SESSION['idUser']); // ID del usuario que inicia la sesion.
-														
-							// Seccion para Crear o Actualizar los Roles.
-							$request_nota = Null;
-
-							if($intIdnota == 0)
+		
+							// Seccion para Crear o Actualizar los Departamentos.
+							if($intIddepto == 0)
 							{
-								// Crear Nota
+								// Crear Depto
 								if ($_SESSION['permisosMod']['w'])
 								{
-									// Falta revisar el modelo de "insertNota"*********
-									$request_nota = $this->model->insertNota($intId_Persona,$strTitulo,$strDescripcion,$intStatus,$intDuracion,$strFecha_Nota,$intlistPersona);
+									$request_depto = $this->model->insertDepto($strDescripcion);
 									$option = 1;
 								}
 							}
 							else
 							{
-								// Actualizar Producto							
+								// Actualizar Depto
+								// Validar cuando no se actualiza la foto.
 								
 								if ($_SESSION['permisosMod']['u'])
 								{
+									// Actualizando un Depto.
+									$request_depto = $this->model->updateDepto($intIddepto,$strDescripcion);
 									$option = 2;
-									// Actualizando la Categoria.
-									$request_nota = $this->model->updateNota($intIdnota,$strTitulo,$strDescripcion,$intStatus,$intDuracion,$strFecha_Nota,$intlistPersona);									
 								}
 							}
 
-							//dep($request_nota);
-							//die();
-							//exit();
-
-							if ($request_nota > 0)
+							if ($request_depto > 0)
 							{
 								if ($option == 1)
 								{
@@ -126,11 +113,12 @@
 								else
 								{
 									$arrResponse = array('estatus' => true, 'msg' => 'Datos Actualizados Correctamente');					
-								}						
+								}				
+		
 							}
-							else if($request_nota == 'Existe')
+							else if($request_depto == 'Existe')
 							{
-								$arrResponse = array('estatus'=>false,'msg'=>'La Nota Ya Existe');
+								$arrResponse = array('estatus'=>false,'msg'=>'La Descripcion Ya Existe');
 							}
 							else
 							{
@@ -140,7 +128,7 @@
 						} // if (empty($_POST['txtNombre']) || empty($_POST[
 
 						// Corrige los datos de caracteres raros.
-						// Esta información es enviada a "Functions_notas.js"
+						// Esta información es enviada a "Functions_categorias.js"
 						echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 
 					} // 	if ($_POST)					
@@ -150,15 +138,15 @@
 				} // if ($_SESSION['permisosMod']['w'])
 		}
 
-		// Para mostrar las Notas en pantalla.
-		// Obteniene las "Notas" 
-		public function getNotas()
+		// Para mostrar las Categorias en pantalla.
+		// Obteniene las "Categorias" 
+		public function getDeptos()
 		{
-			// Esta condicion se utiliza para que usuarios que no tengan sesion no pueden visualizar las Notas.
+			// Esta condicion se utiliza para que usuarios que no tengan sesion no pueden visualizar los Deptos..
 			if ($_SESSION['permisosMod']['r'])
 			{
 				
-				$arrData = $this->model->selectNotas(); // Obtiene las Notas.
+				$arrData = $this->model->selectDeptos(); // Obtiene los Deptos.
 				//dep($arrData);
 				//exit;
 
@@ -168,27 +156,17 @@
 					$btnView = '';
 					$btnEdit = '';
 					$btnDelete = '';
-
-					// Cambiando el valor del "Estatus" a Colores
-					if ($arrData[$i]['estatus'] == 1)
-					{
-						$arrData[$i]['estatus'] = '<span class="badge badge-success">Activo</span>';
-					}
-					else
-					{
-						$arrData[$i]['estatus'] = '<span class="badge badge-danger">Inactivo</span>';
-					}
-					
+	
 
 					if ($_SESSION['permisosMod']['r'])
 					{
-						$btnView = '<button class="btn btn-info btn-sm btnViewInfo" onClick="fntViewInfo('.$arrData[$i]['id_nota'].')" title="Ver Nota"><i class="far fa-eye"></i></button>';
+						$btnView = '<button class="btn btn-info btn-sm btnViewInfo" onClick="fntViewInfo('.$arrData[$i]['id_depto'].')" title="Ver Deptos"><i class="far fa-eye"></i></button>';
 					}
 
 					if ($_SESSION['permisosMod']['u'])
 					{
 						// this = Significa que se enviara como parámetro todo la etiqueta "botton" 
-							$btnEdit = '<button class="btn btn-primary btn-sm btnEditInfo" onClick="fntEditInfo(this,'.$arrData[$i]['id_nota'].')" title="Editar Nota"><i class="fas fa-pencil-alt"></i></button>';
+							$btnEdit = '<button class="btn btn-primary btn-sm btnEditInfo" onClick="fntEditInfo(this,'.$arrData[$i]['id_depto'].')" title="Editar Depto"><i class="fas fa-pencil-alt"></i></button>';
 
 					} // if ($_SESSION['permisosMod']['u'])
 
@@ -197,7 +175,7 @@
 					// Con la opcion "Profile"
 					if ($_SESSION['permisosMod']['d'])
 					{
-						$btnDelete = '<button class="btn btn-danger btn-sm btnDelInfo" onClick="fntDelInfo('.$arrData[$i]['id_nota'].')" title="Eliminar Nota"><i class="fas fa-trash-alt"></i></button>';
+						$btnDelete = '<button class="btn btn-danger btn-sm btnDelInfo" onClick="fntDelInfo('.$arrData[$i]['id_depto'].')" title="Eliminar Depto"><i class="fas fa-trash-alt"></i></button>';
 
 					} // if ($_SESSION['permisosMod']['d'])
 
@@ -210,39 +188,31 @@
 				echo json_encode($arrData,JSON_UNESCAPED_UNICODE);				
 
 			} // if ($_SESSION['permisosMod']['r'])
-			else
-			{
-				$arrData = array();		
-				$arrData = Null;
-				echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
-			}
 
 			die(); // Finaliza el proceso.
 
-		} // Public function getNotas()
+		} // Public function getDeptos()
 
 
-		// Obtener una "Nota"
+		// Obtener un "Departamento"
 		// Depende de la definicion del “.htaccess”, que se manden por valores por la URL
-		public function getNota($idNota)
+		public function getDepto($idDepto)
 		{			
-			// Validando que no pueda ver las Notas, sin Permisos.
+			// Validando que no pueda ver las Categorias, sin Permisos.
 			if ($_SESSION['permisosMod']['r'])
 			{				
-				$intIdnota = intval($idNota); // Convertilo a Entero, si tuviera letras la conveirte a 0.
+				$intIdDepto = intval($idDepto); // Convertilo a Entero, si tuviera letras la conveirte a 0.
 
 				//dep($intIdrol);
 				//die;
 
-				// Si existe el idnota
-				if ($intIdnota > 0)
+				// Si existe el idcategoria
+				if ($intIdDepto > 0)
 				{
-					$arrData = $this->model->selectNota($intIdnota); // Extraer la Nota
+					$arrData = $this->model->selectDepto($intIdDepto); // Extraer un Departamento
 					//dep ($arrData);
 					//exit;
-
-
-					if (empty($arrData)) // No existe Categoria
+					if (empty($arrData)) // No existe el Departamento
 					{
 						$arrResponse = array('estatus'=>false,'msg'=>'Datos no encontrados');
 					}
@@ -263,30 +233,33 @@
 		}
 
 
-		// Método para borrar la Nota.
-		public function delNota()
+		// Método para borrar el Departamento.
+		public function delDepto()
 		{
-			// Esta variable superglobal se genero en "Functions_roles.js", seccion "fntDelCategoria"
+			// Esta variable superglobal se genero en "Functions_depto.js", seccion "fntDelDepto"
 			if ($_POST)
 			{
 				if ($_SESSION['permisosMod']['d'])
 				{
-					$intIdNota = intval($_POST['idNota']);
+					// Este valor se definio en "Functions_depto.js"
+					// let strData = "idDepto="+idDepto;
+					//request.open("POST",ajaxDelDepto,true);
+					$intIdDepto = intval($_POST['idDepto']); 
 
 					// Este objeto se define en el Modleo "Rol".
-					$requestDelete = $this->model->deleteNota($intIdNota);
+					$requestDelete = $this->model->deleteDepto($intIdDepto);
 
 					if($requestDelete == "ok")
 					{
-						$arrResponse = array('estatus'=> true, 'msg' => 'Se ha Eliminado La Nota');
+						$arrResponse = array('estatus'=> true, 'msg' => 'Se ha Eliminado El Departamento');
 					}
 					else if ($requestDelete == "existe")
 					{
-						$arrResponse = array('estatus'=> false, 'msg' => 'No es posible eliminar la Nota Asociada');			
+						$arrResponse = array('estatus'=> false, 'msg' => 'No es posible eliminar un Departamento con productos Asociados');			
 					}
 					else
 					{
-						$arrResponse = array('estatus'=> false, 'msg' => 'Error Al Eliminar La Nota');
+						$arrResponse = array('estatus'=> false, 'msg' => 'Error Al Eliminar el Departamento');
 					}
 					echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 
@@ -298,7 +271,7 @@
 
 		// Obtiene las categorias para el combo de la pantalla de captura de los productos,
 		// El que utiliza una funcion de Jquery "selectpicker", esta funcion se llama en "fntCategorias" en "Functions_productos.js"
-		public function getSelectNotas()
+		public function getSelectCategorias()
 		{
 			$htmlOptions = "";
 			$arrData = $this->model->selectCategorias(); // Extraer todas las Categorias, desde la tabla t_Categorias

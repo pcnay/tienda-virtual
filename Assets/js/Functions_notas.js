@@ -86,7 +86,8 @@ function fntPersonas()
 				document.querySelector('#listPersonas').innerHTML = request.responseText; // Asigna lo que se ejecuto en ajaxUrl = base_url+'/Categorias/getSelectCategorias', ya que retorna codigo HTML (cuando se ejecuta el "ajaxURL"), por lo que no se conviertio a objeto JSon
 
 				// Se muestren las opciones aplicando el buscador. Se renderiza, se utiliza JQuery (selecpicker)
-				$('#listPersonas').selectpicker('render');
+				// $('#listPersonas').selectpicker('render');
+				$('#listPersonas').selectpicker('refresh');
 			}
 		}
 	}
@@ -178,6 +179,8 @@ document.addEventListener('DOMContentLoaded',function()
 			//let strlistPersonas = document.querySelector('#listPersona').value;
 			let intDuracion = document.querySelector('#txtDuracion').value;
 			let intStatus = document.querySelector('#listStatus').value;
+			let intPersona = document.querySelector('#listPersonas').value;
+			let strFecha_Nota = document.querySelector('#txtFecha_Nota').value;
 
 			if (strTitulo == '' || intDuracion == '' || intStatus == '')
 			{
@@ -219,29 +222,39 @@ document.addEventListener('DOMContentLoaded',function()
 						// Para agregar las fotos del Producto.
 						document.querySelector("#idNota").value = objData.id_nota;
 
-						if (rowTable == "") // Es un producto nuevo
+						$('#modalFormNotas').modal("hide");
+						tableNotas.api().ajax.reload(); // Recarga el 
+
+
+						if (rowTable == "") // Es una nota nueva
 						{
 							tableNotas.api().ajax.reload(); // Recarga el DataTable de las Notas.
 						}
-						else // Actualizar el producto
+						else // Actualizar la Nota
 						{
 							htmlStatus = intStatus == 1?
 								'<span class="badge badge-success">Activo</span>':
 								'<span class="badge badge-danger">Inactivo</span>';
-							rowTable.cells[1].textContent = intCodigo;
-							rowTable.cells[2].textContent = strNombre;
-							rowTable.cells[3].textContent = intStock;
-							rowTable.cells[4].textContent = smony+strPrecio;
-							rowTable.cells[5].innerHTML = htmlStatus;		// Para que lo agregue como contenido HTML.				
+							rowTable.cells[1].textContent = strTitulo;
+							rowTable.cells[2].textContent = strDescripcion;
+							rowTable.cells[3].textContent = intPersona;
+							rowTable.cells[4].textContent = intDuracion;
+							rowTable.cells[5].textContent = strFecha_Nota;
+							rowTable.cells[6].innerHTML = htmlStatus;		// Para que lo agregue como contenido HTML.				
 							rowTable = "";	
+							$('#modalFormNotas').modal("hide");
+							tableNotas.api().ajax.reload(); // Recarga el 
 						} // if (rowTable == "")
 					}
 					else
 					{
 						swal("Error",objData.msg,"error");						
 					}			
+
 					$('#modalFormNotas').modal("hide");
 					formNotas.reset();
+					
+
 					//swal("Modelos",objData.msg,"success");
 					
 				} // if (request.readyState == 4 && request.status == 200)
@@ -331,8 +344,8 @@ function fntViewInfo(idNota)
 
 } // function fntViewInfo(idpersona)
 
-// Para editar Categoría
-function fntEditInfo(element,idModulo)
+// Para editar Nota
+function fntEditInfo(element,idNota)
 {
 	//$('#modalViewCliente').modal('show');
 	// Obtener el elemento padre de "element" que se esta mandando en el momento de la ejecucion de la funcion.
@@ -362,17 +375,18 @@ function fntEditInfo(element,idModulo)
 	// Cambiando la clase de los botones (Colores)
 	document.querySelector('#btnActionForm').classList.replace("btn-primary","btn-info");
 	document.querySelector('#btnText').innerHTML = "Actualizar";
-	document.querySelector('#titleModal').innerHTML = "Actualizar Modulo";
+	document.querySelector('#titleModal').innerHTML = "Actualizar Nota";
+	
 
-	let id_modulo = idModulo;
+	let id_nota = idNota;
 	//console.log(idrol);
 
 	// Detecta en que navegador se encuentra activo. Google Chrome, Firefox o Internet Explorer. 
 	let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
 
-	// Se pasan como parametro al método definido en "Categoria.php -> Controllers" desde el Ajax
+	// Se pasan como parametro al método definido en "Notas.php -> Controllers" desde el Ajax
 	// Va obtener los datos del usuarios usando "Ajax"
-	let ajaxUrl = base_url+'/Modulos/getModulo/'+id_modulo; 
+	let ajaxUrl = base_url+'/Notas/getNota/'+id_nota; 
 	request.open("GET",ajaxUrl,true);
 	request.send(); // Se envia la petición (ejecutar el archivo "getModulo/XXX")
 	// Lo que retorne (echo Json.... el Controllers/Modulos/getModulo
@@ -380,15 +394,29 @@ function fntEditInfo(element,idModulo)
 	{
 		if (request.status == 200 && request.readyState == 4)
 		{
-			// Retorna a un objeto de la funcion "getUsuario" de ModeloCategorias.php, al formato JSon
+			// Retorna a un objeto de la funcion "getNota" de ModelNota.php, al formato JSon(Objeto)
 			let objData = JSON.parse(request.responseText);
-			if (objData.estatus)
-			{													
-				document.querySelector("#idModulo").value = objData.data.id_modulo;	
-				document.querySelector("#txtNombre").value = objData.data.titulo;
-				document.querySelector("#txtDescripcion").value = objData.data.descripcion;
 
-				if (objData.data.estatus == 1)
+			if (objData.estatus)
+			{	
+				fntPersonas();												
+				// idNota = Se definio como campo oculto en "ModalNota.php", "formNotas"
+				objPersona = objData.data;
+				//console.log(objPersona);
+				//console.log(objPersona.id_nota);
+
+				//console.log(objPersona[0].idPersona);	
+
+				document.querySelector("#idNota").value = objPersona.id_nota;	
+				document.querySelector("#txtTitulo").value = objPersona.titulo_nota;
+				document.querySelector("#txtDescripcion").value = objPersona.descripcion_nota;
+				document.querySelector("#txtDuracion").value = objPersona.duracion_nota;
+				//document.querySelector("#txtFecha_Nota").value = objData.data.Fecha_Asignado;
+				document.querySelector("#txtFecha_Nota").value = objPersona.Fecha_Asignado;
+				// Colocar el contenido de descripcion en "tinymce"
+				tinymce.activeEditor.setContent(objPersona.descripcion);
+
+				if (objPersona.estatus == 1)
 				{
 					document.querySelector('#listStatus').value = 1;
 				}
@@ -399,9 +427,19 @@ function fntEditInfo(element,idModulo)
 
 				// Para que se seleccione la opcion que esta grabada en la tabla
 				// "selectpicker" = Es una libreria.
-				$('#listStatus').selectpicker('render');
-	
-				$('#modalFormModulo').modal('show');
+				//$('#listStatus').selectpicker('render');
+				$('#listStatus').selectpicker('refresh');
+				
+				// Colocar el ComboBox en la opcion seleccionada
+				//console.log(objData.data.idPersona)
+				
+				document.querySelector("#listPersonas").value = objPersona.idPersona;
+				
+				// "selectpicker" = Es una libreria.
+				//$('#listPersonas').selectpicker('render'); //
+				$('#listPersonas').selectpicker('refresh');
+
+				$('#modalFormNotas').modal('show');
 
 			} // if (objData.estatus)
 			else
@@ -416,18 +454,18 @@ function fntEditInfo(element,idModulo)
 } // function fntViewInfo(idpersona)
 
 // Borrar una Categoria
-function fntDelInfo(id_Modulo)
+function fntDelInfo(id_Nota)
 {
 	/*
 	let btnDelRol = document.querySelectorAll(".btnDelRol");
 	btnDelRol.forEach(function(btnDelRol){
 		btnDelRol.addEventListener('click',function(){
 	*/
-	let idModulo = id_Modulo;
+	let idNota = id_Nota;
 	// alert(idrol);
 	swal({
-		title:"Eliminar Modulo",
-		text:"Realmente quiere eliminar el Modulo ?",
+		title:"Eliminar Nota",
+		text:"Realmente quiere eliminar la Nota ?",
 		type:"warning",
 		showCancelButton:true,
 		confirmButtonText:"Si, eliminar !",
@@ -441,9 +479,9 @@ function fntDelInfo(id_Modulo)
 			{
 				let request = (window.XMLHttpRequest) ? new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
 				// Se pasan como parametro al método definido en "Roles.php -> Controllers" desde el Ajax
-				let ajaxDelCategoria = base_url+'/Modulos/delModulo';
-				let strData = "idModulo="+idModulo;
-				request.open("POST",ajaxDelCategoria,true);
+				let ajaxDelNota = base_url+'/Notas/delNota';
+				let strData = "idNota="+idNota;
+				request.open("POST",ajaxDelNota,true);
 				request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 				request.send(strData);
 				request.onreadystatechange = function(){
@@ -454,7 +492,7 @@ function fntDelInfo(id_Modulo)
 						if (objData.estatus)
 						{
 							swal("Eliminar! ",objData.msg,"success");
-							tableModulos.api().ajax.reload(function(){
+							tableNotas.api().ajax.reload(function(){
 								//fntEditRol();
 								//fntDelrol();
 								//fntPermisos();
@@ -468,13 +506,14 @@ function fntDelInfo(id_Modulo)
 				} 			
 			}
 	});		
-} // functio fntDelUsuario...
+} // functio fntDelNota...
 
 
-// Para mostrar la ventana Modal de Categorias.
+// Para mostrar la ventana Modal de Notas.
 function openModal()
 {
 	rowTable = "";
+	fntPersonas();
 
 	//alert("OpenModal");
 	// Se actualizan los datos de la ventana modal a Mostrar, se agregan estos valores para que se pueda actualiar la ventana modal de "Agregar" y "Actualizar" Usuarios.
@@ -487,12 +526,12 @@ function openModal()
 	document.querySelector('.modal-header').classList.replace("headerUpdate","headerRegister");
 	// Cambiando la clase de los botones (Colores)
 	document.querySelector('#btnActionForm').classList.replace("btn-info","btn-primary");
-	document.querySelector('#btnText').innerHTML = "Guardar";
-	document.querySelector('#titleModal').innerHTML = "Nueva Nota";
+	document.querySelector('#btnText').innerHTML = "Nuevo";
+	document.querySelector('#titleModal').innerHTML = "Crear Nota";
 	// Resetear el Formulario, limpia todos los campos.
 	document.querySelector('#formNotas').reset();
 
 	$('#modalFormNotas').modal('show');
-	fntPersonas();
+	
 }
 

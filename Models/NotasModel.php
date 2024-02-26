@@ -1,6 +1,6 @@
 <?php
 	class NotasModel extends Mysql
-	{
+	{		
 		public $intId_persona;
 		public $intIdnota;		
 		public $intIdNotas;		
@@ -93,49 +93,40 @@
 		{			
 			$this->intIdNotas = $idNota;
 			
-			$sql = "SELECT t_Notas.id_nota AS id_nota,t_Notas.titulo_nota AS titulo_nota,t_Notas.descripcion_nota AS descripcion,t_Personas.nombre_completo AS nombre_completo,t_Notas.duracion_nota AS duracion_nota,DATE_FORMAT(t_Notas.fecha_nota,'%d-%m-%Y') as Fecha_Asignado,t_Notas.estatus AS estatus FROM t_Notas INNER JOIN t_Personas ON t_Notas.persona_asignada = t_Personas.id_persona WHERE (t_Notas.id_nota = '{$this->intIdNotas}' AND t_Notas.estatus != 0)";
+			$sql = "SELECT t_Notas.id_nota AS id_nota,t_Notas.titulo_nota AS titulo_nota,t_Notas.descripcion_nota AS descripcion,t_Personas.nombre_completo AS nombre_completo,t_Notas.persona_asignada AS idPersona,t_Notas.duracion_nota AS duracion_nota,DATE_FORMAT(t_Notas.fecha_nota,'%d-%m-%Y') as Fecha_Asignado,t_Notas.estatus AS estatus FROM t_Notas INNER JOIN t_Personas ON t_Notas.persona_asignada = t_Personas.id_persona WHERE (t_Notas.id_nota = '{$this->intIdNotas}' AND t_Notas.estatus != 0)";
 			$request = $this->select($sql); // Este método se definio en MySQL
 			return $request;
 		}
 		
-		// Actualizar un Modulo.
-		public function updateModulo(int $idModulo, string $nombre, string $descripcion, int $status)
+		// Actualizar un Nota.
+		public function updateNota(int $IdNota, string $Titulo, string $Descripcion, int $Status, int $Duracion,$Fecha_Nota,$listPersona)
 		{
-			$this->intIdModulo = $idModulo;
-			$this->strNombre = $nombre;
-			$this->strDescripcion = $descripcion;
-			$this->intStatus = $status;
+			$this->intIdnota = $IdNota;		
+			$this->strTitulo = $Titulo;
+			$this->strDescripcion = $Descripcion;
+			$this->intStatus = $Status;			
+			$this->intDuracion = $Duracion;
+			$this->strFecha_Nota = $Fecha_Nota;
+			$this->intlistPersona = $listPersona;
+	
+			$request = Null;		
+			$sql = "UPDATE t_Notas SET titulo_nota=?,descripcion_nota=?,persona_asignada=?,estatus=?,duracion_nota=?,fecha_nota=? WHERE id_nota = $this->intIdnota";
 
-			// Verificando atraves del "nombre" que no exita						
-			$sql = "SELECT id_modulo,titulo FROM t_Modulos WHERE (titulo = '{$this->strNombre}' AND id_modulo != '{$this->intIdModulo}')";
-			
-			$request = $this->select_all($sql);
-			// Si esta vacio, por lo tanto no esta duplicado el "nombre"
-			if (empty($request))
-			{
-					$sql = "UPDATE t_Modulos SET titulo=?,descripcion=?,estatus=? WHERE id_modulo = $this->intIdModulo";
+			$arrData = array($this->strTitulo,
+			$this->strDescripcion,$this->intlistPersona,$this->intStatus,$this->intDuracion,$this->strFecha_Nota);
 
-					$arrData = array($this->strNombre,
-					$this->strDescripcion,
-					$this->intStatus);
-
-				$request = $this->update($sql,$arrData);
-			}
-			else
-			{
-				$request = "exist";
-			} // if (empty($request))
-
+			$request = $this->update($sql,$arrData);
+	
 			return $request;
 
 		} // public function updateCategoria
 
 		// Borrar una Categoria
-		public function deleteModulo(int $idModulo)
+		public function deleteNota(int $idNota)
 		{
 			// Previene la Integridad Referencial De Los Datos, se revisa que no existe el usuario en la tabla "t_Categorias"
-			$this->intIdModulo = $idModulo;
-				$sql = "DELETE FROM t_Modulos WHERE id_modulo = $this->intIdModulo";
+			$this->intIdnota = $idNota;
+				$sql = "DELETE FROM t_Notas WHERE id_nota = $this->intIdnota";
 				//$sql = "UPDATE t_Categorias SET estatus = ? WHERE id_categoria = $this->intIdcategoria";
 				//$arrData = array(0); // Se asigna valor 0
 				//$request = $this->update($sql,$arrData);

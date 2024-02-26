@@ -62,12 +62,16 @@
 							<?php if (!empty($_SESSION['permisos'][4]['r'])) { ?>
 								<li><a class="treeview-item" href="<?php echo base_url(); ?>/Productos"><i class="icon fa fa-circle-o"></i>Productos</a></li>
 							<?php } ?>	
-
-							<!-- permisos[9] = Marcas -->
+							
+							<!-- permisos[9] = Modelos -->
 							<?php if (!empty($_SESSION['permisos'][9]['r'])) { ?>
 								<li><a class="treeview-item" href="<?php echo base_url(); ?>/Modelos"><i class="icon fa fa-circle-o"></i>Modelos</a></li>
 							<?php } ?>	
 
+							<!-- permisos[12] = Departamento -->
+							<?php if (!empty($_SESSION['permisos'][12]['r'])) { ?>
+								<li><a class="treeview-item" href="<?php echo base_url(); ?>/Deptos"><i class="icon fa fa-circle-o"></i>Departamento Asignado</a></li>
+							<?php } ?>	
 
 							<!-- permisos[6] = Categorias -->
 							<?php if (!empty($_SESSION['permisos'][6]['r'])) { ?>
