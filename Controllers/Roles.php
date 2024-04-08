@@ -42,7 +42,7 @@
 			$data['page_id'] = 3;
 			$data['page_tag'] = "Roles Usuarios";
 			$data['page_name'] = "Roles";		
-			$data['page_title'] = "Roles Usuarios <small>  Tienda Virtual</small>";
+			$data['page_title'] = "Roles Usuarios <small>  Control Responsivas</small>";
 			$data['page_functions_js'] = "Functions_roles.js";
 			// "Dashboard" Se llama desde /Views/Dashboard/Dashboard.php"
 			// Esta clase "views" método "getView" proviede de "Controllers"(Libraries/Core/Controllers.php) donde se llaman las clases y objetos de las Vistas.

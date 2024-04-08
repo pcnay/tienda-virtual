@@ -21,6 +21,9 @@
 			$model = get_class($this)."Model";
 			$routClass = "Models/".$model.".php";		
 			
+			//echo"<pre>";print_r($routClass);echo"</pre>";
+			//exit;
+
 			if (file_exists($routClass))
 			{
 				require_once($routClass);

@@ -6,7 +6,7 @@ let rowTable = "";
 	// Validar la entrada, solo caracteres permitidos "txtNombre"
 	// ñÑáéóúí
 	$("#txtNombre").bind('keypress', function(event) {
-		let regex = new RegExp("^[A-Za-z0-9ñÑáéóúí-]+$");
+		let regex = new RegExp("^[A-Za-z0-9. -]+$");
 		let key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
 		if (!regex.test(key)) {
 			event.preventDefault();
@@ -16,7 +16,7 @@ let rowTable = "";
 
 	// Validar la entrada, solo caracteres permitidos "txtDescripcion"
 	$("#txtDescripcion").bind('keypress', function(event) {
-		let regex = new RegExp("^[A-Za-z0-9- ]+$");
+		let regex = new RegExp("^[A-Za-z0-9.- ]+$");
 		let key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
 		if (!regex.test(key)) {
 			event.preventDefault();

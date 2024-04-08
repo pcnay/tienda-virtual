@@ -95,8 +95,7 @@
 							{
 								// Crear Nota
 								if ($_SESSION['permisosMod']['w'])
-								{
-									// Falta revisar el modelo de "insertNota"*********
+								{									
 									$request_nota = $this->model->insertNota($intId_Persona,$strTitulo,$strDescripcion,$intStatus,$intDuracion,$strFecha_Nota,$intlistPersona);
 									$option = 1;
 								}
@@ -104,7 +103,6 @@
 							else
 							{
 								// Actualizar Producto							
-								
 								if ($_SESSION['permisosMod']['u'])
 								{
 									$option = 2;

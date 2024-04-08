@@ -169,6 +169,8 @@ document.addEventListener('DOMContentLoaded',function()
 	if (document.querySelector("#formNotas")) // Si existe el Formulario
 	{
 		let formNotas = document.querySelector("#formNotas");
+		let rowTable = "";
+
 		formNotas.onsubmit = function(e) // Se asigna el evento "submit"
 		{
 			e.preventDefault(); // Previene que se recargue al momento de oprimir el Boton Guardar.
@@ -189,6 +191,7 @@ document.addEventListener('DOMContentLoaded',function()
 			}
 
 			divLoading.style.display = "flex"; // Muestra un icono de Carga (circulo)
+
 
 			tinyMCE.triggerSave();// Seccion del editor guarda todo al TextArea.
 			// Ya que para  guardar información se extrae los datos de las etiqueta HTML.
@@ -220,15 +223,17 @@ document.addEventListener('DOMContentLoaded',function()
 					{
 						swal("",objData.msg,"success");	
 						// Para agregar las fotos del Producto.
-						document.querySelector("#idNota").value = objData.id_nota;
+						//document.querySelector("#idNota").value = objData.id_nota;				
+						return false;
+						
 
 						$('#modalFormNotas').modal("hide");
-						tableNotas.api().ajax.reload(); // Recarga el 
+						//tableNotas.api().ajax.reload(); // Recarga el 
 
 
 						if (rowTable == "") // Es una nota nueva
 						{
-							tableNotas.api().ajax.reload(); // Recarga el DataTable de las Notas.
+							//tableNotas.api().ajax.reload(); // Recarga el DataTable de las Notas.
 						}
 						else // Actualizar la Nota
 						{
@@ -243,7 +248,7 @@ document.addEventListener('DOMContentLoaded',function()
 							rowTable.cells[6].innerHTML = htmlStatus;		// Para que lo agregue como contenido HTML.				
 							rowTable = "";	
 							$('#modalFormNotas').modal("hide");
-							tableNotas.api().ajax.reload(); // Recarga el 
+							//tableNotas.api().ajax.reload(); // Recarga el 
 						} // if (rowTable == "")
 					}
 					else

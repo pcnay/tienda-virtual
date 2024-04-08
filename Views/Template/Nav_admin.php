@@ -71,12 +71,17 @@
 							<!-- permisos[12] = Departamento -->
 							<?php if (!empty($_SESSION['permisos'][12]['r'])) { ?>
 								<li><a class="treeview-item" href="<?php echo base_url(); ?>/Deptos"><i class="icon fa fa-circle-o"></i>Departamento Asignado</a></li>
-							<?php } ?>	
+							<?php } ?>					
 
 							<!-- permisos[6] = Categorias -->
 							<?php if (!empty($_SESSION['permisos'][6]['r'])) { ?>
 								<li><a class="treeview-item" href="<?php echo base_url(); ?>/Categorias"><i class="icon fa fa-circle-o"></i>Categorias</a></li>
 							<?php } ?>
+
+							<!-- permisos[13] = Centro De Costos -->
+							<?php if (!empty($_SESSION['permisos'][13]['r'])) { ?>
+								<li><a class="treeview-item" href="<?php echo base_url(); ?>/CentroCostos"><i class="icon fa fa-circle-o"></i>Centro De Costos</a></li>
+							<?php } ?>	
 
 						</ul>
 					</li>          
