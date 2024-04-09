@@ -58,11 +58,12 @@
 						<span class="app-menu__label">Productos</span><i class="treeview-indicator fa fa-angle-right"></i></a>
 						<ul class="treeview-menu">
 
-							<!-- permisos[4] = Productos; -->
-							<?php if (!empty($_SESSION['permisos'][4]['r'])) { ?>
-								<li><a class="treeview-item" href="<?php echo base_url(); ?>/Productos"><i class="icon fa fa-circle-o"></i>Productos</a></li>
+							<!-- permisos[11] = Marcas -->
+							<?php if (!empty($_SESSION['permisos'][11]['r'])) { ?>
+							<li><a class="treeview-item" href="<?php echo base_url(); ?>/Marcas"><i class="icon fa fa-circle-o"></i>Marcas</a></li>
 							<?php } ?>	
-							
+						
+
 							<!-- permisos[9] = Modelos -->
 							<?php if (!empty($_SESSION['permisos'][9]['r'])) { ?>
 								<li><a class="treeview-item" href="<?php echo base_url(); ?>/Modelos"><i class="icon fa fa-circle-o"></i>Modelos</a></li>
@@ -81,6 +82,11 @@
 							<!-- permisos[13] = Centro De Costos -->
 							<?php if (!empty($_SESSION['permisos'][13]['r'])) { ?>
 								<li><a class="treeview-item" href="<?php echo base_url(); ?>/CentroCostos"><i class="icon fa fa-circle-o"></i>Centro De Costos</a></li>
+							<?php } ?>	
+
+							<!-- permisos[4] = Productos; -->
+							<?php if (!empty($_SESSION['permisos'][4]['r'])) { ?>
+								<li><a class="treeview-item" href="<?php echo base_url(); ?>/Productos"><i class="icon fa fa-circle-o"></i>Productos</a></li>
 							<?php } ?>	
 
 						</ul>
